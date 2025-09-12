@@ -18,37 +18,31 @@ Vide tutoriais do PI.
 
 ## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Dr. Victor Von Doom</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Saitama</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Strange</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Yoda</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Gero</a>
 
-## Descrição
+## 1. Apresentação do Projeto
 
-<p align="center">
-<img src="https://pix4free.org/assets/library/2021-01-20/originals/game.jpg" alt="NOME DO JOGO" border="0">
-  Game by <a href="http://www.nyphotographic.com/">Nick Youngson</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> <a href="http://pix4free.org/">Pix4free</a>
-</p>
+A **Comendaria da Tia** é a cantina da FECAP responsável por atender os alunos nos intervalos da manhã e no horário de almoço. Atualmente, os processos de atendimento enfrentam desafios relacionados ao tempo limitado para a realização de pedidos, sobretudo devido às filas no caixa, que comprometem o tempo dos estudantes para suas refeições.
 
+Diante desse cenário, propõe-se o desenvolvimento de um aplicativo mobile com o objetivo de otimizar o processo de compra de produtos da cantina. O aplicativo permitirá aos alunos realizarem seus pedidos e pagamentos antecipadamente, restando apenas a retirada dos produtos no balcão. O sistema também contará com uma interface administrativa para a cantina gerenciar o cardápio, os pedidos e relatórios operacionais.
 
-De um a dois parágrafos sobre o que é seu projeto e o que ele faz.
-<br><br>
-Meu projeto ajuda estudantes FECAP a configurarem seus githubs.
-<br><br>
-May the force be with you!
-<br><br>
+---
 
 ## 🛠 Estrutura de pastas
 
--Raiz<br>
-|<br>
-|-->documentos<br>
-  &emsp;|-->antigos<br>
-  &emsp;|Documentação.docx<br>
-|-->executáveis<br>
-  &emsp;|-->windows<br>
-  &emsp;|-->android<br>
-  &emsp;|-->HTML<br>
-|-->imagens<br>
-|-->src<br>
-  &emsp;|-->Backend<br>
-  &emsp;|-->Frontend<br>
-|readme.md<br>
+
+Raiz  
+│  
+├── documentos/  
+│   ├── antigos/  
+│   └── Documentação_ComendariaDaTia.docx  
+├── executáveis/  
+│   ├── android/  
+│   └── web/  
+├── imagens/  
+│   └── logo.png  
+├── src/  
+│   ├── Backend/  
+│   └── MobileApp/  
+└── README.md
 
 A pasta raiz contem dois arquivos que devem ser alterados:
 
@@ -63,6 +57,81 @@ Há também 4 pastas que seguem da seguinte forma:
 <b>imagens</b>: Imagens do sistema
 
 <b>src</b>: Pasta que contém o código fonte.
+
+---
+
+## 2. Objetivos
+
+### Objetivo Geral  
+Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) que permita aos alunos da FECAP realizar pedidos e pagamentos de forma prática e antecipada na cantina "Comendaria da Tia", contribuindo para a melhoria da experiência de consumo e da gestão operacional da cantina.
+
+### Objetivos Específicos  
+- Eliminar a necessidade de enfrentar filas para pagamento na cantina.  
+- Permitir à cantina gerenciar dinamicamente seu cardápio e pedidos.  
+- Oferecer histórico de pedidos aos usuários.  
+- Realizar simulação ou integração real com APIs de pagamento.  
+- Desenvolver interfaces intuitivas e responsivas voltadas à experiência do usuário.  
+- Análise de Dados.
+
+---
+
+## 3. Requisitos Funcionais
+
+### Acesso Aluno (Cliente)  
+- Auto cadastro e login de aluno.  
+- Visualização do cardápio atualizado.  
+- Realização de pedidos e escolha de itens.  
+- Pagamento via API (Stripe, Mercado Pago, PagSeguro) ou simulado.  
+- Visualização do histórico de pedidos realizados.
+
+### Acesso Cantina (Empresa)  
+- Login administrativo.  
+- Cadastro e atualização do cardápio.  
+- Visualização de pedidos pendentes e confirmação de retirada.  
+- Baixa de pedidos (pedido entregue).  
+- Relatórios gerenciais.
+
+---
+
+## 4. Requisitos Não Funcionais  
+- Interface intuitiva e responsiva (UX/UI).  
+- Aplicação mobile compatível com Android (e preferencialmente iOS).  
+- Armazenamento em nuvem.  
+- Arquitetura orientada a objetos e/ou baseada em componentes reutilizáveis.  
+- Disponibilidade mínima offline para visualização do cardápio.  
+- Segurança no armazenamento de dados sensíveis.  
+- Código modular e testável.
+
+---
+
+## 5. Tecnologias Sugeridas  
+- Front-End: HTML5, CSS3, JavaScript, Bootstrap  
+- Back-End: C# ou Node.js (Express)  
+- Banco de Dados: MySQL ou SQLite  
+- Ferramentas/Serviços Externos: API de pagamento (PagSeguro, Mercado Pago ou Stripe), API do Instagram/Facebook, Firebase ou Nodemailer
+
+---
+
+## 6. Etapas do Projeto  
+1. Levantamento de Requisitos e Modelagem do Sistema.  
+2. Design da Experiência e Protótipos.  
+3. Desenvolvimento Backend e Banco de Dados.  
+4. Desenvolvimento Mobile.  
+5. Testes de Qualidade e Usabilidade.  
+6. Documentação e Relatórios.  
+7. Apresentação Final e Publicação.
+
+---
+
+## 7. Possíveis Extensões da Solução  
+- Implementação de notificações push.  
+- Sistema de pontuação ou fidelidade.  
+- Feedback de produtos e atendimento.  
+- Controle de estoque para a cantina.  
+- Agendamento de pedidos para retirada futura.  
+- Dashboard web para administração.
+
+---
 
 ## 🛠 Instalação
 
