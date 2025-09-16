@@ -14,7 +14,7 @@
 
 ## 1. Apresentação do Projeto
 
-A **Comendaria da Tia** é a cantina da FECAP responsável por atender os alunos nos intervalos da manhã e no horário de almoço. Atualmente, os processos de atendimento enfrentam desafios relacionados ao tempo limitado para a realização de pedidos, sobretudo devido às filas no caixa, que comprometem o tempo dos estudantes para suas refeições.
+A **Comedoria da Tia** é a cantina da FECAP responsável por atender os alunos nos intervalos da manhã e no horário de almoço. Atualmente, os processos de atendimento enfrentam desafios relacionados ao tempo limitado para a realização de pedidos, sobretudo devido às filas no caixa, que comprometem o tempo dos estudantes para suas refeições.
 
 Diante desse cenário, propõe-se o desenvolvimento de um aplicativo mobile com o objetivo de otimizar o processo de compra de produtos da cantina. O aplicativo permitirá aos alunos realizarem seus pedidos e pagamentos antecipadamente, restando apenas a retirada dos produtos no balcão. O sistema também contará com uma interface administrativa para a cantina gerenciar o cardápio, os pedidos e relatórios operacionais.
 
