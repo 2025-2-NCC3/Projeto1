@@ -11,7 +11,8 @@
 ## Integrantes: <a href="https://www.linkedin.com/in/estherolvr//">Esther Oliveira Costa </a>, <a href="https://www.linkedin.com/in/fernandaloura/">Fernanda Loura Da Silva</a>, <a href="https://www.linkedin.com/in/higor-fonseca-santos/">Higor Fonseca </a>, <a href="https://www.linkedin.com/in/joaovictordefaria/">João Victor de Faria</a>, <a href="https://www.linkedin.com/in/thiffany-morais/">Thiffany Morais
  </a>
 
-## Professores Orientadores:  [Katia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi/)  
+## Professores Orientadores: 
+  [Katia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi/)  
 - [Marco Aurelio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa/)  
 - [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)  
 - [Thiffany Morais](https://www.linkedin.com/in/thiffany-morais/)  
