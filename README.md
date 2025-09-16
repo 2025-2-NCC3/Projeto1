@@ -8,7 +8,9 @@
 
 ## Nome do Grupo
 
-## Integrantes: <a href="https://www.linkedin.com/in/estherolvr//">Esther Oliveira Costa </a>, <a href="https://www.linkedin.com/in/victorbarq/">Saitama One</a>, <a href="https://www.linkedin.com/in/higor-fonseca-santos/">Higor Fonseca </a>, <a href="https://www.linkedin.com/in/joaovictordefaria/">João Victor de Faria</a>, <a href="https://www.linkedin.com/in/victorbarq/">Roronoa Zoro</a>
+## Integrantes: <a href="https://www.linkedin.com/in/estherolvr//">Esther Oliveira Costa </a>, <a href="https://www.linkedin.com/in/fernandaloura/">Fernanda Loura Da Silva
+</a>, <a href="https://www.linkedin.com/in/higor-fonseca-santos/">Higor Fonseca </a>, <a href="https://www.linkedin.com/in/joaovictordefaria/">João Victor de Faria</a>, <a href="https://www.linkedin.com/in/thiffany-morais/">Thiffany Morais
+ </a>
 
 ## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Dr. Victor Von Doom</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Saitama</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Strange</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Yoda</a>, <a href="https://www.linkedin.com/in/thiffany-morais/">Thiffany Morais
  </a>
