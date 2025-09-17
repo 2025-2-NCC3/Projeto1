@@ -17,6 +17,9 @@
             android:exported="false"
             android:parentActivityName=".activity.CompanyActivity" />
         <activity
+            android:name=".activity.IndexActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.CompanyMenuActivity"
             android:exported="false"
             android:parentActivityName=".activity.HomeActivity" />
