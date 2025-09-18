@@ -6,4 +6,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="price_green">#64DD17</color>
+    <color name="green_dark">#2F4F2F</color>
 </resources>
