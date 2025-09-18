@@ -66,7 +66,7 @@ Há também 4 pastas que seguem da seguinte forma:
 
 ---
 
-## 2. Objetivos
+## 🎯 2. Objetivos
 
 ### Objetivo Geral  
 Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) que permita aos alunos da FECAP realizar pedidos e pagamentos de forma prática e antecipada na cantina "Comendaria da Tia", contribuindo para a melhoria da experiência de consumo e da gestão operacional da cantina.
@@ -81,7 +81,7 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 
 ---
 
-## 3. Requisitos Funcionais
+## 🛠️ 3. Requisitos Funcionais
 
 ### Acesso Aluno (Cliente)  
 - Auto cadastro e login de aluno.  
@@ -99,7 +99,7 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 
 ---
 
-## 4. Requisitos Não Funcionais  
+## 📚 4. Requisitos Não Funcionais  
 - Interface intuitiva e responsiva (UX/UI).  
 - Aplicação mobile compatível com Android (e preferencialmente iOS).  
 - Armazenamento em nuvem.  
@@ -143,32 +143,17 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 
 <b>Android:</b>
 
-Faça o Download do JOGO.apk no seu celular.
-Execute o APK e siga as instruções de seu telefone.
+Faça o download do arquivo .apk no seu celular.
+Execute o APK e siga as instruções do seu dispositivo para instalar o aplicativo.
 
 ```sh
 Coloque código do prompt de comnando se for necessário
 ```
-
-<b>Windows:</b>
-
-Não há instalação! Apenas executável!
-Encontre o JOGO.exe na pasta executáveis e execute-o como qualquer outro programa.
-
-```sh
-Coloque código do prompt de comnando se for necessário
-```
-
-<b>HTML:</b>
-
-Não há instalação!
-Encontre o index.html na pasta executáveis e execute-o como uma página WEB (através de algum browser).
 
 ## 💻 Configuração para Desenvolvimento
+Passos para rodar o projeto
 
-Descreva como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, faça isso para múltiplas plataformas.
-
-Para abrir este projeto você necessita das seguintes ferramentas:
+Clone o repositório:
 
 -<a href="https://godotengine.org/download">GODOT</a>
 
