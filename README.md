@@ -1,16 +1,28 @@
 # FECAP - Fundação de Comércio Álvares Penteado
 
+
+
 <p align="center">
-<a href= "https://www.fecap.br/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZPrRa89Kma0ZZogxm0pi-tCn_TLKeHGVxywp-LXAFGR3B1DPouAJYHgKZGV0XTEf4AE&usqp=CAU" alt="FECAP - Fundação de Comércio Álvares Penteado" border="0"></a>
+  <img src="https://drive.google.com/uc?id=1yB-8CKtsZeu8x2ej59s_lK0ZXqzW24wI" alt="Imagem 1" width="250">
+  <img src="https://drive.google.com/uc?id=1Jtk2rzAAhXDI7NLn5DyR_GM4-eb5cRBX" alt="Imagem 2" width="250">
+  <img src="https://drive.google.com/uc?id=1egKQ6s0o8CbcBOBau22hn4qHsPHT2vw4" alt="Imagem 3" width="250">
+  
 </p>
 
-# Comedoria da Tia
 
-## Nome do Grupo
 
-## Integrantes: <a href="https://www.linkedin.com/in/victorbarq/">Goku Sayajin</a>, <a href="https://www.linkedin.com/in/victorbarq/">Saitama One</a>, <a href="https://www.linkedin.com/in/victorbarq/">Ikki de Fenix</a>, <a href="https://www.linkedin.com/in/victorbarq/">Yusuke Urameshi</a>, <a href="https://www.linkedin.com/in/victorbarq/">Roronoa Zoro</a>
+# COMEDORIA DA TIA
 
-## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Dr. Victor Von Doom</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Saitama</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Strange</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Yoda</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Gero</a>
+## Integrantes: <a href="https://www.linkedin.com/in/estherolvr//">Esther Oliveira Costa </a>, <a href="https://www.linkedin.com/in/fernandaloura/">Fernanda Loura Da Silva</a>, <a href="https://www.linkedin.com/in/higor-fonseca-santos/">Higor Fonseca </a>, <a href="https://www.linkedin.com/in/joaovictordefaria/">João Victor de Faria</a>, <a href="https://www.linkedin.com/in/thiffany-morais/">Thiffany Morais
+ </a>
+
+## Professores Orientadores: 
+ - [Katia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi/)  
+- [Marco Aurelio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa/)  
+- [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)  
+- [Thiffany Morais](https://www.linkedin.com/in/thiffany-morais/)  
+- [Victor Bruno Alexander Rosetti de Quiroz](https://www.linkedin.com/in/victorbarq/) 
+ </a>
 
 ## 1. Apresentação do Projeto
 
@@ -54,7 +66,7 @@ Há também 4 pastas que seguem da seguinte forma:
 
 ---
 
-## 2. Objetivos
+## 🎯 2. Objetivos
 
 ### Objetivo Geral  
 Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) que permita aos alunos da FECAP realizar pedidos e pagamentos de forma prática e antecipada na cantina "Comendaria da Tia", contribuindo para a melhoria da experiência de consumo e da gestão operacional da cantina.
@@ -69,7 +81,7 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 
 ---
 
-## 3. Requisitos Funcionais
+## 🛠️ 3. Requisitos Funcionais
 
 ### Acesso Aluno (Cliente)  
 - Auto cadastro e login de aluno.  
@@ -87,7 +99,7 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 
 ---
 
-## 4. Requisitos Não Funcionais  
+## 📚 4. Requisitos Não Funcionais  
 - Interface intuitiva e responsiva (UX/UI).  
 - Aplicação mobile compatível com Android (e preferencialmente iOS).  
 - Armazenamento em nuvem.  
@@ -131,32 +143,17 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 
 <b>Android:</b>
 
-Faça o Download do JOGO.apk no seu celular.
-Execute o APK e siga as instruções de seu telefone.
+Faça o download do arquivo .apk no seu celular.
+Execute o APK e siga as instruções do seu dispositivo para instalar o aplicativo.
 
 ```sh
 Coloque código do prompt de comnando se for necessário
 ```
-
-<b>Windows:</b>
-
-Não há instalação! Apenas executável!
-Encontre o JOGO.exe na pasta executáveis e execute-o como qualquer outro programa.
-
-```sh
-Coloque código do prompt de comnando se for necessário
-```
-
-<b>HTML:</b>
-
-Não há instalação!
-Encontre o index.html na pasta executáveis e execute-o como uma página WEB (através de algum browser).
 
 ## 💻 Configuração para Desenvolvimento
+Passos para rodar o projeto
 
-Descreva como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, faça isso para múltiplas plataformas.
-
-Para abrir este projeto você necessita das seguintes ferramentas:
+Clone o repositório:
 
 -<a href="https://godotengine.org/download">GODOT</a>
 

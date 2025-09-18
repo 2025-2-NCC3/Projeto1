@@ -2,13 +2,11 @@ package com.example.ifoodclone.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,128 +24,154 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class AuthenticationActivity extends AppCompatActivity {
-    private EditText editEmail, editPassword;
-    private SwitchCompat switchAuth, switchAccessType;
-    private TextView textUser, textCompany;
-    private Button buttonAccess;
+
+    private EditText editEmail, editPassword, editPhone;
+    private Button buttonLoginTab, buttonRegisterTab, buttonAccess;
+    private TextView textViewWelcome, textViewForgotPassword;
+
     private FirebaseAuth auth;
+
+    private boolean isLoginMode = true; // começa em login
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
+
         findViewsById();
-
         auth = FirebaseConfiguration.getFirebaseAuth();
-        verifyCurrentUser(); //Verifica se há um usuário logado
-        switchAuth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){ //Checked = fazer login, esconder tipo de cadastro
-                    switchAccessType.setVisibility(View.VISIBLE);
-                    textUser.setVisibility(View.VISIBLE);
-                    textCompany.setVisibility(View.VISIBLE);
-                }else{ //Not Checked = fazer cadastro, mostrar empresa ou user
-                    switchAccessType.setVisibility(View.GONE);
-                    textUser.setVisibility(View.GONE);
-                    textCompany.setVisibility(View.GONE);
-                }
-            }
-        });
+        verifyCurrentUser();
 
-        buttonAccess.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = editEmail.getText().toString();
-                String password = editPassword.getText().toString();
+        // Aba "Entre"
+        buttonLoginTab.setOnClickListener(v -> setLoginMode(true));
 
-                if(!email.isEmpty()){
-                    if(!password.isEmpty()){
-                        /* Verificar o estado do switch
-                           Ativado - Fazer Cadastro
-                           Desativado - Fazer login */
-                        if(switchAuth.isChecked()){ //CADASTRO
-                            auth.createUserWithEmailAndPassword(email, password)
-                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(AuthenticationActivity.this, "Registration completed", Toast.LENGTH_SHORT).show();
-                                                String type = getUserType();
-                                                FirebaseUserConfiguration.updateUserType(type);
-                                                openMainActivity(type);
-                                            }else{
-                                                String exception;
-                                                try {
-                                                    throw task.getException();
-                                                }catch (FirebaseAuthWeakPasswordException e){
-                                                    exception = "Enter a stronger password";
-                                                }catch (FirebaseAuthInvalidCredentialsException e){
-                                                    exception = "Enter a valid email";
-                                                }catch (FirebaseAuthUserCollisionException e){
-                                                    exception = "Account already registered";
-                                                }catch (Exception e){
-                                                    exception = "Registration failed: " + e.getMessage();
-                                                    e.printStackTrace();
-                                                }
-                                                Toast.makeText(AuthenticationActivity.this, exception, Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                        }else{ //LOGIN
-                            auth.signInWithEmailAndPassword(email, password)
-                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(AuthenticationActivity.this, "Sign in completed", Toast.LENGTH_SHORT).show();
-                                                String userType = task.getResult().getUser().getDisplayName();
-                                                openMainActivity(userType);
-                                            }else{
-                                                Toast.makeText(AuthenticationActivity.this, "Sign in failed, try again later", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                        }
+        // Aba "Cadastre-se"
+        buttonRegisterTab.setOnClickListener(v -> setLoginMode(false));
 
-                    }else{
-                        Toast.makeText(AuthenticationActivity.this, "Password field is empty", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(AuthenticationActivity.this, "Email field is empty", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
+        // Botão principal (login ou cadastro)
+        buttonAccess.setOnClickListener(v -> handleAccess());
     }
 
-    private void verifyCurrentUser(){
+    private void handleAccess() {
+        String email = editEmail.getText().toString().trim();
+        String password = editPassword.getText().toString().trim();
+
+        if (!email.isEmpty()) {
+            if (!password.isEmpty()) {
+                if (isLoginMode) {
+                    // LOGIN
+                    auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(AuthenticationActivity.this, "Sign in completed", Toast.LENGTH_SHORT).show();
+                                        String userType = task.getResult().getUser().getDisplayName();
+                                        openMainActivity(userType);
+                                    } else {
+                                        Toast.makeText(AuthenticationActivity.this, "Sign in failed, try again later", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                } else {
+                    // CADASTRO
+                    auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(AuthenticationActivity.this, "Registration completed", Toast.LENGTH_SHORT).show();
+                                        // por padrão, usuário normal
+                                        String type = "U";
+                                        FirebaseUserConfiguration.updateUserType(type);
+                                        openMainActivity(type);
+                                    } else {
+                                        String exception;
+                                        try {
+                                            throw task.getException();
+                                        } catch (FirebaseAuthWeakPasswordException e) {
+                                            exception = "Enter a stronger password";
+                                        } catch (FirebaseAuthInvalidCredentialsException e) {
+                                            exception = "Enter a valid email";
+                                        } catch (FirebaseAuthUserCollisionException e) {
+                                            exception = "Account already registered";
+                                        } catch (Exception e) {
+                                            exception = "Registration failed: " + e.getMessage();
+                                            e.printStackTrace();
+                                        }
+                                        Toast.makeText(AuthenticationActivity.this, exception, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Password field is empty", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Email field is empty", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setLoginMode(boolean loginMode) {
+        isLoginMode = loginMode;
+
+        if (isLoginMode) {
+            // Modo Login
+            buttonLoginTab.setBackgroundTintList(getColorStateList(R.color.green_dark));
+            buttonLoginTab.setTextColor(getColor(android.R.color.white));
+
+            buttonRegisterTab.setBackgroundTintList(getColorStateList(android.R.color.darker_gray));
+            buttonRegisterTab.setTextColor(getColor(android.R.color.black));
+
+            textViewWelcome.setText("Bem-vindo à Comedoria da Tia!");
+            buttonAccess.setText("Entrar");
+
+            editPhone.setVisibility(View.GONE);
+            textViewForgotPassword.setVisibility(View.VISIBLE);
+
+        } else {
+            // Modo Cadastro
+            buttonRegisterTab.setBackgroundTintList(getColorStateList(R.color.green_dark));
+            buttonRegisterTab.setTextColor(getColor(android.R.color.white));
+
+            buttonLoginTab.setBackgroundTintList(getColorStateList(android.R.color.darker_gray));
+            buttonLoginTab.setTextColor(getColor(android.R.color.black));
+
+            textViewWelcome.setText("Novo por aqui?\nCadastre-se!");
+            buttonAccess.setText("Cadastrar");
+
+            editPhone.setVisibility(View.VISIBLE);
+            textViewForgotPassword.setVisibility(View.GONE);
+        }
+    }
+
+    private void verifyCurrentUser() {
         FirebaseUser currentUser = auth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             String userType = currentUser.getDisplayName();
             openMainActivity(userType);
         }
     }
-    private String getUserType(){
-        return switchAccessType.isChecked() ? "C" : "U"; //ischecked = company, not checked = user
-    }
-    private void openMainActivity(String type){
-        if(type.equals("C")){ //type = company
+
+    private void openMainActivity(String type) {
+        if (type != null && type.equals("C")) { // empresa
             startActivity(new Intent(getApplicationContext(), CompanyActivity.class));
-        }else{//type = user
+        } else { // usuário
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
         }
+        finish();
     }
-    private void findViewsById(){
+
+    private void findViewsById() {
         editEmail = findViewById(R.id.editTextEmail);
         editPassword = findViewById(R.id.editTextPassword);
-        switchAuth = findViewById(R.id.switchAuth);
-        switchAccessType = findViewById(R.id.switchAccessType);
-        textUser = findViewById(R.id.textViewUser);
-        textCompany = findViewById(R.id.textViewCompany);
+        editPhone = findViewById(R.id.editTextPhone);
+
+        buttonLoginTab = findViewById(R.id.buttonLoginTab);
+        buttonRegisterTab = findViewById(R.id.buttonRegisterTab);
         buttonAccess = findViewById(R.id.buttonAccess);
 
-        switchAccessType.setVisibility(View.GONE);
-        textUser.setVisibility(View.GONE);
-        textCompany.setVisibility(View.GONE);
+        textViewWelcome = findViewById(R.id.textViewWelcome);
+        textViewForgotPassword = findViewById(R.id.textViewForgotPassword);
     }
 }
