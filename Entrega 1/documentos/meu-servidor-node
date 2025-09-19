@@ -1,0 +1,62 @@
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
+
+const app = express();
+app.use(express.json());
+
+const db = new sqlite3.Database('./database.db', (err) => {
+  if (err) return console.error(err.message);
+  console.log('Conectado ao banco SQLite.');
+});
+
+db.run(`CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE,
+  password TEXT
+)`);
+
+// Registrar usuário com hash da senha
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10); // saltRounds = 10
+
+    const query = `INSERT INTO users(username, password) VALUES (?, ?)`;
+    db.run(query, [username, hashedPassword], function(err) {
+      if (err) {
+        return res.status(400).json({ error: err.message });
+      }
+      res.json({ message: 'Usuário criado com sucesso', id: this.lastID });
+    });
+
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao criar usuário' });
+  }
+});
+
+// Login - comparar senha com hash
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  const query = `SELECT * FROM users WHERE username = ?`;
+
+  db.get(query, [username], async (err, row) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (!row) return res.status(401).json({ message: 'Usuário não encontrado' });
+
+    const validPassword = await bcrypt.compare(password, row.password);
+
+    if (validPassword) {
+      res.json({ message: 'Login bem-sucedido', user: { id: row.id, username: row.username } });
+    } else {
+      res.status(401).json({ message: 'Senha incorreta' });
+    }
+  });
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
