@@ -1,96 +1,300 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.CompanyMenuActivity">
+    android:orientation="vertical"
+    android:background="#E8D6D2"
+    tools:context=".activity.CompanyActivity">
 
-    <include
-        android:id="@+id/include6"
-        layout="@layout/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!-- Barra Superior -->
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageProfileMenu"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/perfil"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include6" />
 
-    <TextView
-        android:id="@+id/textCompanyNameMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/company_name"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageProfileMenu"
-        app:layout_constraintStart_toEndOf="@+id/imageProfileMenu"
-        app:layout_constraintTop_toTopOf="@+id/imageProfileMenu" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="123dp"
+        android:contentDescription="Logo"
+        android:src="@drawable/logo" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/colorAccent"
-        android:gravity="center"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp">
+
+            <!-- Barra de Pesquisa -->
+            <EditText
+                android:id="@+id/editTextSearch"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/rectangle_1"
+                android:drawableStart="@drawable/search"
+                android:drawablePadding="12dp"
+                android:hint="Pesquisar"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#999999"
+                android:inputType="text"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Abas de Categorias -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tabSalgados"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salgados"
+                    android:textColor="#000000"
+                    android:layout_marginHorizontal="12dp"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tabBebidas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:text="Bebidas"
+                    android:textColor="#2E7D32"
+                    android:textStyle="bold"
+                    android:layout_marginHorizontal="12dp"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tabMarmitas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Marmitas"
+                    android:textColor="#000000"
+                    android:layout_marginHorizontal="12dp"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tabFavoritos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Favoritos"
+                    android:textColor="#000000"
+                    android:layout_marginHorizontal="12dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Grade de Produtos -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:alignmentMode="alignMargins"
+                android:columnOrderPreserved="false"
+                android:useDefaultMargins="true">
+
+                <!-- Card 1 -->
+
+                <!-- Card 2 -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="208dp"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rectangle_2"
+                    android:clipToOutline="true"
+                    android:elevation="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ellipse_2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Redbull"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="R$8,50"
+                        android:textColor="#2E7D32"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="208dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rectangle_2"
+                    android:clipToOutline="true"
+                    android:elevation="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/uva_4" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Suco de uva"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="R$9,50"
+                        android:textColor="#2E7D32"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Card 3 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="203dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rectangle_2"
+                    android:clipToOutline="true"
+                    android:elevation="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/coc3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Coca-cola"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="R$3,50"
+                        android:textColor="#2E7D32"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Card 4 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="207dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/rectangle_2"
+                    android:clipToOutline="true"
+                    android:elevation="4dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/laranja_3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Suco de laranja"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="R$3,50"
+                        android:textColor="#2E7D32"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Barra de Navegação Inferior -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:orientation="horizontal"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageProfileMenu">
+        android:gravity="center"
+        android:weightSum="5"
+        android:background="#E6D4D0"
+        android:paddingHorizontal="16dp">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="@string/see_cart"
-            android:textAlignment="center"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/textViewCartQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
-            android:text="@string/quantity"
-            android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:layout_gravity="center"
+            android:src="@drawable/casa"
+            android:contentDescription="Home" />
 
-        <TextView
-            android:id="@+id/textViewCartPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
-            android:text="@string/value"
-            android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:layout_gravity="center"
+            android:src="@drawable/coracao"
+            android:contentDescription="Favorites" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/shopping_cart"
+            android:contentDescription="Cart" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/icontemp"
+            android:contentDescription="History" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/_1"
+            android:contentDescription="Profile" />
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerMenu"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
