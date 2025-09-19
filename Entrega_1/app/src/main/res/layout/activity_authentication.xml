@@ -23,6 +23,7 @@
     <!-- Card principal -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardLogin"
+        android:fontFamily="@font/nunitobold"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
@@ -41,41 +42,54 @@
             android:padding="20dp">
 
             <!-- Abas Entre / Cadastre-se -->
+
+            <!-- Título -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/buttonLoginTab"
-                    android:layout_width="30dp"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:backgroundTint="#2F4F2F"
+                    android:fontFamily="@font/nunitobold"
+                    android:stateListAnimator="@null"
                     android:text="Entre"
                     android:textColor="@android:color/white"
-                    android:stateListAnimator="@null"/>
+                    android:textSize="14sp" />
+
+                <!-- Espaço fixo entre os botões -->
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="match_parent" />
 
                 <Button
                     android:id="@+id/buttonRegisterTab"
-                    android:layout_width="30dp"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:backgroundTint="#D3D3D3"
+                    android:fontFamily="@font/nunitobold"
+                    android:stateListAnimator="@null"
                     android:text="Cadastre-se"
                     android:textColor="@android:color/black"
-                    android:stateListAnimator="@null"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Título -->
+
+
             <TextView
                 android:id="@+id/textViewWelcome"
                 android:layout_width="match_parent"
+                android:fontFamily="@font/nunitobold"
                 android:layout_height="wrap_content"
                 android:text="Bem-vindo à Comedoria da Tia!"
                 android:textAlignment="center"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="20dp"/>
 
@@ -84,22 +98,26 @@
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="RA"
-                android:padding="12dp"
-                android:backgroundTint="@android:color/darker_gray"
                 android:layout_marginTop="16dp"
-                android:inputType="text"/>
+                android:backgroundTint="@android:color/darker_gray"
+                android:fontFamily="@font/nunitobold"
+                android:hint="RA"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="16sp" />
 
             <!-- Campo Senha -->
             <EditText
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Senha"
-                android:padding="12dp"
                 android:layout_marginTop="12dp"
+                android:backgroundTint="@android:color/darker_gray"
+                android:fontFamily="@font/nunitobold"
+                android:hint="Senha"
                 android:inputType="textPassword"
-                android:backgroundTint="@android:color/darker_gray"/>
+                android:padding="12dp"
+                android:textSize="16sp" />
 
             <!-- Campo Celular (somente cadastro) -->
             <EditText
@@ -119,16 +137,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:backgroundTint="#2F4F2F"
+                android:fontFamily="@font/nunitobold"
+                android:stateListAnimator="@null"
                 android:text="Entrar"
                 android:textColor="@android:color/white"
-                android:backgroundTint="#2F4F2F"
-                android:stateListAnimator="@null"/>
+                android:textSize="14sp" />
 
             <!-- Esqueceu a senha (somente login) -->
             <TextView
                 android:id="@+id/textViewForgotPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                android:fontFamily="@font/nunitobold"
                 android:text="Esqueceu a senha?"
                 android:textAlignment="center"
                 android:textSize="12sp"
