@@ -50,6 +50,11 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         // Botão principal (login ou cadastro)
         buttonAccess.setOnClickListener(v -> handleAccess());
+
+        String mode = getIntent().getStringExtra("MODE");
+        if (mode != null && mode.equals("REGISTER")) {
+            setLoginMode(false); // muda automaticamente para modo cadastro
+        }
     }
 
     private void handleAccess() {

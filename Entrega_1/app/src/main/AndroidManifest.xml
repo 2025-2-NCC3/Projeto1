@@ -12,47 +12,61 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IFoodClone"
         tools:targetApi="31">
+
         <activity
             android:name=".activity.OrderActivity"
             android:exported="false"
             android:parentActivityName=".activity.CompanyActivity" />
+
+        <!-- IndexActivity agora é a tela inicial -->
+        <activity
+            android:name=".activity.IndexActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activity.CompanyMenuActivity"
             android:exported="false"
             android:parentActivityName=".activity.HomeActivity" />
+
         <activity
             android:name=".activity.UserConfigurationsActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.SearchActivity"
             android:exported="false"
             android:parentActivityName=".activity.HomeActivity" />
+
         <activity
             android:name=".activity.NewProductActivity"
             android:exported="false"
             android:parentActivityName=".activity.CompanyActivity" />
+
         <activity
             android:name=".activity.CompanyConfigurationsActivity"
             android:exported="false"
             android:parentActivityName=".activity.CompanyActivity" />
+
         <activity
             android:name=".activity.CompanyActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.AuthenticationActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.HomeActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.SplashActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>
