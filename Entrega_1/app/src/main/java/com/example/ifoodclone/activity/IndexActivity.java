@@ -16,7 +16,7 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
-        buttonEnter = findViewById(R.id.buttonEnter); // ou R.id.buttonEnter, se mudar no XML
+        buttonEnter = findViewById(R.id.buttonEnter);
 
         buttonEnter.setOnClickListener(v -> {
             Intent intent = new Intent(IndexActivity.this, AuthenticationActivity.class);
@@ -27,7 +27,7 @@ public class IndexActivity extends AppCompatActivity {
 
         buttonRegister.setOnClickListener(v -> {
             Intent intent = new Intent(IndexActivity.this, AuthenticationActivity.class);
-            intent.putExtra("MODE", "REGISTER"); // Passa a informação de cadastro
+            intent.putExtra("MODE", "REGISTER");
             startActivity(intent);
         });
 

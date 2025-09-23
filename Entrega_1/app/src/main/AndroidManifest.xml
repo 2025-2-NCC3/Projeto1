@@ -13,12 +13,7 @@
         android:theme="@style/Theme.IFoodClone"
         tools:targetApi="31">
 
-        <activity
-            android:name=".activity.OrderActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.CompanyActivity" />
 
-        <!-- IndexActivity agora é a tela inicial -->
         <activity
             android:name=".activity.IndexActivity"
             android:exported="true">
@@ -29,44 +24,22 @@
         </activity>
 
         <activity
-            android:name=".activity.CompanyMenuActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.HomeActivity" />
-
-        <activity
-            android:name=".activity.UserConfigurationsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activity.SearchActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.HomeActivity" />
-
-        <activity
-            android:name=".activity.NewProductActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.CompanyActivity" />
-
-        <activity
-            android:name=".activity.CompanyConfigurationsActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.CompanyActivity" />
-
-        <activity
-            android:name=".activity.CompanyActivity"
-            android:exported="false" />
+            android:name=".activity.HomeTiaActivity" />
 
         <activity
             android:name=".activity.AuthenticationActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".activity.HomeActivity"
-            android:exported="false" />
 
         <activity
             android:name=".activity.SplashActivity"
             android:exported="false" />
+
+        <activity android:name=".activity.AddProductActivity"/>
+        <activity android:name=".activity.PedidosActivity"/>
+        <activity android:name=".activity.CuponsActivity"/>
+        <activity android:name=".activity.DashboardActivity"/>
+        <activity android:name=".activity.ListarProdutosActivity"/>
     </application>
 
 </manifest>

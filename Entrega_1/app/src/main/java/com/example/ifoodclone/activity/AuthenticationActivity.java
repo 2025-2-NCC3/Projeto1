@@ -31,7 +31,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
-    private boolean isLoginMode = true; // começa em login
+    private boolean isLoginMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +40,19 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         findViewsById();
         auth = FirebaseConfiguration.getFirebaseAuth();
-        verifyCurrentUser();
 
-        // Aba "Entre"
+
         buttonLoginTab.setOnClickListener(v -> setLoginMode(true));
 
-        // Aba "Cadastre-se"
+
         buttonRegisterTab.setOnClickListener(v -> setLoginMode(false));
 
-        // Botão principal (login ou cadastro)
+
         buttonAccess.setOnClickListener(v -> handleAccess());
 
         String mode = getIntent().getStringExtra("MODE");
         if (mode != null && mode.equals("REGISTER")) {
-            setLoginMode(false); // muda automaticamente para modo cadastro
+            setLoginMode(false);
         }
     }
 
@@ -64,7 +63,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         if (!email.isEmpty()) {
             if (!password.isEmpty()) {
                 if (isLoginMode) {
-                    // LOGIN
+
                     auth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -85,7 +84,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(AuthenticationActivity.this, "Registration completed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(AuthenticationActivity.this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
                                         // por padrão, usuário normal
                                         String type = "U";
                                         FirebaseUserConfiguration.updateUserType(type);
@@ -95,13 +94,13 @@ public class AuthenticationActivity extends AppCompatActivity {
                                         try {
                                             throw task.getException();
                                         } catch (FirebaseAuthWeakPasswordException e) {
-                                            exception = "Enter a stronger password";
+                                            exception = "Senha fraca!";
                                         } catch (FirebaseAuthInvalidCredentialsException e) {
-                                            exception = "Enter a valid email";
+                                            exception = "E-mail inválido!";
                                         } catch (FirebaseAuthUserCollisionException e) {
-                                            exception = "Account already registered";
+                                            exception = "Usuário já existente";
                                         } catch (Exception e) {
-                                            exception = "Registration failed: " + e.getMessage();
+                                            exception = "Cadastro falhou: " + e.getMessage();
                                             e.printStackTrace();
                                         }
                                         Toast.makeText(AuthenticationActivity.this, exception, Toast.LENGTH_SHORT).show();
@@ -110,10 +109,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                             });
                 }
             } else {
-                Toast.makeText(this, "Password field is empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Senha vazia!", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "Email field is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "E-mail vazio!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -121,7 +120,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         isLoginMode = loginMode;
 
         if (isLoginMode) {
-            // Modo Login
+
             buttonLoginTab.setBackgroundTintList(getColorStateList(R.color.green_dark));
             buttonLoginTab.setTextColor(getColor(android.R.color.white));
 
@@ -135,7 +134,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             textViewForgotPassword.setVisibility(View.VISIBLE);
 
         } else {
-            // Modo Cadastro
+
             buttonRegisterTab.setBackgroundTintList(getColorStateList(R.color.green_dark));
             buttonRegisterTab.setTextColor(getColor(android.R.color.white));
 
@@ -159,13 +158,12 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     private void openMainActivity(String type) {
-        if (type != null && type.equals("C")) { // empresa
-            startActivity(new Intent(getApplicationContext(), CompanyActivity.class));
-        } else { // usuário
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-        }
+
+            startActivity(new Intent(getApplicationContext(), HomeTiaActivity.class));
+
         finish();
     }
+
 
     private void findViewsById() {
         editEmail = findViewById(R.id.editTextEmail);
