@@ -20,7 +20,7 @@
  - [Katia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi/)  
 - [Marco Aurelio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa/)  
 - [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)  
-- [Thiffany Morais](https://www.linkedin.com/in/thiffany-morais/)  
+- [](https://www.linkedin.com/in//)  
 - [Victor Bruno Alexander Rosetti de Quiroz](https://www.linkedin.com/in/victorbarq/) 
  </a>
 
