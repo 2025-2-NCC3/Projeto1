@@ -35,7 +35,6 @@ public class AddProductActivity extends AppCompatActivity {
         editProductName = findViewById(R.id.editProductName);
         editProductPrice = findViewById(R.id.editProductPrice);
         buttonSaveProduct = findViewById(R.id.buttonSaveProduct);
-        buttonVerProdutos = findViewById(R.id.btnVerProdutos);
 
         textViewTitle.setText("Tela de Adicionar Produto");
 

@@ -1,46 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:background="#E9D6D3"
     tools:context=".activity.AddProductActivity">
 
-    <TextView
-        android:id="@+id/textTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Adicionar Produto"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="24dp"/>
-
-    <EditText
-        android:id="@+id/editProductName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome do produto"/>
+        android:orientation="vertical"
+        android:layout_marginLeft="5sp"
+        android:padding="13dp"
+        android:gravity="center_horizontal">
 
-    <EditText
-        android:id="@+id/editProductPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Preço"
-        android:inputType="numberDecimal"/>
+        <!-- Botão de voltar -->
+        <ImageButton
+            android:id="@+id/btnVoltar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="start"
+            android:background="@drawable/bg_circle"
+            android:backgroundTint="@color/colorOliveGreen"
+            android:contentDescription="Voltar"
+            android:src="@drawable/arrow_back"
+            app:tint="#fff" />
 
-    <Button
-        android:id="@+id/buttonSaveProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Salvar Produto"
-        android:layout_marginTop="20dp"/>
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="196dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="-20dp"
+            android:contentDescription="Logo"
+            android:src="@drawable/logo" />
 
-    <Button
-        android:id="@+id/btnVerProdutos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Visualizar produtos cadastrados" />
+        <!-- Card branco -->
+        <LinearLayout
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="Adicionar produto"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/buttonAddPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="12dp"
+                android:textStyle="bold"
+                android:backgroundTint="#294030"
+                android:text="Adicionar foto +"
+                android:textColor="#FFFFFF" />
+
+            <EditText
+                android:id="@+id/editProductName"
+                android:layout_width="match_parent"
+                android:textSize="16sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="Nome*" />
+
+            <EditText
+                android:id="@+id/editProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:hint="Preço (R$)*"
+                android:inputType="numberDecimal" />
+
+            <!-- CATEGORIA agora é um Spinner -->
+            <Spinner
+                android:id="@+id/spinnerCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_spinner"
+                android:padding="8dp"
+                android:spinnerMode="dropdown" />
+
+            <EditText
+                android:id="@+id/editProductQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:hint="Quantidade disponível*"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/editProductDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:hint="Descrição*"
+                android:inputType="textMultiLine"
+                android:minLines="3" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonSaveProduct"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Concluir"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#294030"
+            android:textColor="#FFFFFF" />
+
+    </LinearLayout>
+</ScrollView>
