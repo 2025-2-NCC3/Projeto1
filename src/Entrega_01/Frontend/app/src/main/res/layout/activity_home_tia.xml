@@ -5,43 +5,19 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EADADA"
+    android:background="@drawable/bg_tia"
     tools:context=".HomeTiaActivity">
 
     <ImageView
         android:id="@+id/logoImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/logo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="193dp"
+        android:layout_height="169dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/app_name"
-        android:layout_marginTop="24dp"/>
-
-    <TextView
-        android:id="@+id/txtOla"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Olá, Tia!"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@id/logoImage"
-        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
-
-    <TextView
-        android:id="@+id/txtMensagem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bom te ver de novo."
-        android:textSize="16sp"
-        android:textColor="#000000"
-        app:layout_constraintTop_toBottomOf="@id/txtOla"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardMenu"
@@ -53,7 +29,7 @@
         app:cardElevation="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtMensagem">
+        tools:layout_editor_absoluteY="240dp">
 
         <GridLayout
             android:layout_width="300dp"
@@ -66,15 +42,15 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_columnWeight="1"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/btnAdicionarProduto"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/bg_circle"
                     android:backgroundTint="@color/colorOliveGreen"
                     android:contentDescription="Adicionar produto"
@@ -82,6 +58,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:text="Adicionar produto"
                     android:textColor="#000"
@@ -91,15 +68,15 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_columnWeight="1"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/btnPedidos"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/bg_circle"
                     android:backgroundTint="#264D3A"
                     android:contentDescription="Pedidos realizados"
@@ -108,6 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="Pedidos realizados"
                     android:textColor="#000"
                     android:textSize="14sp" />
@@ -116,15 +94,15 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_columnWeight="1"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/btnCupons"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/bg_circle"
                     android:backgroundTint="@color/colorOliveGreen"
                     android:contentDescription="Cupons"
@@ -133,6 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="Cupons"
                     android:textColor="#000"
                     android:textSize="14sp" />
@@ -141,15 +120,15 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_columnWeight="1"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/btnDashboard"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/bg_circle"
                     android:backgroundTint="@color/colorOliveGreen"
                     android:contentDescription="Dashboard"
@@ -158,6 +137,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="bold"
                     android:text="Dashboard"
                     android:textColor="#000"
                     android:textSize="14sp" />
