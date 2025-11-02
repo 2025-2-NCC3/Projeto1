@@ -18,7 +18,7 @@ public class Order {
     private int payMethod;
     private String obs;
 
-    public Order() {
+    public Order(String você, String trim, String totalStr, String status) {
 
     }
     public Order(String idU, String idC){

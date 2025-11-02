@@ -40,7 +40,9 @@
         <activity android:name=".activity.CuponsActivity"/>
         <activity android:name=".activity.DashboardActivity"/>
         <activity android:name=".activity.ListarProdutosActivity"/>
-        <activity android:name=".activity.PedidosStatusActivity"/>
+
+        <uses-permission android:name="android.permission.INTERNET"/>
+
     </application>
 
 </manifest>
