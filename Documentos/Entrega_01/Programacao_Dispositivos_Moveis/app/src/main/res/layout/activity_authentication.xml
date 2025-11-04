@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E9DADA"
+    tools:context=".activity.AuthenticationActivity">
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/logo"
+        android:contentDescription="@string/app_name"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardLogin"
+        android:fontFamily="@font/nunitobold"
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="6dp"
+        android:backgroundTint="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonLoginTab"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#2F4F2F"
+                    android:fontFamily="@font/nunitobold"
+                    android:stateListAnimator="@null"
+                    android:text="Entre"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="match_parent" />
+
+                <Button
+                    android:id="@+id/buttonRegisterTab"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#D3D3D3"
+                    android:fontFamily="@font/nunitobold"
+                    android:stateListAnimator="@null"
+                    android:text="Cadastre-se"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/textViewWelcome"
+                android:layout_width="match_parent"
+                android:fontFamily="@font/nunitobold"
+                android:layout_height="wrap_content"
+                android:text="Bem-vindo à Comedoria da Tia!"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@android:color/darker_gray"
+                android:fontFamily="@font/nunitobold"
+                android:hint="RA"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@android:color/darker_gray"
+                android:fontFamily="@font/nunitobold"
+                android:hint="Senha"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editTextPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Celular"
+                android:padding="12dp"
+                android:layout_marginTop="12dp"
+                android:inputType="phone"
+                android:backgroundTint="@android:color/darker_gray"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/buttonAccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#2F4F2F"
+                android:fontFamily="@font/nunitobold"
+                android:stateListAnimator="@null"
+                android:text="Entrar"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textViewForgotPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/nunitobold"
+                android:text="Esqueceu a senha?"
+                android:textAlignment="center"
+                android:textSize="12sp"
+                android:textColor="#808080"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
