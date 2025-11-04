@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2E9E1"
+    tools:context=".CarrinhoActivity">
+
+    <!-- Logo da Comedoria -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="129dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="Logo Comedoria"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Abas de navegação -->
+    <LinearLayout
+        android:id="@+id/abasLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/abaPedidos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Pedidos"
+            android:textColor="#3C3C3C"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/abaAnteriores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Anteriores"
+            android:textColor="#3C3C3C"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Linha abaixo da aba Pedidos -->
+    <View
+        android:id="@+id/linhaPedidos"
+        android:layout_width="80dp"
+        android:layout_height="3dp"
+        android:background="#FF4081"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/abaPedidos"
+        app:layout_constraintStart_toStartOf="@id/abaPedidos"
+        app:layout_constraintEnd_toEndOf="@id/abaPedidos" />
+
+    <!-- Inclui o card do carrinho -->
+    <include
+        layout="@layout/card_carrinho"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/linhaPedidos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- SEÇÃO DE PAGAMENTO -->
+    <LinearLayout
+        android:id="@+id/secaoPagamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomMenu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Linha do total -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/textTotal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total:"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/valorTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R$ 13,50"
+                android:textColor="#1D8F58"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Linha separadora -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#9E616A"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Botão de cancelar -->
+
+        <!-- Campo horário + imagem -->
+
+        <Button
+            android:id="@+id/btnCancelar"
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="110dp"
+            android:backgroundTint="#304A3D"
+            android:text="✕  Cancelar"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/textHorario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#E0E0E0"
+                android:padding="12dp"
+                android:text="Defina o horário de retirada."
+                android:textColor="#555"
+                android:textSize="15sp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="#C8C8C8"/>
+
+            <ImageView
+                android:id="@+id/imgPagamento"
+                android:layout_width="121dp"
+                android:layout_height="115dp"
+                android:contentDescription="Pagamento online"
+                android:src="@drawable/poltrona" />
+        </LinearLayout>
+
+        <!-- Botão de pagamento -->
+        <Button
+            android:id="@+id/btnPagarPix"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:backgroundTint="#1D8F58"
+            android:text="Pague com Pix"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <!-- MENU INFERIOR -->
+    <LinearLayout
+        android:id="@+id/bottomMenu"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="#F2E2E2"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/iconHome"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginHorizontal="16dp"
+            android:src="@drawable/home"
+            android:tint="#7B7B7B" />
+
+        <ImageView
+            android:id="@+id/iconFavorite"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginHorizontal="16dp"
+            android:src="@drawable/favoritos"
+            android:tint="#7B7B7B" />
+
+        <ImageView
+            android:id="@+id/iconCart"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginHorizontal="16dp"
+            android:src="@drawable/carrinho"
+            android:tint="#7B7B7B" />
+
+        <ImageView
+            android:id="@+id/iconHistory"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginHorizontal="16dp"
+            android:src="@drawable/historico"
+            android:tint="#7B7B7B" />
+
+        <ImageView
+            android:id="@+id/iconProfile"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginHorizontal="16dp"
+            android:src="@drawable/perfil"
+            android:tint="#7B7B7B" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
