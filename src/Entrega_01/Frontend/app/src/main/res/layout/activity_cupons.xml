@@ -22,7 +22,7 @@
         android:id="@+id/recyclerCupons"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#CCC"
-        android:dividerHeight="1dp" />
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
 
 </LinearLayout>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCarrinho"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_margin="8dp"
+        android:background="#DEDBDB"
+        app:cardCornerRadius="23dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.374">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp">
+
+            <!-- Imagem do produto -->
+            <ImageView
+                android:id="@+id/imgProdutoCarrinho"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop" />
+
+            <!-- Informações do produto -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/imgProdutoCarrinho"
+                android:orientation="vertical">
+
+                <!-- Nome do produto -->
+                <TextView
+                    android:id="@+id/txtNomeProdutoCarrinho"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pão de queijo"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Preço do produto -->
+                <TextView
+                    android:id="@+id/txtPrecoProdutoCarrinho"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="R$ 5,50"
+                    android:textColor="#00875A"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Controle de quantidade -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Botão diminuir -->
+                <ImageButton
+                    android:id="@+id/btnDiminuir"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="6dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/sinalmenos" />
+
+                <!-- Quantidade -->
+                <TextView
+                    android:id="@+id/txtQuantidade"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-28dp"
+                    android:layout_marginEnd="20dp"
+                    android:gravity="center"
+                    android:text="x1"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Botão aumentar -->
+                <ImageButton
+                    android:id="@+id/btnAumentar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="-28dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="6dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/sinalmenos" />
+
+            </LinearLayout>
+
+            <!-- Botão remover do carrinho -->
+            <ImageButton
+                android:id="@+id/btnRemover"
+                android:layout_width="32dp"
+                android:layout_height="26dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="38dp"
+                android:layout_marginEnd="-1dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="1dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/lixeira" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

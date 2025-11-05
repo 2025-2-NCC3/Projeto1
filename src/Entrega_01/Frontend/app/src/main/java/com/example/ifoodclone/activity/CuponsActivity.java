@@ -27,6 +27,8 @@ public class CuponsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cupons);
 
+        setTitle("Cupons");
+
         recyclerView = findViewById(R.id.recyclerCupons);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

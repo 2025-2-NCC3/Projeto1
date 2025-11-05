@@ -1,9 +1,12 @@
 package com.example.ifoodclone.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.ifoodclone.R;
@@ -17,56 +20,70 @@ import retrofit2.Response;
 
 public class AddProductActivity extends AppCompatActivity {
 
-    private EditText editProductName, editProductPrice;
-    private Button buttonSaveProduct, buttonVerProdutos;
-    private ApiService api; // ✅ Aqui declaramos o objeto ApiService
+    private EditText editNomeProduto, editPrecoProduto, edtQuantidade, edtDescricao;
+    private Spinner spnCategoria;
+    private Button btnConcluir, btnVoltar, btnAdicionarFoto;
+    private ApiService api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-        // Inicializa o Retrofit
+        // Inicializa Retrofit
         api = ApiClient.getClient(this).create(ApiService.class);
 
-        editProductName = findViewById(R.id.editProductName);
-        editProductPrice = findViewById(R.id.editProductPrice);
-        buttonSaveProduct = findViewById(R.id.buttonSaveProduct);
-        buttonVerProdutos = findViewById(R.id.btnVerProdutos);
+        // Referências aos elementos do layout
+        btnVoltar = findViewById(R.id.btnVoltar);
+        btnAdicionarFoto = findViewById(R.id.btnAdicionarFoto);
+        editNomeProduto = findViewById(R.id.editNomeProduto);
+        editPrecoProduto = findViewById(R.id.editPrecoProduto);
+        spnCategoria = findViewById(R.id.spnCategoria);
+        edtQuantidade = findViewById(R.id.edtQuantidade);
+        edtDescricao = findViewById(R.id.edtDescricao);
+        btnConcluir = findViewById(R.id.btnConcluir);
 
-        buttonSaveProduct.setOnClickListener(v -> salvarProduto());
-        buttonVerProdutos.setOnClickListener(v ->
-                startActivity(new android.content.Intent(this, ListarProdutosActivity.class))
+        // Ações dos botões
+        btnVoltar.setOnClickListener(v -> finish());
+
+        btnConcluir.setOnClickListener(v -> salvarProduto());
+
+        btnAdicionarFoto.setOnClickListener(v ->
+                Toast.makeText(this, "Função de adicionar foto ainda não implementada.", Toast.LENGTH_SHORT).show()
         );
     }
 
     private void salvarProduto() {
-        String nome = editProductName.getText().toString().trim();
-        String precoStr = editProductPrice.getText().toString().trim();
+        String nome = editNomeProduto.getText().toString().trim();
+        String precoStr = editPrecoProduto.getText().toString().trim();
+        String categoria = spnCategoria.getSelectedItem() != null ? spnCategoria.getSelectedItem().toString() : "";
+        String quantidadeStr = edtQuantidade.getText().toString().trim();
+        String descricao = edtDescricao.getText().toString().trim();
 
-        if (nome.isEmpty() || precoStr.isEmpty()) {
-            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+        if (nome.isEmpty() || precoStr.isEmpty() || categoria.isEmpty() || quantidadeStr.isEmpty() || descricao.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos obrigatórios!", Toast.LENGTH_SHORT).show();
             return;
         }
 
         double preco;
+        int quantidade;
         try {
             preco = Double.parseDouble(precoStr);
+            quantidade = Integer.parseInt(quantidadeStr);
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Preço inválido!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Verifique os valores de preço e quantidade!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        ProductDto dto = new ProductDto(nome, preco);
+        // Cria DTO com os novos campos
+        ProductDto produto = new ProductDto(nome, preco, categoria, quantidade, descricao);
 
-        // Envia o produto via Retrofit
-        api.addProduto(dto).enqueue(new Callback<ProductDto>() {
+        api.addProduto(produto).enqueue(new Callback<ProductDto>() {
             @Override
             public void onResponse(Call<ProductDto> call, Response<ProductDto> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(AddProductActivity.this, "Produto adicionado com sucesso!", Toast.LENGTH_SHORT).show();
-                    editProductName.setText("");
-                    editProductPrice.setText("");
+                    limparCampos();
                 } else {
                     Toast.makeText(AddProductActivity.this, "Erro ao adicionar produto!", Toast.LENGTH_SHORT).show();
                 }
@@ -77,5 +94,13 @@ public class AddProductActivity extends AppCompatActivity {
                 Toast.makeText(AddProductActivity.this, "Falha na conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void limparCampos() {
+        editNomeProduto.setText("");
+        editPrecoProduto.setText("");
+        edtQuantidade.setText("");
+        edtDescricao.setText("");
+        spnCategoria.setSelection(0);
     }
 }
