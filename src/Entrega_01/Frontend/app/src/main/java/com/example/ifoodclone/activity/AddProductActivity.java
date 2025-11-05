@@ -1,52 +1,43 @@
 package com.example.ifoodclone.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ifoodclone.R;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.ifoodclone.model.ProductDto;
+import com.example.ifoodclone.net.ApiClient;
+import com.example.ifoodclone.net.ApiService;
 
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddProductActivity extends AppCompatActivity {
 
-    private TextView textViewTitle;
     private EditText editProductName, editProductPrice;
     private Button buttonSaveProduct, buttonVerProdutos;
-
-    private FirebaseFirestore db;
+    private ApiService api; // ✅ Aqui declaramos o objeto ApiService
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
+        // Inicializa o Retrofit
+        api = ApiClient.getClient(this).create(ApiService.class);
 
-        db = FirebaseFirestore.getInstance();
-
-
-        textViewTitle = findViewById(R.id.textTitle);
         editProductName = findViewById(R.id.editProductName);
         editProductPrice = findViewById(R.id.editProductPrice);
         buttonSaveProduct = findViewById(R.id.buttonSaveProduct);
         buttonVerProdutos = findViewById(R.id.btnVerProdutos);
 
-        textViewTitle.setText("Tela de Adicionar Produto");
-
-
         buttonSaveProduct.setOnClickListener(v -> salvarProduto());
-
-
-        buttonVerProdutos.setOnClickListener(v -> {
-            Intent intent = new Intent(AddProductActivity.this, ListarProdutosActivity.class);
-            startActivity(intent);
-        });
+        buttonVerProdutos.setOnClickListener(v ->
+                startActivity(new android.content.Intent(this, ListarProdutosActivity.class))
+        );
     }
 
     private void salvarProduto() {
@@ -58,19 +49,33 @@ public class AddProductActivity extends AppCompatActivity {
             return;
         }
 
-        double preco = Double.parseDouble(precoStr);
+        double preco;
+        try {
+            preco = Double.parseDouble(precoStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Preço inválido!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        ProductDto dto = new ProductDto(nome, preco);
 
-        Map<String, Object> produto = new HashMap<>();
-        produto.put("nome", nome);
-        produto.put("preco", preco);
+        // Envia o produto via Retrofit
+        api.addProduto(dto).enqueue(new Callback<ProductDto>() {
+            @Override
+            public void onResponse(Call<ProductDto> call, Response<ProductDto> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(AddProductActivity.this, "Produto adicionado com sucesso!", Toast.LENGTH_SHORT).show();
+                    editProductName.setText("");
+                    editProductPrice.setText("");
+                } else {
+                    Toast.makeText(AddProductActivity.this, "Erro ao adicionar produto!", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-
-        db.collection("produtos")
-                .add(produto)
-                .addOnSuccessListener(documentReference ->
-                        Toast.makeText(this, "Produto adicionado com sucesso!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Erro ao salvar produto: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            @Override
+            public void onFailure(Call<ProductDto> call, Throwable t) {
+                Toast.makeText(AddProductActivity.this, "Falha na conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

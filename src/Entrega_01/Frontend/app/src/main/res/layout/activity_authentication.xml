@@ -96,7 +96,7 @@
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@android:color/darker_gray"
                 android:fontFamily="@font/nunitobold"
-                android:hint="RA"
+                android:hint="E-mail"
                 android:inputType="text"
                 android:padding="12dp"
                 android:textSize="16sp" />
@@ -114,15 +114,18 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/editTextPhone"
+                android:id="@+id/editTextUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Celular"
-                android:padding="12dp"
                 android:layout_marginTop="12dp"
-                android:inputType="phone"
                 android:backgroundTint="@android:color/darker_gray"
+                android:fontFamily="@font/nunitobold"
+                android:hint="Usuário"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="16sp"
                 android:visibility="gone"/>
+
 
             <Button
                 android:id="@+id/buttonAccess"

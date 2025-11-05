@@ -1,69 +1,69 @@
 package com.example.ifoodclone.activity;
 
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-
 import com.example.ifoodclone.R;
 import com.example.ifoodclone.adapter.ProdutoAdapter;
-import com.example.ifoodclone.activity.Produto;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
+import com.example.ifoodclone.model.Product;
+import com.example.ifoodclone.model.ProductDto;
+import com.example.ifoodclone.net.ApiClient;
+import com.example.ifoodclone.net.ApiService;
 import java.util.ArrayList;
 import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListarProdutosActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerProdutos;
+    private RecyclerView recycler;
     private ProdutoAdapter adapter;
-    private List<Produto> listaProdutos = new ArrayList<>();
-    private FirebaseFirestore db;
+    private List<Product> lista = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle s) {
+        super.onCreate(s);
         setContentView(R.layout.activity_produtos);
 
-        recyclerProdutos = findViewById(R.id.recyclerProdutos);
-        recyclerProdutos.setLayoutManager(new LinearLayoutManager(this));
-        recyclerProdutos.setHasFixedSize(true);
+        recycler = findViewById(R.id.recyclerProdutos);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ProdutoAdapter(listaProdutos, this);
+        adapter = new ProdutoAdapter(this, lista);
+        recycler.setAdapter(adapter);
 
-        recyclerProdutos.setAdapter(adapter);
-
-        db = FirebaseFirestore.getInstance();
-
-        carregarProdutos();
+        loadProducts();
     }
 
-    private void carregarProdutos() {
-        db.collection("produtos")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value,
-                                        @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            return;
-                        }
-
-                        listaProdutos.clear();
-                        for (QueryDocumentSnapshot doc : value) {
-                            Produto produto = doc.toObject(Produto.class);
-                            produto.setId(doc.getId());
-                            listaProdutos.add(produto);
-                        }
-                        adapter.notifyDataSetChanged();
+    private void loadProducts() {
+        ApiService api = ApiClient.getClient(this).create(ApiService.class);
+        api.getProdutos().enqueue(new Callback<List<ProductDto>>() {
+            @Override
+            public void onResponse(Call<List<ProductDto>> call, Response<List<ProductDto>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    lista.clear();
+                    for (ProductDto dto : response.body()) {
+                        String id = dto.getId() != null ? dto.getId() : "";
+                        lista.add(new Product(
+                                id,
+                                dto.getNome(),
+                                dto.getPreco(),
+                                "", // descrição vazia por enquanto
+                                ""  // imagem vazia
+                        ));
                     }
-                });
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(ListarProdutosActivity.this, "Erro ao carregar produtos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductDto>> call, Throwable t) {
+                Toast.makeText(ListarProdutosActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
-
 }

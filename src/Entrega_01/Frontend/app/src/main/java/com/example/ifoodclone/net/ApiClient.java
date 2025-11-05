@@ -1,33 +1,56 @@
 package com.example.ifoodclone.net;
 
 import android.content.Context;
+
+import com.example.ifoodclone.util.TokenManager;
+
 import java.io.IOException;
+
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    // Emulador: 10.0.2.2 ; Em celular: IP da sua máquina
+
+    private static Retrofit retrofit;
+
+    // URL base — use 10.0.2.2 para acessar o localhost do PC a partir do emulador Android
     private static final String BASE_URL = "http://10.0.2.2:3000/";
 
-    public static Retrofit get(Context ctx){
-        TokenManager tm = new TokenManager(ctx);
-        OkHttpClient ok = new OkHttpClient.Builder()
-                .addInterceptor(chain -> {
-                    Request r = chain.request();
-                    String tk = tm.get();
-                    if (tk != null) {
-                        r = r.newBuilder().addHeader("Authorization","Bearer "+tk).build();
-                    }
-                    return chain.proceed(r);
-                }).build();
+    public static Retrofit getClient(Context context) {
+        if (retrofit == null) {
 
-        return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(ok)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            // 🔒 Interceptor para adicionar token JWT automaticamente
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request original = chain.request();
+                            String token = TokenManager.getToken(context);
+
+                            Request.Builder builder = original.newBuilder()
+                                    .header("Content-Type", "application/json");
+
+                            if (token != null && !token.isEmpty()) {
+                                builder.header("Authorization", "Bearer " + token);
+                            }
+
+                            Request request = builder.build();
+                            return chain.proceed(request);
+                        }
+                    })
+                    .build();
+
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
+                    .build();
+        }
+
+        return retrofit;
     }
 }

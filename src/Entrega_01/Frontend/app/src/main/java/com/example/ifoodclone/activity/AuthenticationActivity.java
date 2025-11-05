@@ -1,180 +1,149 @@
 package com.example.ifoodclone.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import com.example.ifoodclone.R;
-import com.example.ifoodclone.helper.FirebaseConfiguration;
-import com.example.ifoodclone.helper.FirebaseUserConfiguration;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.ifoodclone.model.AuthResponse;
+import com.example.ifoodclone.model.LoginRequest;
+import com.example.ifoodclone.model.RegisterRequest;
+import com.example.ifoodclone.net.ApiClient;
+import com.example.ifoodclone.net.ApiService;
+import com.example.ifoodclone.util.TokenManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
-    private EditText editEmail, editPassword, editPhone;
-    private Button buttonLoginTab, buttonRegisterTab, buttonAccess;
-    private TextView textViewWelcome, textViewForgotPassword;
-
-    private FirebaseAuth auth;
-
+    private EditText etEmail, etSenha, etNome;
+    private Button btnAcessar, btnLoginTab, btnRegisterTab;
+    private TextView tvForgot;
     private boolean isLoginMode = true;
+    private ApiService api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
-        findViewsById();
-        auth = FirebaseConfiguration.getFirebaseAuth();
+        etEmail = findViewById(R.id.editTextEmail);
+        etSenha = findViewById(R.id.editTextPassword);
+        etNome = findViewById(R.id.editTextUsername); // <-- alterado
+        etNome.setVisibility(View.GONE);
 
 
-        buttonLoginTab.setOnClickListener(v -> setLoginMode(true));
+        btnAcessar = findViewById(R.id.buttonAccess);
+        btnLoginTab = findViewById(R.id.buttonLoginTab);
+        btnRegisterTab = findViewById(R.id.buttonRegisterTab);
+        tvForgot = findViewById(R.id.textViewForgotPassword);
 
+        api = ApiClient.getClient(this).create(ApiService.class);
 
-        buttonRegisterTab.setOnClickListener(v -> setLoginMode(false));
+        // Botões de alternância
+        btnLoginTab.setOnClickListener(v -> setMode(true));
+        btnRegisterTab.setOnClickListener(v -> setMode(false));
 
-
-        buttonAccess.setOnClickListener(v -> handleAccess());
-
-        String mode = getIntent().getStringExtra("MODE");
-        if (mode != null && mode.equals("REGISTER")) {
-            setLoginMode(false);
-        }
-    }
-
-    private void handleAccess() {
-        String email = editEmail.getText().toString().trim();
-        String password = editPassword.getText().toString().trim();
-
-        if (!email.isEmpty()) {
-            if (!password.isEmpty()) {
-                if (isLoginMode) {
-
-                    auth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(AuthenticationActivity.this, "Sign in completed", Toast.LENGTH_SHORT).show();
-                                        String userType = task.getResult().getUser().getDisplayName();
-                                        openMainActivity(userType);
-                                    } else {
-                                        Toast.makeText(AuthenticationActivity.this, "Sign in failed, try again later", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                } else {
-                    // CADASTRO
-                    auth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(AuthenticationActivity.this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                                        // por padrão, usuário normal
-                                        String type = "U";
-                                        FirebaseUserConfiguration.updateUserType(type);
-                                        openMainActivity(type);
-                                    } else {
-                                        String exception;
-                                        try {
-                                            throw task.getException();
-                                        } catch (FirebaseAuthWeakPasswordException e) {
-                                            exception = "Senha fraca!";
-                                        } catch (FirebaseAuthInvalidCredentialsException e) {
-                                            exception = "E-mail inválido!";
-                                        } catch (FirebaseAuthUserCollisionException e) {
-                                            exception = "Usuário já existente";
-                                        } catch (Exception e) {
-                                            exception = "Cadastro falhou: " + e.getMessage();
-                                            e.printStackTrace();
-                                        }
-                                        Toast.makeText(AuthenticationActivity.this, exception, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
+        // Ação principal
+        btnAcessar.setOnClickListener(v -> {
+            if (isLoginMode) {
+                doLogin();
             } else {
-                Toast.makeText(this, "Senha vazia!", Toast.LENGTH_SHORT).show();
+                doRegister();
             }
-        } else {
-            Toast.makeText(this, "E-mail vazio!", Toast.LENGTH_SHORT).show();
-        }
+        });
     }
 
-    private void setLoginMode(boolean loginMode) {
+    private void setMode(boolean loginMode) {
         isLoginMode = loginMode;
 
         if (isLoginMode) {
+            etNome.setVisibility(View.GONE);   // Username some
+            btnAcessar.setText("Entrar");
 
-            buttonLoginTab.setBackgroundTintList(getColorStateList(R.color.green_dark));
-            buttonLoginTab.setTextColor(getColor(android.R.color.white));
+            btnLoginTab.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_green));
+            btnLoginTab.setTextColor(ContextCompat.getColor(this, android.R.color.white));
 
-            buttonRegisterTab.setBackgroundTintList(getColorStateList(android.R.color.darker_gray));
-            buttonRegisterTab.setTextColor(getColor(android.R.color.black));
-
-            textViewWelcome.setText("Bem-vindo à Comedoria da Tia!");
-            buttonAccess.setText("Entrar");
-
-            editPhone.setVisibility(View.GONE);
-            textViewForgotPassword.setVisibility(View.VISIBLE);
+            btnRegisterTab.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.light_gray));
+            btnRegisterTab.setTextColor(ContextCompat.getColor(this, android.R.color.black));
 
         } else {
+            etNome.setVisibility(View.VISIBLE); // Username aparece
+            btnAcessar.setText("Cadastrar");
 
-            buttonRegisterTab.setBackgroundTintList(getColorStateList(R.color.green_dark));
-            buttonRegisterTab.setTextColor(getColor(android.R.color.white));
+            btnRegisterTab.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_green));
+            btnRegisterTab.setTextColor(ContextCompat.getColor(this, android.R.color.white));
 
-            buttonLoginTab.setBackgroundTintList(getColorStateList(android.R.color.darker_gray));
-            buttonLoginTab.setTextColor(getColor(android.R.color.black));
-
-            textViewWelcome.setText("Novo por aqui?\nCadastre-se!");
-            buttonAccess.setText("Cadastrar");
-
-            editPhone.setVisibility(View.VISIBLE);
-            textViewForgotPassword.setVisibility(View.GONE);
+            btnLoginTab.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.light_gray));
+            btnLoginTab.setTextColor(ContextCompat.getColor(this, android.R.color.black));
         }
     }
 
-    private void verifyCurrentUser() {
-        FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            String userType = currentUser.getDisplayName();
-            openMainActivity(userType);
+
+    private void doLogin() {
+        String email = etEmail.getText().toString().trim();
+        String password = etSenha.getText().toString().trim();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        LoginRequest request = new LoginRequest(email, password);
+
+        api.login(request).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    String token = response.body().getToken();
+                    TokenManager.saveToken(AuthenticationActivity.this, token);
+
+                    Toast.makeText(AuthenticationActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                    startActivity(new Intent(AuthenticationActivity.this, HomeTiaActivity.class));
+                    finish();
+                } else {
+                    Toast.makeText(AuthenticationActivity.this, "Credenciais inválidas", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                Toast.makeText(AuthenticationActivity.this, "Erro de conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void openMainActivity(String type) {
+    private void doRegister() {
+        String username = etNome.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String password = etSenha.getText().toString().trim();
 
-            startActivity(new Intent(getApplicationContext(), HomeTiaActivity.class));
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        finish();
-    }
+        RegisterRequest request = new RegisterRequest(username, email, password);
 
+        api.register(request).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(AuthenticationActivity.this, "Cadastro realizado! Faça login.", Toast.LENGTH_SHORT).show();
+                    setMode(true);
+                } else {
+                    Toast.makeText(AuthenticationActivity.this, "Erro ao cadastrar. Tente novamente.", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-    private void findViewsById() {
-        editEmail = findViewById(R.id.editTextEmail);
-        editPassword = findViewById(R.id.editTextPassword);
-        editPhone = findViewById(R.id.editTextPhone);
-
-        buttonLoginTab = findViewById(R.id.buttonLoginTab);
-        buttonRegisterTab = findViewById(R.id.buttonRegisterTab);
-        buttonAccess = findViewById(R.id.buttonAccess);
-
-        textViewWelcome = findViewById(R.id.textViewWelcome);
-        textViewForgotPassword = findViewById(R.id.textViewForgotPassword);
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(AuthenticationActivity.this, "Erro de conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
