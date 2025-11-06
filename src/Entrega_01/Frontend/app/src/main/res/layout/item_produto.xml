@@ -19,6 +19,13 @@
         android:text="Preço"
         android:textSize="16sp" />
 
+    <TextView
+        android:id="@+id/textDescProduto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descrição"
+        android:textSize="14sp"
+        android:textColor="#555555" />
 
 
     <LinearLayout

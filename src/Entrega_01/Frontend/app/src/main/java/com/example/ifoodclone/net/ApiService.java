@@ -4,10 +4,14 @@ import com.example.ifoodclone.model.*;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -20,11 +24,19 @@ public interface ApiService {
     Call<Void> register(@Body RegisterRequest request);
 
     // 🛍️ Produtos
-    @GET("/produtos")
+    @GET("/products")
     Call<List<ProductDto>> getProdutos();
 
-    @POST("/produtos")
-    Call<ProductDto> addProduto(@Body ProductDto dto);
+
+    @Multipart
+    @POST("/admin/product")
+    Call<ProductDto> addProduto(
+            @Part("name") RequestBody name,
+            @Part("price") RequestBody price,
+            @Part("description") RequestBody description,
+            @Part MultipartBody.Part image
+    );
+
 
     // 🎟️ Cupons
     @GET("/cupons")

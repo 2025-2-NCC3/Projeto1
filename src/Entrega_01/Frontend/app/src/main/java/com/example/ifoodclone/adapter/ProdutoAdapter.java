@@ -44,7 +44,7 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.VH> {
             super(v);
             txtNome = v.findViewById(R.id.textNomeProduto);
             txtPreco = v.findViewById(R.id.textPrecoProduto);
-            //txtDesc = v.findViewById(R.id.textDescProduto);
+            txtDesc = v.findViewById(R.id.textDescProduto);
         }
     }
 }

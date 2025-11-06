@@ -1,17 +1,28 @@
 package com.example.ifoodclone.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ProductDto {
+
     private String id;
+
+    @SerializedName("name")
     private String nome;
+
+    @SerializedName("price")
     private double preco;
+
+    @SerializedName("category")
     private String categoria;
+
+    @SerializedName("quantity")
     private int quantidade;
+
+    @SerializedName("description")
     private String descricao;
 
-    // Construtor padrão (necessário para Retrofit/Gson)
     public ProductDto() {}
 
-    // Construtor para adicionar produto completo
     public ProductDto(String nome, double preco, String categoria, int quantidade, String descricao) {
         this.nome = nome;
         this.preco = preco;
@@ -20,7 +31,6 @@ public class ProductDto {
         this.descricao = descricao;
     }
 
-    // Getters
     public String getId() { return id; }
     public String getNome() { return nome; }
     public double getPreco() { return preco; }
@@ -28,7 +38,6 @@ public class ProductDto {
     public int getQuantidade() { return quantidade; }
     public String getDescricao() { return descricao; }
 
-    // Setters
     public void setId(String id) { this.id = id; }
     public void setNome(String nome) { this.nome = nome; }
     public void setPreco(double preco) { this.preco = preco; }
