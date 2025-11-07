@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         for (int i = 0; i < 4; i++) {
-            View card = inflater.inflate(R.layout.card_produtos, containerProdutos, false);
+            View card = inflater.inflate(R.layout.produtos_card, containerProdutos, false);
 
             TextView nome = card.findViewById(R.id.txtNomeProduto);
             TextView preco = card.findViewById(R.id.txtPrecoProduto);

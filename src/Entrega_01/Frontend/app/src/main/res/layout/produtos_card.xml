@@ -11,12 +11,17 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="182dp"
+        android:clipChildren="false"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clipToPadding="false"
         app:cardCornerRadius="38dp"
         app:cardElevation="11dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
 
-        <LinearLayout
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
@@ -56,6 +61,8 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:contentDescription="Adicionar ao carrinho"
+                android:src="@drawable/carrinho"
+                android:tint="#00875A"
                 android:translationY="0dp" />
 
         </LinearLayout>
@@ -67,7 +74,9 @@
             android:layout_gravity="top|end"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="6dp"
-            android:contentDescription="Favoritar" />
+            android:contentDescription="Favoritar"
+            android:src="@drawable/favoritos"
+            android:tint="#625757" />
     </androidx.cardview.widget.CardView>
 
     <!-- Imagem do produto sobre o Card -->
@@ -78,6 +87,8 @@
         android:layout_gravity="top|center_horizontal"
         android:translationY="-2dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/coxinha"
+        android:background="@drawable/circle_background"
         android:clipToOutline="true"
         android:elevation="15dp"/>
 

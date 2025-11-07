@@ -10,6 +10,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -23,27 +24,29 @@ public class ApiClient {
     public static Retrofit getClient(Context context) {
         if (retrofit == null) {
 
+            // 🪵 Interceptor de log — exibe requisições e respostas no Logcat
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
             // 🔒 Interceptor para adicionar token JWT automaticamente
             OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request original = chain.request();
-                            String token = TokenManager.getToken(context);
+                    .addInterceptor(logging) // <-- log de requisições
+                    .addInterceptor(chain -> {
+                        Request original = chain.request();
+                        String token = TokenManager.getToken(context);
 
-                            Request.Builder builder = original.newBuilder()
-                                    .header("Content-Type", "application/json");
+                        Request.Builder builder = original.newBuilder()
+                                .header("Content-Type", "application/json");
 
-                            if (token != null && !token.isEmpty()) {
-                                builder.header("Authorization", "Bearer " + token);
-                            }
-
-                            Request request = builder.build();
-                            return chain.proceed(request);
+                        if (token != null && !token.isEmpty()) {
+                            builder.header("Authorization", "Bearer " + token);
                         }
+
+                        return chain.proceed(builder.build());
                     })
                     .build();
 
+            // 🚀 Retrofit configurado
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -53,4 +56,6 @@ public class ApiClient {
 
         return retrofit;
     }
-}
+
+    }
+

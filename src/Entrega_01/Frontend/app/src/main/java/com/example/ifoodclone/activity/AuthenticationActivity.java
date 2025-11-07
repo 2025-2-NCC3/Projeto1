@@ -98,21 +98,35 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    String token = response.body().getToken();
-                    TokenManager.saveToken(AuthenticationActivity.this, token);
+                    AuthResponse auth = response.body();
 
-                    Toast.makeText(AuthenticationActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                    // Salva o token JWT
+                    TokenManager.saveToken(AuthenticationActivity.this, auth.getToken());
 
-                    startActivity(new Intent(AuthenticationActivity.this, HomeTiaActivity.class));
+                    Toast.makeText(AuthenticationActivity.this,
+                            "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                    // 🔑 Redirecionamento com base no tipo de usuário
+                    Intent intent;
+                    if (auth.isAdmin()) {
+                        intent = new Intent(AuthenticationActivity.this, HomeTiaActivity.class);
+                    } else {
+                        intent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                    }
+
+                    startActivity(intent);
                     finish();
+
                 } else {
-                    Toast.makeText(AuthenticationActivity.this, "Credenciais inválidas", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthenticationActivity.this,
+                            "Credenciais inválidas", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                Toast.makeText(AuthenticationActivity.this, "Erro de conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AuthenticationActivity.this,
+                        "Erro de conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

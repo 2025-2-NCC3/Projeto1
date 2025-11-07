@@ -3,6 +3,7 @@ package com.example.ifoodclone.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.ifoodclone.R;
+import com.example.ifoodclone.model.Product;
 import com.example.ifoodclone.model.ProductDto;
 import com.example.ifoodclone.net.ApiClient;
 import com.example.ifoodclone.net.ApiService;
@@ -23,6 +26,7 @@ import java.io.File;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,10 +46,8 @@ public class AddProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-        // Inicializa Retrofit
         api = ApiClient.getClient(this).create(ApiService.class);
 
-        // Referências aos elementos do layout
         btnVoltar = findViewById(R.id.btnVoltar);
         btnAdicionarFoto = findViewById(R.id.btnAdicionarFoto);
         editNomeProduto = findViewById(R.id.editNomeProduto);
@@ -54,9 +56,9 @@ public class AddProductActivity extends AppCompatActivity {
         edtQuantidade = findViewById(R.id.edtQuantidade);
         edtDescricao = findViewById(R.id.edtDescricao);
         btnConcluir = findViewById(R.id.btnConcluir);
-        btnListarProdutos = findViewById(R.id.btnListarProdutos); // ✅ novo botão
+        btnListarProdutos = findViewById(R.id.btnListarProdutos);
 
-        // Configura o Spinner
+        // Spinner
         String[] categorias = {"Selecione a categoria", "Salgados", "Bebidas", "Marmitas"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, categorias
@@ -64,17 +66,35 @@ public class AddProductActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCategoria.setAdapter(adapter);
 
-        // Ações dos botões
-        btnVoltar.setOnClickListener(v -> finish());
-        btnConcluir.setOnClickListener(v -> salvarProduto());
-        btnAdicionarFoto.setOnClickListener(v -> escolherImagem());
+        // 📦 Pega o produto recebido (se for edição)
+        Product produtoEditando = (Product) getIntent().getSerializableExtra("produto");
 
-        // ✅ ação do novo botão
-        btnListarProdutos.setOnClickListener(v -> {
-            Intent intent = new Intent(AddProductActivity.this, ListarProdutosActivity.class);
-            startActivity(intent);
-        });
+        if (produtoEditando != null) {
+            // 🟢 Modo de edição
+            preencherCampos(produtoEditando);
+            btnConcluir.setText("Atualizar Produto");
+
+            btnConcluir.setOnClickListener(v -> atualizarProduto(produtoEditando.getId()));
+        } else {
+            // 🟡 Modo de adição
+            btnConcluir.setText("Cadastrar Produto");
+            btnConcluir.setOnClickListener(v -> salvarProduto());
+        }
+
+        btnAdicionarFoto.setOnClickListener(v -> escolherImagem());
+        btnVoltar.setOnClickListener(v -> finish());
+        btnListarProdutos.setOnClickListener(v ->
+                startActivity(new Intent(AddProductActivity.this, ListarProdutosActivity.class))
+        );
     }
+
+    private void preencherCampos(Product produto) {
+        editNomeProduto.setText(produto.getName());
+        editPrecoProduto.setText(String.valueOf(produto.getPrice()));
+        edtDescricao.setText(produto.getDescription());
+    }
+
+
 
     private void escolherImagem() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -168,4 +188,64 @@ public class AddProductActivity extends AppCompatActivity {
         spnCategoria.setSelection(0);
         imageUri = null;
     }
+
+    private void atualizarProduto(String id) {
+        String nome = editNomeProduto.getText().toString().trim();
+        String precoStr = editPrecoProduto.getText().toString().trim();
+        String descricao = edtDescricao.getText().toString().trim();
+
+        if (nome.isEmpty() || precoStr.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double preco = Double.parseDouble(precoStr);
+
+        RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), nome);
+        RequestBody priceBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(preco));
+        RequestBody descriptionBody = RequestBody.create(MediaType.parse("text/plain"), descricao);
+
+        MultipartBody.Part imagePart = null;
+        if (imageUri != null) {
+            String filePath = com.example.ifoodclone.activity.FileUtils.getPath(this, imageUri);
+            if (filePath != null) {
+                File file = new File(filePath);
+                RequestBody imageBody = RequestBody.create(MediaType.parse("image/*"), file);
+                imagePart = MultipartBody.Part.createFormData("image", file.getName(), imageBody);
+            }
+        }
+
+        api.updateProduto(id, nameBody, priceBody, descriptionBody, imagePart)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            try {
+                                // Só pra logar e confirmar o retorno do servidor (opcional)
+                                String serverMessage = response.body() != null ? response.body().string() : "";
+                                Toast.makeText(AddProductActivity.this, "Produto atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                                // Fecha e volta pra lista
+                                setResult(RESULT_OK);
+                                finish();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(AddProductActivity.this, "Erro ao ler resposta do servidor", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(AddProductActivity.this, "Erro ao atualizar produto (" + response.code() + ")", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Toast.makeText(AddProductActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+    }
+
 }

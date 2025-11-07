@@ -31,7 +31,9 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_centerVertical="true"
-                android:scaleType="centerCrop" />
+                android:background="@drawable/circle_background"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pao_de_queijo" />
 
             <!-- Informações do produto -->
             <LinearLayout
@@ -107,7 +109,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="6dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/sinalmenos" />
+                    android:src="@drawable/sinalmais" />
 
             </LinearLayout>
 
