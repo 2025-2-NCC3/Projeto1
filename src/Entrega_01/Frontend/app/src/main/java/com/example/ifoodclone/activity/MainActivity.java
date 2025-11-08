@@ -1,102 +1,105 @@
 package com.example.ifoodclone.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.ifoodclone.R;
+import com.example.ifoodclone.adapter.ProdutoClienteAdapter;
+import com.example.ifoodclone.model.ProductDto;
+import com.example.ifoodclone.net.ApiClient;
+import com.example.ifoodclone.net.ApiService;
+import com.example.ifoodclone.util.CartManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Views principais
-    private ImageView logoImage;
-    private EditText editSearch;
-
-    // Categorias
-    private TextView tvSalgados, tvBebidas, tvMarmitas, tvFavoritos;
-
-    // Container de produtos
-    private LinearLayout containerProdutos;
-
-    // Menu inferior
-    private ImageView iconHome, iconFavorite, iconCart, iconHistory, iconProfile;
+    private RecyclerView recyclerProdutos;
+    private ProdutoClienteAdapter adapter;
+    private final List<ProductDto> listaProdutos = new ArrayList<>();
+    private ImageView btnCarrinho;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicializa componentes
-        initViews();
+        // 1) Vincula as views do layout
+        recyclerProdutos = findViewById(R.id.recyclerProdutos);
+        btnCarrinho = findViewById(R.id.btnCarrinho);
 
-        // Configura listeners
-        setupCategoryClicks();
-        setupBottomMenuClicks();
-
-        // Exemplo: adiciona cards dinamicamente
-        addMockProducts();
-    }
-
-    private void initViews() {
-        logoImage = findViewById(R.id.logoImage);
-        editSearch = findViewById(R.id.editSearch);
-
-        tvSalgados = findViewById(R.id.tvSalgados);
-        tvBebidas = findViewById(R.id.tvBebidas);
-        tvMarmitas = findViewById(R.id.tvMarmitas);
-        tvFavoritos = findViewById(R.id.tvFavoritos);
-
-        containerProdutos = findViewById(R.id.containerProdutos);
-
-        iconHome = findViewById(R.id.iconHome);
-        iconFavorite = findViewById(R.id.iconFavorite);
-        iconCart = findViewById(R.id.iconCart);
-        iconHistory = findViewById(R.id.iconHistory);
-        iconProfile = findViewById(R.id.iconProfile);
-    }
-
-    private void setupCategoryClicks() {
-        View.OnClickListener listener = v -> {
-            TextView tv = (TextView) v;
-            String categoria = tv.getText().toString();
-            Toast.makeText(this, "Categoria: " + categoria, Toast.LENGTH_SHORT).show();
-            // Aqui futuramente você pode filtrar os produtos dessa categoria
-        };
-
-        tvSalgados.setOnClickListener(listener);
-        tvBebidas.setOnClickListener(listener);
-        tvMarmitas.setOnClickListener(listener);
-        tvFavoritos.setOnClickListener(listener);
-    }
-
-    private void setupBottomMenuClicks() {
-        iconHome.setOnClickListener(v -> Toast.makeText(this, "Início", Toast.LENGTH_SHORT).show());
-        iconFavorite.setOnClickListener(v -> Toast.makeText(this, "Favoritos", Toast.LENGTH_SHORT).show());
-        iconCart.setOnClickListener(v -> Toast.makeText(this, "Carrinho", Toast.LENGTH_SHORT).show());
-        iconHistory.setOnClickListener(v -> Toast.makeText(this, "Histórico", Toast.LENGTH_SHORT).show());
-        iconProfile.setOnClickListener(v -> Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show());
-    }
-
-    // Apenas para exemplo visual
-    private void addMockProducts() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-
-        for (int i = 0; i < 4; i++) {
-            View card = inflater.inflate(R.layout.produtos_card, containerProdutos, false);
-
-            TextView nome = card.findViewById(R.id.txtNomeProduto);
-            TextView preco = card.findViewById(R.id.txtPrecoProduto);
-
-            nome.setText("Produto " + (i + 1));
-            preco.setText("R$ " + (10 + i * 2) + ",00");
-
-            containerProdutos.addView(card);
+        // (Opcional) Proteção extra de debug
+        if (recyclerProdutos == null) {
+            throw new IllegalStateException("activity_main.xml precisa ter RecyclerView com id @id/recyclerProdutos");
         }
+        if (btnCarrinho == null) {
+            throw new IllegalStateException("activity_main.xml precisa ter ImageView com id @id/btnCarrinho");
+        }
+
+        // 2) LayoutManager
+        recyclerProdutos.setLayoutManager(new GridLayoutManager(this, 2));
+
+        // 3) Adapter com os listeners (abrir detalhe e adicionar ao carrinho)
+        adapter = new ProdutoClienteAdapter(
+                this,
+                listaProdutos,
+                // openListener -> ABRIR DETALHES
+                produto -> {
+                    Intent it = new Intent(MainActivity.this, DetalheProdutoActivity.class);
+                    it.putExtra("produto_nome",      produto.getNome());
+                    it.putExtra("produto_preco",     produto.getPreco());
+                    it.putExtra("produto_descricao", produto.getDescricao());
+                    it.putExtra("produto_imagem",    produto.getImagemUrl());
+                    startActivity(it);
+                },
+                // addListener -> ADICIONAR AO CARRINHO
+                produto -> {
+                    CartManager.addItem(this, produto);
+                    Toast.makeText(this, "Adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
+                }
+        );
+        recyclerProdutos.setAdapter(adapter);
+
+        // 4) Botão do carrinho
+        btnCarrinho.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, CarrinhoActivity.class))
+        );
+
+        // 5) Carregar produtos da API
+        carregarProdutos();
+    }
+
+    private void carregarProdutos() {
+        ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
+        Call<List<ProductDto>> call = apiService.getProdutos();
+
+        call.enqueue(new Callback<List<ProductDto>>() {
+            @Override
+            public void onResponse(Call<List<ProductDto>> call, Response<List<ProductDto>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listaProdutos.clear();
+                    listaProdutos.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(MainActivity.this, "Falha ao carregar produtos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductDto>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Erro de conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

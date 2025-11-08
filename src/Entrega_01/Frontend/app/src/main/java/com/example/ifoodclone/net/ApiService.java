@@ -9,7 +9,6 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -28,8 +27,7 @@ public interface ApiService {
 
     // 🛍️ Produtos
     @GET("/products")
-    Call<List<ProductDto>> getProdutos();
-
+    Call<List<ProductDto>> getProdutos(); // ✅ nome ajustado
 
     @Multipart
     @POST("/admin/product")
@@ -39,7 +37,6 @@ public interface ApiService {
             @Part("description") RequestBody description,
             @Part MultipartBody.Part image
     );
-
 
     // 🎟️ Cupons
     @GET("/cupons")
@@ -66,8 +63,4 @@ public interface ApiService {
             @Part("description") RequestBody description,
             @Part MultipartBody.Part image
     );
-
-
-
-
 }

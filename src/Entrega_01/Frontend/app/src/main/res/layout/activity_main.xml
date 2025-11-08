@@ -8,175 +8,176 @@
     android:background="#F2E2E2"
     tools:context=".activity.MainActivity">
 
-    <!-- LOGO -->
+    <!-- Logo superior -->
     <ImageView
         android:id="@+id/logoImage"
-        android:layout_width="133dp"
-        android:layout_height="129dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="160dp"
+        android:layout_height="70dp"
         android:src="@drawable/logo"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
-    <!-- CAMPO DE PESQUISA -->
+    <!-- Barra de pesquisa -->
     <LinearLayout
-        android:id="@+id/searchContainer"
+        android:id="@+id/searchBar"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="16dp"
         android:background="@drawable/bg_search_bar"
-        android:paddingHorizontal="16dp"
-        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/logoImage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="40dp">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
+            android:id="@+id/iconSearch"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/lupa"
-            android:tint="#7B7B7B"/>
+            app:tint="#304A3D"
+            android:contentDescription="Pesquisar" />
 
         <EditText
-            android:id="@+id/editSearch"
+            android:id="@+id/edtSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Pesquisar"
-            android:background="@null"
+            android:hint="Pesquisar produtos..."
+            android:textColorHint="#696969"
+            android:textColor="#000000"
+            android:background="@android:color/transparent"
             android:paddingStart="8dp"
-            android:textColor="#333333"
-            android:textColorHint="#7B7B7B"
             android:inputType="text" />
     </LinearLayout>
 
-    <!-- CATEGORIAS -->
-    <LinearLayout
+    <!-- Categorias -->
+    <HorizontalScrollView
         android:id="@+id/categoryContainer"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/searchContainer"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/searchBar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/tvSalgados"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Salgados"
-            android:textColor="#333"
-            android:textSize="16sp"
-            android:layout_marginEnd="16dp"/>
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
 
-        <TextView
-            android:id="@+id/tvBebidas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bebidas"
-            android:textColor="#333"
-            android:textSize="16sp"
-            android:layout_marginEnd="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salgados"
+                android:textColor="#304A3D"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
 
-        <TextView
-            android:id="@+id/tvMarmitas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Marmitas"
-            android:textColor="#333"
-            android:textSize="16sp"
-            android:layout_marginEnd="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bebidas"
+                android:textColor="#304A3D"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
 
-        <TextView
-            android:id="@+id/tvFavoritos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Favoritos"
-            android:textColor="#1B5E20"
-            android:textStyle="bold"
-            android:textSize="16sp" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marmitas"
+                android:textColor="#304A3D"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
 
-    <!-- CONTAINER DOS PRODUTOS -->
-    <ScrollView
-        android:id="@+id/scrollProdutos"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Favoritos"
+                android:textColor="#304A3D"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Lista de produtos principal -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerProdutos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:paddingHorizontal="12dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/categoryContainer"
         app:layout_constraintBottom_toTopOf="@id/bottomMenu"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/produtos_card" />
 
-        <LinearLayout
-            android:id="@+id/containerProdutos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="8dp">
 
-            <!-- Inclui o card do produto -->
-            <include layout="@layout/produtos_card" />
-            <include layout="@layout/produtos_card" />
-
-        </LinearLayout>
-    </ScrollView>
-
-    <!-- MENU INFERIOR -->
+    <!-- Menu inferior -->
     <LinearLayout
         android:id="@+id/bottomMenu"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="#F2E2E2"
-        android:gravity="center"
+        android:layout_height="65dp"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#304A3D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:id="@+id/iconHome"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginHorizontal="16dp"
+            android:id="@+id/btnHome"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/home"
-            android:tint="#7B7B7B" />
+            android:layout_marginHorizontal="20dp"
+            app:tint="#F2E2E2"
+            android:contentDescription="Home" />
 
         <ImageView
-            android:id="@+id/iconFavorite"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginHorizontal="16dp"
+            android:id="@+id/btnFavoritos"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/favoritos"
-            android:tint="#7B7B7B" />
+            android:layout_marginHorizontal="20dp"
+            app:tint="#F2E2E2"
+            android:contentDescription="Favoritos" />
 
         <ImageView
-            android:id="@+id/iconCart"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginHorizontal="16dp"
+            android:id="@+id/btnCarrinho"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/carrinho"
-            android:tint="#7B7B7B" />
+            app:tint="#F2E2E2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="16dp"/>
 
         <ImageView
-            android:id="@+id/iconHistory"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginHorizontal="16dp"
+            android:id="@+id/btnHistorico"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/historico"
-            android:tint="#7B7B7B" />
+            android:layout_marginHorizontal="20dp"
+            app:tint="#F2E2E2"
+            android:contentDescription="Histórico" />
 
         <ImageView
-            android:id="@+id/iconProfile"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginHorizontal="16dp"
+            android:id="@+id/btnPerfil"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/perfil"
-            android:tint="#7B7B7B" />
-
+            android:layout_marginHorizontal="20dp"
+            app:tint="#F2E2E2"
+            android:contentDescription="Perfil" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

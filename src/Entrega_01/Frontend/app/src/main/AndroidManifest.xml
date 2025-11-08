@@ -36,6 +36,10 @@
         <activity android:name=".activity.DashboardActivity" />
         <activity android:name=".activity.ListarProdutosActivity" />
         <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.CarrinhoActivity" />
+        <activity android:name=".activity.DetalheProdutoActivity" />
+        <activity android:name=".activity.PagamentoPixActivity" />
+
 
     </application>
 
