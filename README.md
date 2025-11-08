@@ -165,8 +165,7 @@ Coloque código do prompt de comnando se for necessário
 ```
 
 ## 📋 Licença/License
-Utilize o link <https://chooser-beta.creativecommons.org/> para fazer uma licença CC BY 4.0.
-
+Comedoria da Tia © 2025 by Esther Oliveira Costa,Fernanda Loura da Silva, Higor Luiz Fonseca dos Santos, João Victor de Faria Santana, Thiffany Morais Vieira da Silva is licensed under CC BY 4.0. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/
 ## 🎓 Referências
 
 Aqui estão as referências usadas no projeto.
