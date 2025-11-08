@@ -25,7 +25,7 @@
 
 ## 1. Apresentação do Projeto
 
-Link Figma: https://www.figma.com/design/CelPnsa0C4rpSmoQcvDNiM/Comedoria-da-Tia-prototipe?node-id=0-1&p=f
+[Figma](https://www.figma.com/design/CelPnsa0C4rpSmoQcvDNiM/Comedoria-da-Tia-prototipe?node-id=0-1&p=)
 
 A **Comedoria da Tia** é a cantina da FECAP responsável por atender os alunos nos intervalos da manhã e no horário de almoço. Atualmente, os processos de atendimento enfrentam desafios relacionados ao tempo limitado para a realização de pedidos, sobretudo devido às filas no caixa, que comprometem o tempo dos estudantes para suas refeições.
 
