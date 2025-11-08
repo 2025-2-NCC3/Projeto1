@@ -13,8 +13,40 @@
 
 # COMEDORIA DA TIA
 
-## Integrantes: <a href="https://www.linkedin.com/in/estherolvr//">Esther Oliveira Costa </a>, <a href="https://www.linkedin.com/in/fernandaloura/">Fernanda Loura Da Silva</a>, <a href="https://www.linkedin.com/in/higor-fonseca-santos/">Higor Fonseca </a>, <a href="https://www.linkedin.com/in/joaovictordefaria/">João Victor de Faria</a>, <a href="https://www.linkedin.com/in/thiffany-morais/">Thiffany Morais
- </a>
+## 👥 Integrantes do Projeto
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/estherolvr/">
+        <img src="https://img.shields.io/badge/-Esther_Oliviera_Costa-0077B5?style=for-the-badge&logo=Linkedin&logoColor=white&labelColor=0A66C2"/>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/fernandaloura/">
+        <img src="https://img.shields.io/badge/-Fernanda_Loura_Da_Silva-0077B5?style=for-the-badge&logo=Linkedin&logoColor=white&labelColor=0A66C2"/>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/higor-fonseca-santos/">
+        <img src="https://img.shields.io/badge/-Higor_Fonseca-0077B5?style=for-the-badge&logo=Linkedin&logoColor=white&labelColor=0A66C2"/>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/joaovictordefaria/">
+        <img src="https://img.shields.io/badge/-João_Victor_de_Faria-0077B5?style=for-the-badge&logo=Linkedin&logoColor=white&labelColor=0A66C2"/>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://www.linkedin.com/in/thiffany-morais/">
+        <img src="https://img.shields.io/badge/-Thiffany_Morais-0077B5?style=for-the-badge&logo=Linkedin&logoColor=white&labelColor=0A66C2"/>
+      </a>
+    </td>
+    <td></td>
+  </tr>
+</table>
 
 ## Professores Orientadores: 
 - [Katia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi/)  
