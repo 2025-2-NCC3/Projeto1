@@ -67,56 +67,40 @@ Diante desse cenário, propõe-se o desenvolvimento de um aplicativo mobile com 
 
 ## 🛠 Estrutura de pastas
 
-
-📁 Projeto Interdisciplinar
-│
-├── 📁 documentos/
-│   ├── 📁 entrega-1/
-│   │   ├── 📄 Projeto Interdisciplinar - Entrega 1.pdf
-│   │   ├── 📄 Programação Orientada a Objetos - Entrega 1.pdf
-│   │   ├── 📄 Programação para Dispositivos Móveis - Entrega 1.pdf
-│   │   └── 📄 Análise Descritiva de Dados - Entrega 1.pdf
-│   │
-│   └── 📁 entrega-2/
-│       ├── 📄 Projeto Interdisciplinar - Entrega 2.pdf
-│       ├── 📄 Programação Orientada a Objetos - Entrega 2.pdf
-│       ├── 📄 Programação para Dispositivos Móveis - Entrega 2.pdf
-│       └── 📄 Análise Descritiva de Dados - Entrega 2.pdf
-│
-├── 📁 executaveis/
-│   └── 📁 apk/
-│       └── 📱 app-release.apk
-│
-├── 📁 imagens/
-│   └── 🖼️ logo.png
-│
-├── 📁 src/
-│   ├── 📁 entrega-1/
-│   │   ├── 📁 backend/
-│   │   └── 📁 frontend/
-│   │
-│   └── 📁 entrega-2/
-│       ├── 📁 frontend/
-│       └── 📁 backend/
-│
+📁 Projeto Interdisciplinar  
+│  
+├── 📁 documentos/  
+│   ├── 📁 entrega-1/  
+│   │   ├── 📄 Projeto Interdisciplinar - Entrega 1.pdf  
+│   │   ├── 📄 Programação Orientada a Objetos - Entrega 1.pdf  
+│   │   ├── 📄 Programação para Dispositivos Móveis - Entrega 1.pdf  
+│   │   └── 📄 Análise Descritiva de Dados - Entrega 1.pdf  
+│   │  
+│   └── 📁 entrega-2/  
+│       ├── 📄 Projeto Interdisciplinar - Entrega 2.pdf  
+│       ├── 📄 Programação Orientada a Objetos - Entrega 2.pdf  
+│       ├── 📄 Programação para Dispositivos Móveis - Entrega 2.pdf  
+│       └── 📄 Análise Descritiva de Dados - Entrega 2.pdf  
+│  
+├── 📁 executaveis/  
+│   └── 📁 apk/  
+│       └── 📱 app-release.apk  
+│  
+├── 📁 imagens/  
+│   └── 🖼️ logo.png  
+│  
+├── 📁 src/  
+│   ├── 📁 entrega-1/  
+│   │   ├── 📁 backend/  
+│   │   └── 📁 frontend/  
+│   │  
+│   └── 📁 entrega-2/  
+│       ├── 📁 frontend/  
+│       └── 📁 backend/  
+│  
 └── 📄 README.md
 
-A pasta raiz contem dois arquivos que devem ser alterados:
-
-<b>README.MD</b>: Arquivo que serve como guia e explicação geral sobre seu projeto. O mesmo que você está lendo agora.
-
-Há também 4 pastas que seguem da seguinte forma:
-
-<b>documentos</b>: Toda a documentação estará nesta pasta.
-
-<b>executáveis</b>: Binários e executáveis do projeto devem estar nesta pasta.
-
-<b>imagens</b>: Imagens do sistema
-
-<b>src</b>: Pasta que contém o código fonte.
-
 ---
-
 ## 🎯 2. Objetivos
 
 ### Objetivo Geral  
