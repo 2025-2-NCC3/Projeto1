@@ -99,8 +99,7 @@ Diante desse cenário, propõe-se o desenvolvimento de um aplicativo mobile com 
 │       └── 📁 backend/  
 │  
 └── 📄 README.md
-
----
+```
 ## 🎯 2. Objetivos
 
 ### Objetivo Geral  
