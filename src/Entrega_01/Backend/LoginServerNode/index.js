@@ -6,6 +6,7 @@ const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
 const app = express();
@@ -14,6 +15,7 @@ const JWT_SECRET = "sua_chave_secreta_aqui"; // troque para algo seguro
 
 // Conecta ao banco SQLite
 const db = new Database('./user.db');
+db.pragma('foreign_keys = ON');
 
 // Middleware
 app.use(express.json());
@@ -55,9 +57,19 @@ db.prepare(`
     name TEXT NOT NULL,
     price REAL NOT NULL,
     description TEXT,
-    image_url TEXT
+    image_url TEXT,
+    deleted INTEGER DEFAULT 0
   )
 `).run();
+
+// 🔧 Migração: garante a coluna "deleted" se a tabela product já existia sem ela
+(function ensureProductDeletedColumn() {
+  const cols = db.prepare(`PRAGMA table_info(product)`).all();
+  const hasDeleted = cols.some(c => c.name === 'deleted');
+  if (!hasDeleted) {
+    db.prepare(`ALTER TABLE product ADD COLUMN deleted INTEGER DEFAULT 0`).run();
+  }
+})();
 
 db.prepare(`
   CREATE TABLE IF NOT EXISTS orders (
@@ -121,6 +133,18 @@ function authenticateToken(req, res, next) {
   });
 }
 
+// ====================== HELPERS ======================
+function unlinkIfLocal(image_url) {
+  try {
+    if (!image_url) return;
+    const rel = image_url.startsWith('/') ? image_url.slice(1) : image_url;
+    const full = path.join(__dirname, rel);
+    if (fs.existsSync(full)) fs.unlinkSync(full);
+  } catch (e) {
+    console.warn('⚠️ Falha ao remover imagem:', e.message);
+  }
+}
+
 // ====================== ROTAS USUÁRIO ======================
 
 // Cadastro de usuário
@@ -173,10 +197,22 @@ app.post('/login', async (req, res) => {
 
 // ====================== ROTAS PRODUTOS ======================
 
-// Listar produtos
+// Listar produtos (somente ativos)
 app.get('/products', (req, res) => {
   try {
-    const products = db.prepare('SELECT * FROM product').all();
+    const products = db.prepare('SELECT * FROM product WHERE deleted = 0 ORDER BY id DESC').all();
+    res.json(products);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal server error");
+  }
+});
+
+// (Opcional) Lista completa para admin (inclui arquivados)
+app.get('/admin/products', authenticateToken, (req, res) => {
+  if (!req.user.is_admin) return res.status(403).send("Access denied");
+  try {
+    const products = db.prepare('SELECT * FROM product ORDER BY id DESC').all();
     res.json(products);
   } catch (err) {
     console.error(err);
@@ -194,8 +230,10 @@ app.post('/admin/product', authenticateToken, upload.single('image'), (req, res)
   const image_url = req.file ? `/uploads/${req.file.filename}` : null;
 
   try {
-    db.prepare('INSERT INTO product (name, price, description, image_url) VALUES (?, ?, ?, ?)')
-      .run(name, price, description, image_url);
+    db.prepare(`
+      INSERT INTO product (name, price, description, image_url, deleted)
+      VALUES (?, ?, ?, ?, 0)
+    `).run(name, price, description, image_url);
 
     res.status(201).send({ message: "Product created successfully", image_url });
   } catch (err) {
@@ -235,7 +273,22 @@ app.put('/admin/product/:id', authenticateToken, upload.single('image'), (req, r
   }
 });
 
-// Deletar produto
+// Restaurar produto arquivado (opcional)
+app.put('/admin/product/:id/restore', authenticateToken, (req, res) => {
+  if (!req.user.is_admin) return res.status(403).send("Access denied");
+  const { id } = req.params;
+  try {
+    const p = db.prepare('SELECT * FROM product WHERE id = ?').get(id);
+    if (!p) return res.status(404).send("Product not found");
+    db.prepare('UPDATE product SET deleted = 0 WHERE id = ?').run(id);
+    res.send("✅ Product restored");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal server error");
+  }
+});
+
+// Deletar (hard) ou arquivar (soft) produto
 app.delete('/admin/product/:id', authenticateToken, (req, res) => {
   if (!req.user.is_admin) return res.status(403).send("Access denied");
 
@@ -244,6 +297,19 @@ app.delete('/admin/product/:id', authenticateToken, (req, res) => {
     const product = db.prepare('SELECT * FROM product WHERE id = ?').get(id);
     if (!product) return res.status(404).send("Product not found");
 
+    const usage = db.prepare('SELECT COUNT(*) AS cnt FROM order_items WHERE product_id = ?').get(id);
+
+    if (usage.cnt > 0) {
+      // ✅ Soft delete: some da vitrine mas preserva histórico dos pedidos
+      db.prepare('UPDATE product SET deleted = 1 WHERE id = ?').run(id);
+      return res.status(200).json({
+        archived: true,
+        message: "Product archived (it has past orders)."
+      });
+    }
+
+    // Hard delete (nunca usado): remove imagem e apaga o registro
+    unlinkIfLocal(product.image_url);
     db.prepare('DELETE FROM product WHERE id = ?').run(id);
     res.send("🗑️ Product deleted successfully");
   } catch (err) {
@@ -253,7 +319,6 @@ app.delete('/admin/product/:id', authenticateToken, (req, res) => {
 });
 
 // ====================== CHECKOUT / PEDIDOS ======================
-
 app.post('/checkout', authenticateToken, (req, res) => {
   const { user_id, items } = req.body;
   if (req.user.id !== user_id) return res.status(403).send("Access denied");
@@ -279,7 +344,8 @@ app.post('/checkout', authenticateToken, (req, res) => {
     const itemStmt = db.prepare('INSERT INTO order_items (order_id, product_id, quantity, subtotal) VALUES (?, ?, ?, ?)');
     const insertItems = db.transaction((items) => {
       for (const item of items) {
-        const subtotal = db.prepare('SELECT price FROM product WHERE id = ?').get(item.product_id).price * item.quantity;
+        const price = db.prepare('SELECT price FROM product WHERE id = ?').get(item.product_id).price;
+        const subtotal = price * item.quantity;
         itemStmt.run(orderId, item.product_id, item.quantity, subtotal);
       }
     });
@@ -287,7 +353,7 @@ app.post('/checkout', authenticateToken, (req, res) => {
 
     // Atualiza cupons/rewards
     const user = db.prepare('SELECT coupon_count FROM user WHERE id = ?').get(user_id);
-    let newCoupons = user.coupon_count + 1;
+    let newCoupons = (user?.coupon_count ?? 0) + 1;
     db.prepare('UPDATE user SET coupon_count = ? WHERE id = ?').run(newCoupons, user_id);
 
     if (newCoupons >= 10) {
@@ -325,7 +391,6 @@ app.get('/orders', authenticateToken, (req, res) => {
 });
 
 // ====================== ADMIN - PEDIDOS ======================
-
 app.get('/admin/orders', authenticateToken, (req, res) => {
   if (!req.user.is_admin) return res.status(403).send("Access denied");
 
@@ -384,7 +449,7 @@ app.get('/admin/report', authenticateToken, (req, res) => {
   }
 });
 
-// ====================== PERFIL DO USUÁRIO LOGADO (NOVO) ======================
+// ====================== PERFIL DO USUÁRIO LOGADO ======================
 app.get('/me', authenticateToken, (req, res) => {
   try {
     const u = db.prepare(`
