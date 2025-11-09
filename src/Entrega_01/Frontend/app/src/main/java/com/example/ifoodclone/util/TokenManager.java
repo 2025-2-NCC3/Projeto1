@@ -18,6 +18,11 @@ public class TokenManager {
         return prefs.getString(KEY_TOKEN, null);
     }
 
+    public static boolean hasToken(Context context) {
+        String t = getToken(context);
+        return t != null && !t.trim().isEmpty();
+    }
+
     public static void clearToken(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         prefs.edit().remove(KEY_TOKEN).apply();

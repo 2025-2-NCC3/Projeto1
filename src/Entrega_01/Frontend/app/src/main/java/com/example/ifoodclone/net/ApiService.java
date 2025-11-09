@@ -15,6 +15,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Header;
 
 public interface ApiService {
 
@@ -25,9 +26,19 @@ public interface ApiService {
     @POST("user")
     Call<Void> register(@Body RegisterRequest request);
 
-    // 🛍️ Produtos
+    // 👤 Perfil (bate com seu server.js: GET /me e PUT /me)
+    @GET("/me")
+    Call<UserDto> getMeuPerfil(@Header("Authorization") String bearerToken);
+
+    @PUT("/me")
+    Call<UserDto> updateMeuPerfil(
+            @Header("Authorization") String bearerToken,
+            @Body UpdateUserRequest body
+    );
+
+    // 🛍️ Produtos (mantidos como você tinha)
     @GET("/products")
-    Call<List<ProductDto>> getProdutos(); // ✅ nome ajustado
+    Call<List<ProductDto>> getProdutos();
 
     @Multipart
     @POST("/admin/product")
@@ -38,7 +49,7 @@ public interface ApiService {
             @Part MultipartBody.Part image
     );
 
-    // 🎟️ Cupons
+    // 🎟️ Cupons (mantido para não quebrar sua CuponsActivity)
     @GET("/cupons")
     Call<List<CouponDto>> getCoupons();
 

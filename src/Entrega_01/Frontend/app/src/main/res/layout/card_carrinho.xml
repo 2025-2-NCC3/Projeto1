@@ -81,7 +81,7 @@
                 android:gravity="center"
                 android:text="x1"
                 android:textColor="#000000"
-                android:textSize="16sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <ImageButton

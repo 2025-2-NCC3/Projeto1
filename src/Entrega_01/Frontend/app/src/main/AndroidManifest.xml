@@ -18,6 +18,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <!-- Activity inicial (launcher) -->
         <activity
             android:name=".activity.IndexActivity"
             android:exported="true">
@@ -27,6 +28,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Demais telas (sem intent-filter não precisam de exported) -->
         <activity android:name=".activity.HomeTiaActivity" />
         <activity android:name=".activity.AuthenticationActivity" android:exported="false" />
         <activity android:name=".activity.SplashActivity" android:exported="false" />
@@ -40,6 +42,8 @@
         <activity android:name=".activity.DetalheProdutoActivity" />
         <activity android:name=".activity.PagamentoPixActivity" />
 
+        <!-- NOVA: Tela de Perfil (telaperfil.xml via setContentView) -->
+        <activity android:name=".activity.PerfilActivity" />
 
     </application>
 

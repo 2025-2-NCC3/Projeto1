@@ -5,101 +5,187 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/perfil_fundo">
+    android:background="@drawable/perfil_fundo"
+    tools:context=".activity.PerfilActivity">
 
-    <!-- Campo Nome -->
+    <!-- Avatar -->
     <ImageView
         android:id="@+id/imgPerfil"
-        android:layout_width="190dp"
-        android:layout_height="152dp"
+        android:layout_width="210dp"
+        android:layout_height="169dp"
+        android:layout_marginTop="32dp"
         android:src="@drawable/usuario"
-        tools:layout_editor_absoluteX="116dp"
-        tools:layout_editor_absoluteY="66dp" />
+        android:contentDescription="@string/app_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/inputNome"
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tituloPerfil"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="40dp"
-        android:hint="Nome"
-        android:background="@drawable/caixa_input"
-        android:paddingStart="16dp"
-        android:textColor="#000"
-        android:textColorHint="#666"
+        android:layout_height="wrap_content"
+        android:text="Edite seu perfil"
+        android:textColor="#1E1E1E"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/imgPerfil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Campo Email -->
+    <!-- Subtítulo -->
+    <TextView
+        android:id="@+id/subtituloPerfil"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Atualize seu nome, e-mail e senha com segurança."
+        android:textColor="#606060"
+        android:textSize="14sp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/tituloPerfil"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Barrinha -->
+    <View
+        android:id="@+id/barraDecor"
+        android:layout_width="64dp"
+        android:layout_height="4dp"
+        android:background="#304A3D"
+        android:alpha="0.9"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/subtituloPerfil"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nome (label) -->
+    <TextView
+        android:id="@+id/lblNome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nome"
+        android:textColor="#222"
+        android:textStyle="bold"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/barraDecor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nome (input) -->
     <EditText
-        android:id="@+id/inputEmail"
+        android:id="@+id/inputNome"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="40dp"
-        android:hint="E-mail"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/caixa_input"
+        android:hint="Ex.: Maria Silva"
+        android:inputType="textPersonName"
+        android:imeOptions="actionNext"
+        android:autofillHints="name"
         android:paddingStart="16dp"
-        android:inputType="textEmailAddress"
         android:textColor="#000"
         android:textColorHint="#666"
+        app:layout_constraintTop_toBottomOf="@id/lblNome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- E-mail (label) -->
+    <TextView
+        android:id="@+id/lblEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="E-mail"
+        android:textColor="#222"
+        android:textStyle="bold"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/inputNome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Campo Senha -->
+    <!-- E-mail (input) -->
     <EditText
-        android:id="@+id/inputSenha"
+        android:id="@+id/inputEmail"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="40dp"
-        android:hint="Senha"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/caixa_input"
+        android:hint="Ex.: maria@exemplo.com"
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionNext"
+        android:autofillHints="emailAddress"
         android:paddingStart="16dp"
-        android:inputType="textPassword"
         android:textColor="#000"
         android:textColorHint="#666"
+        app:layout_constraintTop_toBottomOf="@id/lblEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Senha (label) -->
+    <TextView
+        android:id="@+id/lblSenha"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Senha (opcional)"
+        android:textColor="#222"
+        android:textStyle="bold"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/inputEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Botão de salvar -->
-
-    <!-- MENU INFERIOR -->
-
+    <!-- Senha (input) -->
     <EditText
-        android:id="@+id/inputSenha2"
+        android:id="@+id/inputSenha"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="6dp"
         android:background="@drawable/caixa_input"
-        android:hint="Senha"
+        android:hint="Mín. 6 caracteres (deixe vazio para manter)"
         android:inputType="textPassword"
+        android:imeOptions="actionDone"
+        android:autofillHints="password"
         android:paddingStart="16dp"
         android:textColor="#000"
         android:textColorHint="#666"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lblSenha"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputEmail" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Botão Salvar -->
     <Button
         android:id="@+id/btnSalvar"
         android:layout_width="200dp"
         android:layout_height="48dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="64dp"
         android:backgroundTint="#304A3D"
         android:text="Salvar alterações"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintTop_toBottomOf="@id/inputSenha"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputSenha" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomMenu" />
 
+    <!-- Menu inferior -->
     <LinearLayout
         android:id="@+id/bottomMenu"
         android:layout_width="0dp"

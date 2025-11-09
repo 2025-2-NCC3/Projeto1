@@ -52,7 +52,7 @@
             android:orientation="vertical"/>
     </ScrollView>
 
-    <!-- SEÇÃO PAGAMENTO -->
+    <!-- SEÇÃO PAGAMENTO (acima do bottomMenu) -->
     <LinearLayout
         android:id="@+id/secaoPagamento"
         android:layout_width="0dp"
@@ -120,18 +120,62 @@
             android:textSize="18sp"/>
     </LinearLayout>
 
-    <!-- MENU INFERIOR -->
+    <!-- ==== BOTTOM MENU (IGUAL AO DA MAIN) ==== -->
     <LinearLayout
         android:id="@+id/bottomMenu"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="#E9DADA"
-        android:gravity="center"
+        android:layout_height="65dp"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#304A3D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-        <!-- ... seus ícones ... -->
+
+        <ImageView
+            android:id="@+id/btnHome"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/home"
+            android:layout_marginHorizontal="20dp"
+            app:tint="#F2E2E2"
+            android:contentDescription="Home" />
+
+        <ImageView
+            android:id="@+id/btnFavoritos"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/favoritos"
+            android:layout_marginHorizontal="20dp"
+            app:tint="#F2E2E2"
+            android:contentDescription="Favoritos" />
+
+        <ImageView
+            android:id="@+id/btnCarrinho"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/carrinho"
+            app:tint="#F2E2E2"
+            android:layout_margin="16dp"/>
+
+        <ImageView
+            android:id="@+id/btnHistorico"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/historico"
+            android:layout_marginHorizontal="20dp"
+            app:tint="#F2E2E2"
+            android:contentDescription="Histórico" />
+
+        <ImageView
+            android:id="@+id/btnPerfil"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/perfil"
+            android:layout_marginHorizontal="20dp"
+            app:tint="#F2E2E2"
+            android:contentDescription="Perfil" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

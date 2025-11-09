@@ -23,7 +23,7 @@ import java.util.List;
 
 public class CarrinhoActivity extends AppCompatActivity {
 
-    private LinearLayout containerCarrinho;   // <- onde os cards serão adicionados
+    private LinearLayout containerCarrinho;   // onde os cards serão adicionados
     private TextView valorTotal;
     private Button btnPagarPix, btnCancelar;
 
@@ -32,6 +32,9 @@ public class CarrinhoActivity extends AppCompatActivity {
 
     private double totalCarrinho = 0.0;
 
+    // Bottom bar
+    private ImageView btnHome, btnFavoritos, btnCarrinho, btnHistorico, btnPerfil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +42,16 @@ public class CarrinhoActivity extends AppCompatActivity {
 
         // Views principais
         containerCarrinho = findViewById(R.id.containerCarrinho);
-        valorTotal       = findViewById(R.id.valorTotal);
-        btnPagarPix      = findViewById(R.id.btnPagarPix);
-        btnCancelar      = findViewById(R.id.btnCancelar);
+        valorTotal        = findViewById(R.id.valorTotal);
+        btnPagarPix       = findViewById(R.id.btnPagarPix);
+        btnCancelar       = findViewById(R.id.btnCancelar);
+
+        // Bottom bar views
+        btnHome      = findViewById(R.id.btnHome);
+        btnFavoritos = findViewById(R.id.btnFavoritos);
+        btnCarrinho  = findViewById(R.id.btnCarrinho);
+        btnHistorico = findViewById(R.id.btnHistorico);
+        btnPerfil    = findViewById(R.id.btnPerfil);
 
         apiService = ApiClient.getClient(this).create(ApiService.class);
 
@@ -49,7 +59,6 @@ public class CarrinhoActivity extends AppCompatActivity {
         itensCarrinho = CartManager.getItems(this);
 
         if (itensCarrinho == null || itensCarrinho.isEmpty()) {
-            // Mesmo vazio, deixamos a tela carregada para o usuário ver o total = 0
             Toast.makeText(this, "Seu carrinho está vazio.", Toast.LENGTH_SHORT).show();
             atualizarTotal(); // mostra R$ 0,00
         } else {
@@ -59,23 +68,53 @@ public class CarrinhoActivity extends AppCompatActivity {
         // Ações
         btnCancelar.setOnClickListener(v -> {
             CartManager.clearCart(CarrinhoActivity.this);
-            itensCarrinho.clear();
-            preencherCarrinho(); // limpa a lista na UI também
+            if (itensCarrinho != null) itensCarrinho.clear();
+            preencherCarrinho(); // redesenha a lista (fica vazio)
             Toast.makeText(CarrinhoActivity.this, "Carrinho cancelado.", Toast.LENGTH_SHORT).show();
         });
 
         btnPagarPix.setOnClickListener(v -> enviarPedidoBackend());
+
+        // ===== Navegação bottom bar (mesmo padrão da Main) =====
+        if (btnHome != null) {
+            btnHome.setOnClickListener(v ->
+                    startActivity(new Intent(CarrinhoActivity.this, MainActivity.class))
+            );
+        }
+        if (btnFavoritos != null) {
+            btnFavoritos.setOnClickListener(v ->
+                            Toast.makeText(CarrinhoActivity.this, "Favoritos em breve ;)", Toast.LENGTH_SHORT).show()
+                    // Se tiver Activity de Favoritos:
+                    // startActivity(new Intent(CarrinhoActivity.this, FavoritosActivity.class));
+            );
+        }
+        if (btnCarrinho != null) {
+            btnCarrinho.setOnClickListener(v -> {
+                // já está nesta tela: pode ignorar ou dar um feedback
+                Toast.makeText(CarrinhoActivity.this, "Você já está no carrinho", Toast.LENGTH_SHORT).show();
+            });
+        }
+        if (btnHistorico != null) {
+            btnHistorico.setOnClickListener(v ->
+                            Toast.makeText(CarrinhoActivity.this, "Histórico em breve ;)", Toast.LENGTH_SHORT).show()
+                    // Se tiver Activity de Histórico:
+                    // startActivity(new Intent(CarrinhoActivity.this, HistoricoActivity.class));
+            );
+        }
+        if (btnPerfil != null) {
+            btnPerfil.setOnClickListener(v ->
+                    startActivity(new Intent(CarrinhoActivity.this, PerfilActivity.class))
+            );
+        }
     }
 
-    /**
-     * Popula a lista de cards com os produtos do carrinho.
-     * Usa o containerCarrinho (LinearLayout vertical dentro de um ScrollView).
-     */
     private void preencherCarrinho() {
         if (containerCarrinho == null) return;
 
         containerCarrinho.removeAllViews();
         totalCarrinho = 0.0;
+
+        if (itensCarrinho == null) return;
 
         for (int i = 0; i < itensCarrinho.size(); i++) {
             ProductDto produto = itensCarrinho.get(i);
@@ -152,10 +191,6 @@ public class CarrinhoActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Envia o pedido ao backend e abre a tela do Pix.
-     * (mantido simples; integre OrderDto aqui quando desejar)
-     */
     private void enviarPedidoBackend() {
         if (itensCarrinho == null || itensCarrinho.isEmpty()) {
             Toast.makeText(this, "Seu carrinho está vazio.", Toast.LENGTH_SHORT).show();

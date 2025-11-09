@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private ProdutoClienteAdapter adapter;
     private final List<ProductDto> listaProdutos = new ArrayList<>();
     private ImageView btnCarrinho;
+    private ImageView btnPerfil; // <- adicionado
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         // 1) Vincula as views do layout
         recyclerProdutos = findViewById(R.id.recyclerProdutos);
-        btnCarrinho = findViewById(R.id.btnCarrinho);
+        btnCarrinho      = findViewById(R.id.btnCarrinho);
+        btnPerfil        = findViewById(R.id.btnPerfil); // <- adicionado
 
         // (Opcional) Proteção extra de debug
         if (recyclerProdutos == null) {
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (btnCarrinho == null) {
             throw new IllegalStateException("activity_main.xml precisa ter ImageView com id @id/btnCarrinho");
+        }
+        if (btnPerfil == null) {
+            throw new IllegalStateException("activity_main.xml precisa ter ImageView com id @id/btnPerfil");
         }
 
         // 2) LayoutManager
@@ -74,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
         // 4) Botão do carrinho
         btnCarrinho.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, CarrinhoActivity.class))
+        );
+
+        // 4.1) Botão do perfil
+        btnPerfil.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, PerfilActivity.class))
         );
 
         // 5) Carregar produtos da API
