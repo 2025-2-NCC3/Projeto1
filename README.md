@@ -1,6 +1,10 @@
 # FECAP - Fundação de Comércio Álvares Penteado
 
+<p align="center">
+  <img src="https://camo.githubusercontent.com/f792fb9773905cab093295f28e2251e854dec3210920fb641c8acaab068f701c/68747470733a2f2f656e637279707465642d74626e302e677374617469632e636f6d2f696d616765733f713d74626e3a414e6439476352685a5072526138394b6d61305a5a6f67786d3070692d74436e5f544c4b65484756787977702d4c584146475233423144506f75414a5948674b5a4756305854456634414526757371703d434155" alt="FECAP Logo" width="200">
+</p>
 
+# COMEDORIA DA TIA
 
 <p align="center">
   <img src="https://drive.google.com/uc?id=1yB-8CKtsZeu8x2ej59s_lK0ZXqzW24wI" alt="Imagem 1" width="250">
@@ -9,12 +13,11 @@
   
 </p>
 
-
-
-# COMEDORIA DA TIA
+## Grupo desenvolvedor do aplicativo: TechSnack Dev Team
 
 ## Integrantes: <a href="https://www.linkedin.com/in/estherolvr//">Esther Oliveira Costa </a>, <a href="https://www.linkedin.com/in/fernandaloura/">Fernanda Loura Da Silva</a>, <a href="https://www.linkedin.com/in/higor-fonseca-santos/">Higor Fonseca </a>, <a href="https://www.linkedin.com/in/joaovictordefaria/">João Victor de Faria</a>, <a href="https://www.linkedin.com/in/thiffany-morais/">Thiffany Morais
  </a>
+
 
 ## Professores Orientadores: 
 - [Katia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi/)  

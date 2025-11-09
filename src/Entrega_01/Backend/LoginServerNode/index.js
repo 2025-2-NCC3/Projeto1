@@ -1,3 +1,4 @@
+// server.js (ou index.js)
 const express = require('express');
 const Database = require('better-sqlite3');
 const bcrypt = require('bcrypt');
@@ -115,7 +116,7 @@ function authenticateToken(req, res, next) {
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.status(403).send("Invalid token");
-    req.user = user;
+    req.user = user; // { id, is_admin }
     next();
   });
 }
@@ -126,7 +127,7 @@ function authenticateToken(req, res, next) {
 app.post('/user', async (req, res) => {
   const { username, email, password } = req.body;
   try {
-    if (!email || !password) return res.status(400).send("All fields are required");
+    if (!username || !email || !password) return res.status(400).send("All fields are required");
     if (password.length < 6) return res.status(400).send("Password must be at least 6 characters");
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -156,7 +157,6 @@ app.post('/login', async (req, res) => {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).send("Invalid credentials");
 
-    // Cria JWT
     const token = jwt.sign({ id: user.id, is_admin: isAdmin }, JWT_SECRET, { expiresIn: '12h' });
 
     res.status(200).json({
@@ -384,10 +384,67 @@ app.get('/admin/report', authenticateToken, (req, res) => {
   }
 });
 
+// ====================== PERFIL DO USUÁRIO LOGADO (NOVO) ======================
+app.get('/me', authenticateToken, (req, res) => {
+  try {
+    const u = db.prepare(`
+      SELECT id, username, email, coupon_count, created_at
+      FROM user
+      WHERE id = ?
+    `).get(req.user.id);
+
+    if (!u) return res.status(404).send("User not found");
+    res.json(u);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Internal server error");
+  }
+});
+
+app.put('/me', authenticateToken, async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    const current = db.prepare('SELECT * FROM user WHERE id = ?').get(req.user.id);
+    if (!current) return res.status(404).send("User not found");
+
+    let newUsername = (username ?? current.username)?.trim();
+    let newEmail    = (email ?? current.email)?.trim();
+    let newPwdHash  = current.password;
+
+    if (password && String(password).trim().length > 0) {
+      if (password.length < 6) return res.status(400).send("Password must be at least 6 characters");
+      newPwdHash = await bcrypt.hash(password, 10);
+    }
+
+    if (newEmail !== current.email) {
+      const exists = db.prepare('SELECT id FROM user WHERE email = ?').get(newEmail);
+      if (exists && exists.id !== current.id) {
+        return res.status(400).send("Email already in use");
+      }
+    }
+
+    db.prepare(`
+      UPDATE user
+      SET username = ?, email = ?, password = ?
+      WHERE id = ?
+    `).run(newUsername, newEmail, newPwdHash, req.user.id);
+
+    const updated = db.prepare(`
+      SELECT id, username, email, coupon_count, created_at
+      FROM user
+      WHERE id = ?
+    `).get(req.user.id);
+
+    res.json(updated);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Internal server error");
+  }
+});
+
 // ====================== TESTE ======================
 app.get('/ping', (req, res) => res.send('pong'));
 
 // ====================== INICIALIZAÇÃO ======================
 app.listen(port, () => console.log(`✅ Server started on port ${port}`));
-
-
