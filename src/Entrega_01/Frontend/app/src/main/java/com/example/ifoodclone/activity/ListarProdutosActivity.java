@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ifoodclone.R;
@@ -35,6 +34,9 @@ public class ListarProdutosActivity extends AppCompatActivity {
 
     private static final int REQ_EDIT = 101;
 
+    // trava para evitar múltiplos DELETE simultâneos (e spam de toasts)
+    private String deletingId = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,12 @@ public class ListarProdutosActivity extends AppCompatActivity {
 
             @Override
             public void onExcluir(Product produto) {
-                excluirProduto(String.valueOf(produto.getId()));
+                if (deletingId != null) {
+                    // já existe uma exclusão em andamento
+                    return;
+                }
+                deletingId = String.valueOf(produto.getId());
+                excluirProduto(deletingId);
             }
         });
         recycler.setAdapter(adapter);
@@ -76,8 +83,8 @@ public class ListarProdutosActivity extends AppCompatActivity {
                     data.addAll(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(ListarProdutosActivity.this, "Falha ao carregar produtos ("+response.code()+")", Toast.LENGTH_SHORT).show();
-                    Log.e("API_DEBUG", "GET /products erro: code="+response.code());
+                    Toast.makeText(ListarProdutosActivity.this, "Falha ao carregar produtos (" + response.code() + ")", Toast.LENGTH_SHORT).show();
+                    Log.e("API_DEBUG", "GET /products erro: code=" + response.code());
                 }
             }
 
@@ -93,6 +100,7 @@ public class ListarProdutosActivity extends AppCompatActivity {
         String token = TokenManager.getToken(this);
         if (token == null || token.isEmpty()) {
             Toast.makeText(this, "Sessão expirada. Faça login como admin.", Toast.LENGTH_LONG).show();
+            deletingId = null;
             return;
         }
         String bearer = "Bearer " + token;
@@ -100,17 +108,37 @@ public class ListarProdutosActivity extends AppCompatActivity {
         api.deleteProduto(bearer, id).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+                // libera a trava independentemente do resultado
+                deletingId = null;
+
+                String bodyStr = "";
+                try {
+                    bodyStr = response.errorBody() != null ? response.errorBody().string() : "";
+                } catch (Exception ignored) {}
+
                 if (response.isSuccessful()) {
                     Toast.makeText(ListarProdutosActivity.this, "Produto excluído com sucesso!", Toast.LENGTH_SHORT).show();
                     loadProducts();
+                } else if (response.code() == 409) {
+                    // mapeado no backend quando há referência em order_items
+                    Log.e("API_DEBUG", "DELETE /admin/product/" + id + " code=409 body=" + bodyStr);
+                    Toast.makeText(
+                            ListarProdutosActivity.this,
+                            "Não é possível excluir: produto já foi usado em pedidos.",
+                            Toast.LENGTH_LONG
+                    ).show();
+                } else if (response.code() == 404) {
+                    Toast.makeText(ListarProdutosActivity.this, "Produto não encontrado (já removido).", Toast.LENGTH_SHORT).show();
+                    loadProducts();
                 } else {
-                    Toast.makeText(ListarProdutosActivity.this, "Erro ao excluir ("+response.code()+")", Toast.LENGTH_SHORT).show();
-                    Log.e("API_DEBUG", "DELETE /admin/product/"+id+" code="+response.code());
+                    Log.e("API_DEBUG", "DELETE /admin/product/" + id + " code=" + response.code() + " body=" + bodyStr);
+                    Toast.makeText(ListarProdutosActivity.this, "Erro ao excluir (" + response.code() + ")", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                deletingId = null;
                 Toast.makeText(ListarProdutosActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.e("API_DEBUG", "DELETE /admin/product fail", t);
             }

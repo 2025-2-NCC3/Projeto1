@@ -77,14 +77,14 @@ public interface ApiService {
             @Part MultipartBody.Part image
     );
 
-    // 👑 ADMIN – deletar
+    // 👑 ADMIN – deletar (com header)
     @DELETE("/admin/product/{id}")
     Call<Void> deleteProduto(
             @Header("Authorization") String bearer,
             @Path("id") String id
     );
 
-    // 👑 ADMIN – atualizar
+    // 👑 ADMIN – atualizar (com header)
     @Multipart
     @PUT("/admin/product/{id}")
     Call<ResponseBody> updateProduto(
