@@ -6,9 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E9DADA"
-    tools:context=".CarrinhoActivity">
+    tools:context=".activity.PedidosActivity">
 
-    <!-- Logo da Comedoria -->
+    <!-- Logo -->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="129dp"
@@ -16,11 +16,11 @@
         android:layout_marginTop="50dp"
         android:contentDescription="Logo Comedoria"
         android:src="@drawable/logo"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Abas de navegação -->
+    <!-- Abas -->
     <LinearLayout
         android:id="@+id/abasLayout"
         android:layout_width="wrap_content"
@@ -31,17 +31,6 @@
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/abaPedidos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="Pedidos"
-            android:textColor="#3C3C3C"
-            android:textSize="18sp"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/abaAnteriores"
@@ -55,18 +44,28 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Linha abaixo da aba Pedidos -->
+    <!-- Linha da aba -->
     <View
         android:id="@+id/linhaPedidos"
         android:layout_width="80dp"
         android:layout_height="3dp"
         android:background="#FF4081"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/abaPedidos"
-        app:layout_constraintStart_toStartOf="@id/abaPedidos"
-        app:layout_constraintEnd_toEndOf="@id/abaPedidos" />
+        app:layout_constraintTop_toBottomOf="@id/abasLayout"
+        app:layout_constraintStart_toStartOf="@id/abaAnteriores"
+        app:layout_constraintEnd_toEndOf="@id/abaAnteriores" />
 
-
+    <!-- LISTA (RecyclerView) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerPedidos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/linhaPedidos"
+        app:layout_constraintBottom_toTopOf="@id/bottomMenu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_pedido" />
 
     <!-- MENU INFERIOR -->
     <LinearLayout

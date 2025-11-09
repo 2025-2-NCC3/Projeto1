@@ -11,13 +11,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.example.ifoodclone.util.SessionManager;
+import com.example.ifoodclone.util.TokenManager;
 import com.example.ifoodclone.R;
 import com.example.ifoodclone.model.UpdateUserRequest;
 import com.example.ifoodclone.model.UserDto;
 import com.example.ifoodclone.net.ApiClient;
 import com.example.ifoodclone.net.ApiService;
-import com.example.ifoodclone.util.TokenManager; // <- usar TokenManager
+import com.example.ifoodclone.util.TokenManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +31,7 @@ public class PerfilActivity extends AppCompatActivity {
 
     private ApiService api;
 
-    // (opcional) menu inferior
+    // bottom bar (ids conforme seu layout)
     private LinearLayout bottomMenu;
     private ImageView iconHome, iconFavorite, iconCart, iconHistory, iconProfile;
 
@@ -39,7 +40,7 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.telaperfil);
 
-        // verifica token com TokenManager
+        // mantém a proteção: se não houver token, volta pra tela de login
         if (!TokenManager.hasToken(this)) {
             startActivity(new Intent(this, AuthenticationActivity.class));
             finish();
@@ -48,7 +49,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         api = ApiClient.getClient(this).create(ApiService.class);
 
-        // bind
+        // bind exatamente com os ids do seu XML
         inputNome  = findViewById(R.id.inputNome);
         inputEmail = findViewById(R.id.inputEmail);
         inputSenha = findViewById(R.id.inputSenha);
@@ -64,6 +65,18 @@ public class PerfilActivity extends AppCompatActivity {
         carregarPerfil();
         btnSalvar.setOnClickListener(v -> salvarAlteracoes());
         configurarMenuInferior();
+        // Botão Sair
+        findViewById(R.id.btnSair).setOnClickListener(v -> {
+            // Limpa os 2 gerenciadores para evitar qualquer resquício
+            try { TokenManager.clear(PerfilActivity.this); } catch (Throwable ignored) {}
+            try { new SessionManager(PerfilActivity.this).logout(); } catch (Throwable ignored) {}
+
+            // Volta para a tela de login e limpa a pilha
+            Intent it = new Intent(PerfilActivity.this, AuthenticationActivity.class);
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(it);
+            finish();
+        });
     }
 
     private void carregarPerfil() {
@@ -81,7 +94,7 @@ public class PerfilActivity extends AppCompatActivity {
                 UserDto user = response.body();
                 if (user.getUsername() != null) inputNome.setText(user.getUsername());
                 if (user.getEmail() != null)    inputEmail.setText(user.getEmail());
-                inputSenha.setText("");
+                inputSenha.setText(""); // limpa campo senha
             }
 
             @Override
@@ -143,12 +156,20 @@ public class PerfilActivity extends AppCompatActivity {
             iconHome.setOnClickListener(v ->
                     startActivity(new Intent(PerfilActivity.this, MainActivity.class)));
         }
+        if (iconFavorite != null) {
+            iconFavorite.setOnClickListener(v ->
+                    Toast.makeText(PerfilActivity.this, "Favoritos em breve ;)", Toast.LENGTH_SHORT).show());
+        }
         if (iconCart != null) {
             iconCart.setOnClickListener(v ->
                     startActivity(new Intent(PerfilActivity.this, CarrinhoActivity.class)));
         }
+        if (iconHistory != null) {
+            iconHistory.setOnClickListener(v ->
+                    startActivity(new Intent(PerfilActivity.this, PedidosActivity.class)));
+        }
         if (iconProfile != null) {
-            iconProfile.setOnClickListener(v -> carregarPerfil());
+            iconProfile.setOnClickListener(v -> carregarPerfil()); // recarrega dados do perfil
         }
     }
 }

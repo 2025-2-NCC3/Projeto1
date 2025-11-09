@@ -16,18 +16,14 @@ public class CartManager {
     private static final String PREF_NAME = "cart_pref";
     private static final String CART_KEY = "cart_items";
 
-    /**
-     * Adiciona um produto ao carrinho local
-     */
+    /** Adiciona um produto ao carrinho local */
     public static void addItem(Context context, ProductDto produto) {
         List<ProductDto> itens = getItems(context);
         itens.add(produto);
         saveItems(context, itens);
     }
 
-    /**
-     * Retorna todos os produtos do carrinho
-     */
+    /** Retorna todos os produtos do carrinho */
     public static List<ProductDto> getItems(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         String json = prefs.getString(CART_KEY, null);
@@ -39,9 +35,7 @@ public class CartManager {
         return gson.fromJson(json, type);
     }
 
-    /**
-     * Remove um item do carrinho
-     */
+    /** Remove um item do carrinho */
     public static void removeItem(Context context, int position) {
         List<ProductDto> itens = getItems(context);
         if (position >= 0 && position < itens.size()) {
@@ -50,21 +44,30 @@ public class CartManager {
         }
     }
 
-    /**
-     * Limpa o carrinho inteiro
-     */
+    /** Limpa o carrinho inteiro */
     public static void clearCart(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         prefs.edit().remove(CART_KEY).apply();
     }
 
-    /**
-     * Salva a lista de produtos novamente no SharedPreferences
-     */
+    /** Salva a lista de produtos novamente no SharedPreferences */
     private static void saveItems(Context context, List<ProductDto> itens) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = gson.toJson(itens);
         prefs.edit().putString(CART_KEY, json).apply();
+    }
+
+    // Helper opcional (se usar) — agora pegando ID como Integer do DTO
+    public static List<int[]> asProductQtyPairs(Context context) {
+        List<ProductDto> itens = getItems(context);
+        List<int[]> pairs = new ArrayList<>();
+        for (ProductDto p : itens) {
+            int id = (p != null) ? p.getIdAsInt() : -1;
+            if (id > 0) {
+                pairs.add(new int[]{ id, 1 }); // quantidade padrão = 1
+            }
+        }
+        return pairs;
     }
 }

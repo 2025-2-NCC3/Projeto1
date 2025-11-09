@@ -1,24 +1,23 @@
 package com.example.ifoodclone.activity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import com.example.ifoodclone.R;
 import com.example.ifoodclone.adapter.ProdutoAdapter;
 import com.example.ifoodclone.model.Product;
-import com.example.ifoodclone.model.ProductDto;
 import com.example.ifoodclone.net.ApiClient;
 import com.example.ifoodclone.net.ApiService;
+import com.example.ifoodclone.util.TokenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,141 +28,100 @@ import retrofit2.Response;
 
 public class ListarProdutosActivity extends AppCompatActivity {
 
-    private static final int REQ_EDITAR_PRODUTO = 101;
-
-    private RecyclerView recyclerProdutos;
+    private RecyclerView recycler;
     private ProdutoAdapter adapter;
-    private List<Product> listaProdutos = new ArrayList<>();
-    private List<Product> listaFiltrada = new ArrayList<>();
-    private EditText editSearch;
-    private Button btnVoltar;
+    private final List<Product> data = new ArrayList<>();
+    private ApiService api;
+
+    private static final int REQ_EDIT = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.produtos_cadastrados);
 
-        recyclerProdutos = findViewById(R.id.recyclerProdutos);
-        editSearch = findViewById(R.id.editSearch);
-        btnVoltar = findViewById(R.id.btnVoltar);
+        api = ApiClient.getClient(this).create(ApiService.class);
 
-        // Configuração do RecyclerView com layout em grade 2x2
-        recyclerProdutos.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new ProdutoAdapter(this, listaFiltrada);
-        recyclerProdutos.setAdapter(adapter);
+        recycler = findViewById(R.id.recyclerProdutos);
+        recycler.setLayoutManager(new GridLayoutManager(this, 2));
 
+        adapter = new ProdutoAdapter(this, data);
         adapter.setOnProdutoClickListener(new ProdutoAdapter.OnProdutoClickListener() {
             @Override
             public void onEditar(Product produto) {
-                // ✅ Abre AddProductActivity para editar produto
-                Intent intent = new Intent(ListarProdutosActivity.this, AddProductActivity.class);
-                intent.putExtra("produto", produto); // Envia o produto
-                startActivityForResult(intent, REQ_EDITAR_PRODUTO);
+                Intent it = new Intent(ListarProdutosActivity.this, AddProductActivity.class);
+                it.putExtra("produto", produto); // Product deve implementar Serializable
+                startActivityForResult(it, REQ_EDIT);
             }
 
             @Override
             public void onExcluir(Product produto) {
-                excluirProduto(produto.getId());
+                excluirProduto(String.valueOf(produto.getId()));
             }
         });
+        recycler.setAdapter(adapter);
 
-        btnVoltar.setOnClickListener(v -> finish());
+        Button btnVoltar = findViewById(R.id.btnVoltar);
+        if (btnVoltar != null) btnVoltar.setOnClickListener(v -> finish());
 
-        // Carrega produtos da API
         loadProducts();
-
-        // Filtro de busca
-        editSearch.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filtrarProdutos(s.toString());
-            }
-        });
     }
 
     private void loadProducts() {
-        ApiService api = ApiClient.getClient(this).create(ApiService.class);
-
-        api.getProdutos().enqueue(new Callback<List<ProductDto>>() {
+        api.getProdutosAdminRaw().enqueue(new Callback<List<Product>>() {
             @Override
-            public void onResponse(Call<List<ProductDto>> call, Response<List<ProductDto>> response) {
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    listaProdutos.clear();
-                    for (ProductDto dto : response.body()) {
-                        listaProdutos.add(new Product(
-                                dto.getId() != null ? dto.getId() : "",
-                                dto.getNome(),
-                                dto.getPreco(),
-                                dto.getDescricao() != null ? dto.getDescricao() : "",
-                                dto.getImagemUrl() != null ? dto.getImagemUrl() : ""
-                        ));
-                    }
-
-                    listaFiltrada.clear();
-                    listaFiltrada.addAll(listaProdutos);
+                    data.clear();
+                    data.addAll(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(ListarProdutosActivity.this, "Erro ao carregar produtos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ListarProdutosActivity.this, "Falha ao carregar produtos ("+response.code()+")", Toast.LENGTH_SHORT).show();
+                    Log.e("API_DEBUG", "GET /products erro: code="+response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<ProductDto>> call, Throwable t) {
-                Toast.makeText(ListarProdutosActivity.this, "Falha na requisição: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Toast.makeText(ListarProdutosActivity.this, "Erro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("API_DEBUG", "GET /products fail", t);
             }
         });
     }
 
     private void excluirProduto(String id) {
-        ApiService api = ApiClient.getClient(this).create(ApiService.class);
+        String token = TokenManager.getToken(this);
+        if (token == null || token.isEmpty()) {
+            Toast.makeText(this, "Sessão expirada. Faça login como admin.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String bearer = "Bearer " + token;
 
-        api.deleteProduto(id).enqueue(new Callback<Void>() {
+        api.deleteProduto(bearer, id).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(ListarProdutosActivity.this, "Produto excluído com sucesso!", Toast.LENGTH_SHORT).show();
                     loadProducts();
                 } else {
-                    Toast.makeText(ListarProdutosActivity.this, "Erro ao excluir produto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ListarProdutosActivity.this, "Erro ao excluir ("+response.code()+")", Toast.LENGTH_SHORT).show();
+                    Log.e("API_DEBUG", "DELETE /admin/product/"+id+" code="+response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(ListarProdutosActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListarProdutosActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("API_DEBUG", "DELETE /admin/product fail", t);
             }
         });
     }
 
-    private void filtrarProdutos(String texto) {
-        listaFiltrada.clear();
-        if (texto.isEmpty()) {
-            listaFiltrada.addAll(listaProdutos);
-        } else {
-            for (Product p : listaProdutos) {
-                if (p.getName().toLowerCase().contains(texto.toLowerCase())) {
-                    listaFiltrada.add(p);
-                }
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    // 🔄 Quando AddProductActivity terminar (edição concluída), atualiza lista
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQ_EDITAR_PRODUTO && resultCode == RESULT_OK) {
-            loadProducts(); // Recarrega os produtos atualizados
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent dataIt) {
+        super.onActivityResult(requestCode, resultCode, dataIt);
+        if (requestCode == REQ_EDIT && resultCode == RESULT_OK) {
+            loadProducts();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadProducts();
     }
 }

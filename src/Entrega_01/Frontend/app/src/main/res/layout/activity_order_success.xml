@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pedido realizado com sucesso!"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pedido: -"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total: R$ 0,00"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvPickup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Código de retirada: -"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#DDDDDD" />
+
+    <Button
+        android:id="@+id/btnVerPedidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver meus pedidos" />
+
+    <Button
+        android:id="@+id/btnVoltarHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Voltar para Home"
+        android:layout_marginTop="12dp" />
+
+</LinearLayout>
+

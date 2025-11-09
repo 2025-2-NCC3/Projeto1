@@ -36,4 +36,13 @@ public class SessionManager {
     public void logout(){
         sp.edit().clear().apply();
     }
+
+    // >>> ADIÇÃO: helpers estáticos para facilitar uso em qualquer ponto do app
+    public static String peekToken(Context ctx) {
+        return new SessionManager(ctx).getToken();
+    }
+    public static int peekUserId(Context ctx) {
+        return new SessionManager(ctx).getUserId();
+    }
+    // /ADIÇÃO
 }

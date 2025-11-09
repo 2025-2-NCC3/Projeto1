@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProductDto {
 
-    private String id;
+    // id numérico vindo do backend; aceita "id" ou "product_id"
+    @SerializedName(value = "id", alternate = {"product_id"})
+    private Integer id;
 
     @SerializedName("name")
     private String nome;
@@ -21,13 +23,15 @@ public class ProductDto {
     @SerializedName("description")
     private String descricao;
 
-    // 🆕 Campo de imagem retornado pelo backend
     @SerializedName("image_url")
     private String imagemUrl;
 
     public ProductDto() {}
 
-    public ProductDto(String nome, double preco, String categoria, int quantidade, String descricao, String imagemUrl) {
+
+
+    public ProductDto(Integer id, String nome, double preco, String categoria, int quantidade, String descricao, String imagemUrl) {
+        this.id = id;
         this.nome = nome;
         this.preco = preco;
         this.categoria = categoria;
@@ -37,7 +41,9 @@ public class ProductDto {
     }
 
     // Getters
-    public String getId() { return id; }
+    public Integer getId() { return id; }
+    public int getIdAsInt() { return id != null ? id : -1; } // helper seguro
+
     public String getNome() { return nome; }
     public double getPreco() { return preco; }
     public String getCategoria() { return categoria; }
@@ -46,7 +52,7 @@ public class ProductDto {
     public String getImagemUrl() { return imagemUrl; }
 
     // Setters
-    public void setId(String id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
     public void setNome(String nome) { this.nome = nome; }
     public void setPreco(double preco) { this.preco = preco; }
     public void setCategoria(String categoria) { this.categoria = categoria; }

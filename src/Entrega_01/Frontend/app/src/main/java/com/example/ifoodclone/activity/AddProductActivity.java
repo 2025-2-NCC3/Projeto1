@@ -3,7 +3,6 @@ package com.example.ifoodclone.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +13,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.ifoodclone.R;
 import com.example.ifoodclone.model.Product;
 import com.example.ifoodclone.model.ProductDto;
 import com.example.ifoodclone.net.ApiClient;
 import com.example.ifoodclone.net.ApiService;
+import com.example.ifoodclone.util.TokenManager; // <<-- usa TokenManager
 
 import java.io.File;
 
@@ -66,17 +65,16 @@ public class AddProductActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnCategoria.setAdapter(adapter);
 
-        // 📦 Pega o produto recebido (se for edição)
+        // 📦 Produto recebido para edição (se houver)
         Product produtoEditando = (Product) getIntent().getSerializableExtra("produto");
 
         if (produtoEditando != null) {
-            // 🟢 Modo de edição
+            // 🟢 Edição
             preencherCampos(produtoEditando);
             btnConcluir.setText("Atualizar Produto");
-
             btnConcluir.setOnClickListener(v -> atualizarProduto(produtoEditando.getId()));
         } else {
-            // 🟡 Modo de adição
+            // 🟡 Novo
             btnConcluir.setText("Cadastrar Produto");
             btnConcluir.setOnClickListener(v -> salvarProduto());
         }
@@ -93,8 +91,6 @@ public class AddProductActivity extends AppCompatActivity {
         editPrecoProduto.setText(String.valueOf(produto.getPrice()));
         edtDescricao.setText(produto.getDescription());
     }
-
-
 
     private void escolherImagem() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -135,7 +131,7 @@ public class AddProductActivity extends AppCompatActivity {
             return;
         }
 
-        // Cria os RequestBody
+        // Partes do multipart
         RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), nome);
         RequestBody priceBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(preco));
         RequestBody descriptionBody = RequestBody.create(MediaType.parse("text/plain"), descricao);
@@ -152,7 +148,15 @@ public class AddProductActivity extends AppCompatActivity {
 
         Log.d("API_DEBUG", "Enviando produto: " + nome + " | " + preco + " | " + categoria);
 
-        api.addProduto(nameBody, priceBody, descriptionBody, imagePart)
+        // ===== Bearer (TokenManager) =====
+        String token = TokenManager.getToken(this);
+        if (token == null || token.isEmpty()) {
+            Toast.makeText(this, "Sessão expirada. Faça login como admin.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String bearer = "Bearer " + token;
+
+        api.addProduto(bearer, nameBody, priceBody, descriptionBody, imagePart)
                 .enqueue(new Callback<ProductDto>() {
                     @Override
                     public void onResponse(Call call, Response response) {
@@ -215,20 +219,25 @@ public class AddProductActivity extends AppCompatActivity {
             }
         }
 
-        api.updateProduto(id, nameBody, priceBody, descriptionBody, imagePart)
+        // ===== Bearer (TokenManager) =====
+        String token = TokenManager.getToken(this);
+        if (token == null || token.isEmpty()) {
+            Toast.makeText(this, "Sessão expirada. Faça login como admin.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String bearer = "Bearer " + token;
+
+        api.updateProduto(bearer, id, nameBody, priceBody, descriptionBody, imagePart)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
                             try {
-                                // Só pra logar e confirmar o retorno do servidor (opcional)
                                 String serverMessage = response.body() != null ? response.body().string() : "";
+                                Log.d("API_DEBUG", "Update OK: " + serverMessage);
                                 Toast.makeText(AddProductActivity.this, "Produto atualizado com sucesso!", Toast.LENGTH_SHORT).show();
-
-                                // Fecha e volta pra lista
                                 setResult(RESULT_OK);
                                 finish();
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Toast.makeText(AddProductActivity.this, "Erro ao ler resposta do servidor", Toast.LENGTH_SHORT).show();
@@ -238,14 +247,10 @@ public class AddProductActivity extends AppCompatActivity {
                         }
                     }
 
-
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Toast.makeText(AddProductActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-
-
     }
-
 }

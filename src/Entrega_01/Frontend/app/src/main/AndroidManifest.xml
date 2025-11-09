@@ -41,9 +41,14 @@
         <activity android:name=".activity.CarrinhoActivity" />
         <activity android:name=".activity.DetalheProdutoActivity" />
         <activity android:name=".activity.PagamentoPixActivity" />
+        <activity android:name=".activity.PedidosAdminActivity" />
 
         <!-- NOVA: Tela de Perfil (telaperfil.xml via setContentView) -->
         <activity android:name=".activity.PerfilActivity" />
+
+        <!-- >>> ADIÇÃO: Tela de sucesso do pedido (para o fluxo simulado) -->
+        <activity android:name=".activity.OrderSuccessActivity" android:exported="false" />
+        <!-- /ADIÇÃO -->
 
     </application>
 

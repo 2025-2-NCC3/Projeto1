@@ -6,13 +6,16 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
 import com.example.ifoodclone.R;
 import com.example.ifoodclone.model.AuthResponse;
 import com.example.ifoodclone.model.LoginRequest;
 import com.example.ifoodclone.model.RegisterRequest;
 import com.example.ifoodclone.net.ApiClient;
 import com.example.ifoodclone.net.ApiService;
-import com.example.ifoodclone.util.TokenManager;
+import com.example.ifoodclone.util.TokenManager;      // <<< IMPORTANTE
+import com.example.ifoodclone.util.SessionManager;   // (compat opcional)
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,28 +35,22 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         etEmail = findViewById(R.id.editTextEmail);
         etSenha = findViewById(R.id.editTextPassword);
-        etNome = findViewById(R.id.editTextUsername); // <-- alterado
+        etNome  = findViewById(R.id.editTextUsername);
         etNome.setVisibility(View.GONE);
 
-
-        btnAcessar = findViewById(R.id.buttonAccess);
-        btnLoginTab = findViewById(R.id.buttonLoginTab);
+        btnAcessar     = findViewById(R.id.buttonAccess);
+        btnLoginTab    = findViewById(R.id.buttonLoginTab);
         btnRegisterTab = findViewById(R.id.buttonRegisterTab);
-        tvForgot = findViewById(R.id.textViewForgotPassword);
+        tvForgot       = findViewById(R.id.textViewForgotPassword);
 
         api = ApiClient.getClient(this).create(ApiService.class);
 
-        // Botões de alternância
         btnLoginTab.setOnClickListener(v -> setMode(true));
         btnRegisterTab.setOnClickListener(v -> setMode(false));
 
-        // Ação principal
         btnAcessar.setOnClickListener(v -> {
-            if (isLoginMode) {
-                doLogin();
-            } else {
-                doRegister();
-            }
+            if (isLoginMode) doLogin();
+            else doRegister();
         });
     }
 
@@ -61,7 +58,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         isLoginMode = loginMode;
 
         if (isLoginMode) {
-            etNome.setVisibility(View.GONE);   // Username some
+            etNome.setVisibility(View.GONE);
             btnAcessar.setText("Entrar");
 
             btnLoginTab.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_green));
@@ -71,7 +68,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             btnRegisterTab.setTextColor(ContextCompat.getColor(this, android.R.color.black));
 
         } else {
-            etNome.setVisibility(View.VISIBLE); // Username aparece
+            etNome.setVisibility(View.VISIBLE);
             btnAcessar.setText("Cadastrar");
 
             btnRegisterTab.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.dark_green));
@@ -81,7 +78,6 @@ public class AuthenticationActivity extends AppCompatActivity {
             btnLoginTab.setTextColor(ContextCompat.getColor(this, android.R.color.black));
         }
     }
-
 
     private void doLogin() {
         String email = etEmail.getText().toString().trim();
@@ -100,33 +96,32 @@ public class AuthenticationActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     AuthResponse auth = response.body();
 
-                    // Salva o token JWT
-                    TokenManager.saveToken(AuthenticationActivity.this, auth.getToken());
+                    // ✅ Salva token e userId
+                    TokenManager.save(AuthenticationActivity.this, auth.getToken(), auth.getUserId());
 
-                    Toast.makeText(AuthenticationActivity.this,
-                            "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                    // (Compat) manter SessionManager sincronizado, se ainda usado em telas antigas
+                    try {
+                        new SessionManager(AuthenticationActivity.this)
+                                .saveLogin(auth.getToken(), auth.getUserId());
+                    } catch (Throwable ignored) {}
 
-                    // 🔑 Redirecionamento com base no tipo de usuário
-                    Intent intent;
-                    if (auth.isAdmin()) {
-                        intent = new Intent(AuthenticationActivity.this, HomeTiaActivity.class);
-                    } else {
-                        intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                    }
+                    Toast.makeText(AuthenticationActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = auth.isAdmin()
+                            ? new Intent(AuthenticationActivity.this, HomeTiaActivity.class)
+                            : new Intent(AuthenticationActivity.this, MainActivity.class);
 
                     startActivity(intent);
                     finish();
 
                 } else {
-                    Toast.makeText(AuthenticationActivity.this,
-                            "Credenciais inválidas", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthenticationActivity.this, "Credenciais inválidas", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
-                Toast.makeText(AuthenticationActivity.this,
-                        "Erro de conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AuthenticationActivity.this, "Erro de conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
