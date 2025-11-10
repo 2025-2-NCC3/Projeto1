@@ -163,18 +163,25 @@ Execute o APK e siga as instruções do seu dispositivo para instalar o aplicati
 Coloque código do prompt de comnando se for necessário
 ```
 
-## 💻 Configuração para Desenvolvimento
-Passos para rodar o projeto
+## 💻 Como rodar o projeto
 
-Clone o repositório:
+### ✅ Ferramentas necessárias
+- Android Studio  
+- Java 11+  
+- Node.js (para o servidor Backend)  
+- SQLite  
+---
 
--<a href="https://godotengine.org/download">GODOT</a>
-
+### ✅ Clonar o repositório
 ```sh
-make install
-npm test
-Coloque código do prompt de comnando se for necessário
+git clone https://github.com/2025-2-NCC3/Projeto1.git
+
+cd src/entrega-2/backend
+cd loginServerNode
+npm install
+node index.js
 ```
+
 
 ## 📋 Licença/License
 Comedoria da Tia © 2025 by Esther Oliveira Costa,Fernanda Loura da Silva, Higor Luiz Fonseca dos Santos, João Victor de Faria Santana, Thiffany Morais Vieira da Silva is licensed under CC BY 4.0. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/
