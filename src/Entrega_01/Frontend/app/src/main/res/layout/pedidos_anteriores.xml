@@ -6,29 +6,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E9DADA"
+
     tools:context=".activity.PedidosActivity">
+
+
+    <!-- Onda por cima (PNG com transparência) -->
+    <ImageView
+        android:id="@+id/bgWaveBottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/onda"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <!-- Logo -->
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="129dp"
-        android:layout_height="120dp"
+        android:layout_width="169dp"
+        android:layout_height="163dp"
         android:layout_marginTop="50dp"
         android:contentDescription="Logo Comedoria"
         android:src="@drawable/logo"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Abas -->
     <!-- Abas -->
     <LinearLayout
         android:id="@+id/abasLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -36,20 +51,27 @@
             android:id="@+id/abaAnteriores"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:padding="16dp"
             android:text="Anteriores"
             android:textColor="#3C3C3C"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <!-- Underline alinhado ao texto -->
+        <View
+            android:id="@+id/linhaAnteriores"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="6dp"
+            android:background="#1B5E20"/>
     </LinearLayout>
 
     <!-- Linha da aba -->
+
     <View
         android:id="@+id/linhaPedidos"
         android:layout_width="80dp"
         android:layout_height="3dp"
-        android:background="#FF4081"
         android:layout_marginTop="4dp"
         app:layout_constraintTop_toBottomOf="@id/abasLayout"
         app:layout_constraintStart_toStartOf="@id/abaAnteriores"

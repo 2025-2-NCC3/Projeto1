@@ -56,7 +56,7 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Quantidade (− xN +) -->
+        <!-- Controle de quantidade -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,46 +65,62 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <!-- Botão diminuir -->
+
+            <!-- Quantidade -->
             <ImageButton
                 android:id="@+id/btnDiminuir"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="-3dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="6dp"
+                android:padding="3dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/sinalmenos" />
 
             <TextView
                 android:id="@+id/txtQuantidade"
-                android:layout_width="44dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="-28dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="-3dp"
                 android:gravity="center"
                 android:text="x1"
                 android:textColor="#000000"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <!-- Botão aumentar -->
             <ImageButton
                 android:id="@+id/btnAumentar"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="-28dp"
+                android:layout_marginTop="-3dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="6dp"
+                android:padding="3dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/sinalmais" />
+
         </LinearLayout>
 
-        <!-- Remover -->
+        <!-- Botão remover do carrinho -->
         <ImageButton
             android:id="@+id/btnRemover"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_alignParentEnd="true"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="-3dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="4dp"
+            android:padding="1dp"
             android:scaleType="centerInside"
-            android:src="@drawable/lixeira" />
+            android:src="@drawable/lixeira"
+            android:tint="#ED0B08" />
 
     </RelativeLayout>
+
 </androidx.cardview.widget.CardView>

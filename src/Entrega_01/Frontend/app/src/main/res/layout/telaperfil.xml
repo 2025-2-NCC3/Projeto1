@@ -11,14 +11,14 @@
     <!-- Avatar -->
     <ImageView
         android:id="@+id/imgPerfil"
-        android:layout_width="210dp"
-        android:layout_height="169dp"
+        android:layout_width="213dp"
+        android:layout_height="172dp"
         android:layout_marginTop="32dp"
-        android:src="@drawable/usuario"
         android:contentDescription="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/usuario"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Título -->
     <TextView

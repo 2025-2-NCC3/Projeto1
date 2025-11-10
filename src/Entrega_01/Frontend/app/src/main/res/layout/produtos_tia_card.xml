@@ -83,15 +83,6 @@
         </LinearLayout>
 
         <!-- Ícone de favorito -->
-        <ImageView
-            android:id="@+id/imgFavoritar"
-            android:layout_width="23dp"
-            android:layout_height="20dp"
-            android:layout_gravity="top|end"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="6dp"
-            android:tint="#625757"
-            android:src="@drawable/favoritos" />
 
     </androidx.cardview.widget.CardView>
 

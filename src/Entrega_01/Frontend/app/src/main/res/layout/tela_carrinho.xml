@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- TÍTULO (opcional) -->
+    <!-- TÍTULO -->
     <TextView
         android:id="@+id/tituloPedidos"
         android:layout_width="wrap_content"
@@ -30,7 +30,19 @@
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Barra verde alinhada à largura do título -->
+    <View
+        android:id="@+id/barraPedidos"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="6dp"
+        android:background="#1B5E20"
+        app:layout_constraintTop_toBottomOf="@id/tituloPedidos"
+        app:layout_constraintStart_toStartOf="@id/tituloPedidos"
+        app:layout_constraintEnd_toEndOf="@id/tituloPedidos" />
+
 
     <!-- LISTA DE CARDS (abaixo do logo/título) -->
     <ScrollView
@@ -127,54 +139,54 @@
         android:layout_height="65dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="#304A3D"
+        android:background="#E9DADA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/btnHome"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/home"
-            android:layout_marginHorizontal="20dp"
-            app:tint="#F2E2E2"
+            android:layout_marginHorizontal="16dp"
+            app:tint="#7B7B7B"
             android:contentDescription="Home" />
 
         <ImageView
             android:id="@+id/btnFavoritos"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/favoritos"
-            android:layout_marginHorizontal="20dp"
-            app:tint="#F2E2E2"
+            android:layout_marginHorizontal="16dp"
+            app:tint="#7B7B7B"
             android:contentDescription="Favoritos" />
 
         <ImageView
             android:id="@+id/btnCarrinho"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/carrinho"
-            app:tint="#F2E2E2"
+            app:tint="#7B7B7B"
             android:layout_margin="16dp"/>
 
         <ImageView
             android:id="@+id/btnHistorico"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/historico"
-            android:layout_marginHorizontal="20dp"
-            app:tint="#F2E2E2"
+            android:layout_marginHorizontal="16dp"
+            app:tint="#7B7B7B"
             android:contentDescription="Histórico" />
 
         <ImageView
             android:id="@+id/btnPerfil"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@drawable/perfil"
-            android:layout_marginHorizontal="20dp"
-            app:tint="#F2E2E2"
+            android:layout_marginHorizontal="16dp"
+            app:tint="#7B7B7B"
             android:contentDescription="Perfil" />
     </LinearLayout>
 
