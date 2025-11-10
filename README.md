@@ -152,17 +152,6 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 
 ---
 
-## 🛠 Instalação
-
-<b>Android:</b>
-
-Faça o download do arquivo .apk no seu celular.
-Execute o APK e siga as instruções do seu dispositivo para instalar o aplicativo.
-
-```sh
-Coloque código do prompt de comnando se for necessário
-```
-
 ## 💻 Como rodar o projeto
 
 ### ✅ Ferramentas necessárias
@@ -180,6 +169,8 @@ cd src/entrega-2/backend
 cd loginServerNode
 npm install
 node index.js
+
+E rode o projeto no android que estará tudo devidamente funcionando
 ```
 
 
