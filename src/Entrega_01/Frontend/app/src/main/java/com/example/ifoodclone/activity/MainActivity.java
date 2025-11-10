@@ -2,6 +2,9 @@ package com.example.ifoodclone.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +18,6 @@ import com.example.ifoodclone.adapter.ProdutoClienteAdapter;
 import com.example.ifoodclone.model.ProductDto;
 import com.example.ifoodclone.net.ApiClient;
 import com.example.ifoodclone.net.ApiService;
-import com.example.ifoodclone.util.CartManager;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerProdutos;
+    private EditText editSearch;
     private ProdutoClienteAdapter adapter;
 
     /** lista ligada ao adapter (visível) */
@@ -36,15 +39,16 @@ public class MainActivity extends AppCompatActivity {
     /** lista completa (sem filtro) */
     private final List<ProductDto> listaTodos = new ArrayList<>();
 
-    // Bottom bar (suporta ids btnX ou iconX)
+    // Bottom bar
     private ImageView btnHome, btnFavoritos, btnCarrinho, btnHistorico, btnPerfil;
 
-    // Abas de categoria
+    // abas de categoria (se existirem no layout)
     private TextView tabTodos, tabSalgados, tabBebidas, tabMarmitas, tabDoces;
     private TextView[] todasTabs;
 
-    // Categoria atual
+    // estado de filtro
     private String catAtual = "todos";
+    private String buscaAtual = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +57,28 @@ public class MainActivity extends AppCompatActivity {
 
         // ====== Views ======
         recyclerProdutos = findViewById(R.id.recyclerProdutos);
+        editSearch = findViewById(R.id.editSearch);
 
-        // bottom bar
-        btnHome      = bindImageView(R.id.btnHome, R.id.iconHome);
-        btnFavoritos = bindImageView(R.id.btnFavoritos, R.id.iconFavorite);
-        btnCarrinho  = bindImageView(R.id.btnCarrinho, R.id.iconCart);
-        btnHistorico = bindImageView(R.id.btnHistorico, R.id.iconHistory);
-        btnPerfil    = bindImageView(R.id.btnPerfil, R.id.iconProfile);
+        btnHome      = findViewById(R.id.btnHome);
+        btnFavoritos = findViewById(R.id.btnFavoritos);
+        btnCarrinho  = findViewById(R.id.btnCarrinho);
+        btnHistorico = findViewById(R.id.btnHistorico);
+        btnPerfil    = findViewById(R.id.btnPerfil);
 
+        // se tiver abas no layout, faça o bind (não quebra se não existir)
 
-        // ====== Recycler ======
+        tabSalgados = safeFindText(R.id.tvSalgados);
+        tabBebidas  = safeFindText(R.id.tvBebidas);
+        tabMarmitas = safeFindText(R.id.tvMarmitas);
+
+        todasTabs = new TextView[]{ tabTodos, tabSalgados, tabBebidas, tabMarmitas, tabDoces };
+
+        // ====== Recycler / Adapter ======
         recyclerProdutos.setLayoutManager(new GridLayoutManager(this, 2));
         adapter = new ProdutoClienteAdapter(
                 this,
                 listaProdutos,
+                // OnAddToCartListener -> AGORA abre a tela de detalhes (não adiciona direto)
                 produto -> {
                     Intent it = new Intent(MainActivity.this, DetalheProdutoActivity.class);
                     it.putExtra("produto_nome",      produto.getNome());
@@ -75,9 +87,18 @@ public class MainActivity extends AppCompatActivity {
                     it.putExtra("produto_imagem",    produto.getImagemUrl());
                     startActivity(it);
                 },
+                // OnOpenDetailsListener (tocar no card/imagen abre detalhes)
                 produto -> {
-                    CartManager.addItem(this, produto);
-                    Toast.makeText(this, "Adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
+                    Intent it = new Intent(MainActivity.this, DetalheProdutoActivity.class);
+                    it.putExtra("produto_nome",      produto.getNome());
+                    it.putExtra("produto_preco",     produto.getPreco());
+                    it.putExtra("produto_descricao", produto.getDescricao());
+                    it.putExtra("produto_imagem",    produto.getImagemUrl());
+                    startActivity(it);
+                },
+                // OnToggleFavoriteListener
+                (produto, isNowFav) -> {
+                    // nada específico aqui; se um dia filtrar por favoritos na Main, basta refiltrar.
                 }
         );
         recyclerProdutos.setAdapter(adapter);
@@ -97,43 +118,40 @@ public class MainActivity extends AppCompatActivity {
         }
         if (btnFavoritos != null) {
             btnFavoritos.setOnClickListener(v ->
-                    Toast.makeText(MainActivity.this, "Favoritos em breve ;)", Toast.LENGTH_SHORT).show());
+                    startActivity(new Intent(MainActivity.this, FavoritosActivity.class)));
         }
         if (btnPerfil != null) {
             btnPerfil.setOnClickListener(v ->
                     startActivity(new Intent(MainActivity.this, PerfilActivity.class)));
         }
 
-        // ====== Tabs actions ======
+        // ====== Tabs actions (se existirem) ======
         if (tabTodos != null)    tabTodos.setOnClickListener(v -> selecionarCategoria("todos", tabTodos));
         if (tabSalgados != null) tabSalgados.setOnClickListener(v -> selecionarCategoria("salgados", tabSalgados));
         if (tabBebidas != null)  tabBebidas.setOnClickListener(v -> selecionarCategoria("bebidas", tabBebidas));
         if (tabMarmitas != null) tabMarmitas.setOnClickListener(v -> selecionarCategoria("marmitas", tabMarmitas));
         if (tabDoces != null)    tabDoces.setOnClickListener(v -> selecionarCategoria("doces", tabDoces));
 
-        // Deixa "Todos" selecionado visualmente
-        destaqueAba(tabTodos);
+        destaqueAba(tabTodos); // visual: deixa "todos" marcado se existir
 
-        // Carrega produtos
+        // ====== Busca ======
+        if (editSearch != null) {
+            editSearch.addTextChangedListener(new TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
+                @Override public void afterTextChanged(Editable s) {
+                    buscaAtual = s.toString();
+                    aplicarFiltros();
+                }
+            });
+        }
+
+        // Carrega produtos do backend
         carregarProdutos();
     }
 
-    private ImageView bindImageView(int... ids) {
-        for (int id : ids) {
-            try {
-                ImageView v = findViewById(id);
-                if (v != null) return v;
-            } catch (Exception ignored) {}
-        }
-        return null;
-    }
-
-    private TextView bindText(int id) {
-        try {
-            return findViewById(id);
-        } catch (Exception ignored) {
-            return null;
-        }
+    private TextView safeFindText(int id) {
+        try { return findViewById(id); } catch (Exception e) { return null; }
     }
 
     private void carregarProdutos() {
@@ -146,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     listaTodos.clear();
                     listaTodos.addAll(response.body());
-                    aplicarFiltro(catAtual);
+                    aplicarFiltros();
                 } else {
                     Toast.makeText(MainActivity.this, "Falha ao carregar produtos", Toast.LENGTH_SHORT).show();
                 }
@@ -162,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     private void selecionarCategoria(String categoria, TextView aba) {
         catAtual = categoria;
         destaqueAba(aba);
-        aplicarFiltro(categoria);
+        aplicarFiltros();
     }
 
     private void destaqueAba(TextView selecionada) {
@@ -180,23 +198,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void aplicarFiltro(String categoria) {
+    /** Aplica categoria + texto de busca (nome/descrição/categoria) */
+    private void aplicarFiltros() {
         listaProdutos.clear();
         if (listaTodos.isEmpty()) {
             adapter.notifyDataSetChanged();
             return;
         }
 
-        String cat = norm(categoria);
-        if (cat.equals("todos")) {
-            listaProdutos.addAll(listaTodos);
-        } else {
-            for (ProductDto p : listaTodos) {
-                String c = norm(p.getCategoria());
-                // contém para tolerar variações (ex.: "Bebida" vs "Bebidas")
-                if (c.contains(cat)) {
-                    listaProdutos.add(p);
-                }
+        String cat = norm(catAtual);
+        String q = norm(buscaAtual);
+
+        for (ProductDto p : listaTodos) {
+            boolean okCategoria = cat.equals("todos") || norm(p.getCategoria()).contains(cat);
+            boolean okBusca = q.isEmpty()
+                    || norm(p.getNome()).contains(q)
+                    || norm(p.getDescricao()).contains(q)
+                    || norm(p.getCategoria()).contains(q);
+
+            if (okCategoria && okBusca) {
+                listaProdutos.add(p);
             }
         }
         adapter.notifyDataSetChanged();

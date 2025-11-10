@@ -42,6 +42,10 @@
         <activity android:name=".activity.DetalheProdutoActivity" />
         <activity android:name=".activity.PagamentoPixActivity" />
         <activity android:name=".activity.PedidosAdminActivity" />
+        <activity
+            android:name=".activity.FavoritosActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
 
         <!-- NOVA: Tela de Perfil (telaperfil.xml via setContentView) -->
         <activity android:name=".activity.PerfilActivity" />

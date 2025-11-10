@@ -71,7 +71,7 @@
 
         <!-- (Opcional) Favoritar -->
         <ImageView
-            android:id="@+id/imgFavoritar"
+            android:id="@+id/imgFavorito"
             android:layout_width="23dp"
             android:layout_height="20dp"
             android:layout_gravity="top|end"

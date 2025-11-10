@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.DigitsKeyListener; // << ADICIONADO
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -56,6 +57,9 @@ public class AddProductActivity extends AppCompatActivity {
         edtDescricao = findViewById(R.id.edtDescricao);
         btnConcluir = findViewById(R.id.btnConcluir);
         btnListarProdutos = findViewById(R.id.btnListarProdutos);
+
+        // Força o teclado a aceitar dígitos + separadores decimal , e .
+        editPrecoProduto.setKeyListener(DigitsKeyListener.getInstance("0123456789.,"));
 
         // Spinner
         String[] categorias = {"Selecione a categoria", "Salgados", "Bebidas", "Marmitas"};
@@ -125,7 +129,8 @@ public class AddProductActivity extends AppCompatActivity {
 
         double preco;
         try {
-            preco = Double.parseDouble(precoStr);
+            // aceita "23,50" ou "23.50"
+            preco = Double.parseDouble(precoStr.replace(',', '.'));
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Verifique o valor do preço!", Toast.LENGTH_SHORT).show();
             return;
@@ -203,7 +208,14 @@ public class AddProductActivity extends AppCompatActivity {
             return;
         }
 
-        double preco = Double.parseDouble(precoStr);
+        double preco;
+        try {
+            // aceita "23,50" ou "23.50"
+            preco = Double.parseDouble(precoStr.replace(',', '.'));
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Verifique o valor do preço!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         RequestBody nameBody = RequestBody.create(MediaType.parse("text/plain"), nome);
         RequestBody priceBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(preco));

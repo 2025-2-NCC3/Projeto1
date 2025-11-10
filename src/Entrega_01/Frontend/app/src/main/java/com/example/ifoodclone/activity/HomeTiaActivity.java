@@ -21,10 +21,10 @@ public class HomeTiaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_tia);
 
         btnAdicionarProduto = findViewById(R.id.btnAdicionarProduto);
-        btnPedidos          = findViewById(R.id.btnPedidos);
-        btnCupons           = findViewById(R.id.btnCupons);
-        btnDashboard        = findViewById(R.id.btnDashboard);
-        btnSair             = findViewById(R.id.btnSair);
+        btnPedidos = findViewById(R.id.btnPedidos);
+        btnCupons = findViewById(R.id.btnCupons);
+        btnDashboard = findViewById(R.id.btnDashboard);
+        btnSair = findViewById(R.id.btnSair);
 
         btnAdicionarProduto.setOnClickListener(v ->
                 startActivity(new Intent(this, AddProductActivity.class)));
@@ -41,8 +41,14 @@ public class HomeTiaActivity extends AppCompatActivity {
         // === Botão SAIR ===
         btnSair.setOnClickListener(v -> {
             // limpa sessão/token (compat com os dois gerenciadores que você usa no app)
-            try { TokenManager.clear(this); } catch (Throwable ignored) {}
-            try { new SessionManager(this).logout(); } catch (Throwable ignored) {}
+            try {
+                TokenManager.clear(this);
+            } catch (Throwable ignored) {
+            }
+            try {
+                new SessionManager(this).logout();
+            } catch (Throwable ignored) {
+            }
 
             // volta para a tela de autenticação limpando a pilha
             Intent i = new Intent(this, AuthenticationActivity.class);
@@ -51,4 +57,5 @@ public class HomeTiaActivity extends AppCompatActivity {
             finish();
         });
     }
+
 }
