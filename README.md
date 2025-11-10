@@ -36,9 +36,6 @@ Diante desse cenário, propõe-se o desenvolvimento de um aplicativo mobile com 
 
 ---
 
-## 🛠 Estrutura de pastas
-
-
 ---
 
 ## 🛠 Estrutura de pastas
