@@ -173,7 +173,7 @@ cd loginServerNode
 npm install
 node index.js
 
-E rode o projeto no android que estará tudo devidamente funcionando
+E rode a pasta frontend no Android Studio que estará tudo devidamente conectado com o backend
 ```
 
 
