@@ -4,7 +4,7 @@
   <img src="https://camo.githubusercontent.com/f792fb9773905cab093295f28e2251e854dec3210920fb641c8acaab068f701c/68747470733a2f2f656e637279707465642d74626e302e677374617469632e636f6d2f696d616765733f713d74626e3a414e6439476352685a5072526138394b6d61305a5a6f67786d3070692d74436e5f544c4b65484756787977702d4c584146475233423144506f75414a5948674b5a4756305854456634414526757371703d434155" alt="FECAP Logo" width="200">
 </p>
 
-# COMEDORIA DA TIA
+# Comedoria da Tia
 
 <p align="center">
   <img src="https://drive.google.com/uc?id=1yB-8CKtsZeu8x2ej59s_lK0ZXqzW24wI" alt="Imagem 1" width="250">
@@ -15,20 +15,23 @@
 
 ## Grupo desenvolvedor do aplicativo: TechSnack Dev Team
 
-## Integrantes: <a href="https://www.linkedin.com/in/estherolvr//">Esther Oliveira Costa </a>, <a href="https://www.linkedin.com/in/fernandaloura/">Fernanda Loura Da Silva</a>, <a href="https://www.linkedin.com/in/higor-fonseca-santos/">Higor Fonseca </a>, <a href="https://www.linkedin.com/in/joaovictordefaria/">João Victor de Faria</a>, <a href="https://www.linkedin.com/in/thiffany-morais/">Thiffany Morais
- </a>
+## Integrantes:
+- [Esther Oliveira Costa](https://www.linkedin.com/in/estherolvr/)
+- [Fernanda Loura Da Silva](https://www.linkedin.com/in/fernandaloura/)
+- [Higor Fonseca](https://www.linkedin.com/in/higor-fonseca-santos/)
+- [João Victor de Faria](https://www.linkedin.com/in/joaovictordefaria/)
+- [Thiffany Morais](https://www.linkedin.com/in/thiffany-morais/)
 
-
-## Professores Orientadores: 
+## Professores Orientadores:
 - [Katia Milani Lara Bossi](https://www.linkedin.com/in/katia-bossi/)  
 - [Marco Aurelio Lima Barbosa](https://www.linkedin.com/in/marco-aurelio-lima-barbosa/)  
 - [Rodrigo da Rosa](https://www.linkedin.com/in/rodrigo-da-rosa-phd/)  
-- [Victor Bruno Alexander Rosetti de Quiroz](https://www.linkedin.com/in/victorbarq/) 
- </a>
+- [Victor Bruno Alexander Rosetti de Quiroz](https://www.linkedin.com/in/victorbarq/)
 
 ## 1. Apresentação do Projeto
 
-Link Figma: https://www.figma.com/design/CelPnsa0C4rpSmoQcvDNiM/Comedoria-da-Tia-prototipe?node-id=0-1&p=f
+[Protótipo no Figma](https://www.figma.com/design/CelPnsa0C4rpSmoQcvDNiM/Comedoria-da-Tia-prototipe?node-id=0-1&p=f)
+
 
 A **Comedoria da Tia** é a cantina da FECAP responsável por atender os alunos nos intervalos da manhã e no horário de almoço. Atualmente, os processos de atendimento enfrentam desafios relacionados ao tempo limitado para a realização de pedidos, sobretudo devido às filas no caixa, que comprometem o tempo dos estudantes para suas refeições.
 
@@ -36,37 +39,46 @@ Diante desse cenário, propõe-se o desenvolvimento de um aplicativo mobile com 
 
 ---
 
+---
+
 ## 🛠 Estrutura de pastas
+```
 
-
-Raiz  
+📁 Projeto Interdisciplinar  
 │  
-├── documentos/  
-│   ├── antigos/  
-│   └── Documentação_ComendariaDaTia.docx  
-├── executáveis/  
-│   ├── android/  
-│   └── web/  
-├── imagens/  
-│   └── logo.png  
-├── src/  
-│   ├── Backend/  
-│   └── MobileApp/  
-└── README.md
+├── 📁 documentos/  
+│   ├── 📁 entrega-1/  
+│   │   ├── 📄 Projeto Interdisciplinar - Entrega 1.pdf  
+│   │   ├── 📄 Programação Orientada a Objetos - Entrega 1.pdf  
+│   │   ├── 📄 Programação para Dispositivos Móveis - Entrega 1.pdf  
+│   │   └── 📄 Análise Descritiva de Dados - Entrega 1.pdf  
+│   │  
+│   └── 📁 entrega-2/  
+│       ├── 📄 Projeto Interdisciplinar - Entrega 2.pdf  
+│       ├── 📄 Programação Orientada a Objetos - Entrega 2.pdf  
+│       ├── 📄 Programação para Dispositivos Móveis - Entrega 2.pdf  
+│       └── 📄 Análise Descritiva de Dados - Entrega 2.pdf  
+│  
+├── 📁 executaveis/  
+│   └── 📁 apk/  
+│       └── 📱 app-release.apk  
+│  
+├── 📁 imagens/  
+│   └── 🖼️ logo.png  
+│  
+├── 📁 src/  
+│   ├── 📁 entrega-1/  
+│   │   ├── 📁 backend/  
+│   │   └── 📁 frontend/  
+│   │  
+│   └── 📁 entrega-2/  
+│       ├── 📁 frontend/  
+│       └── 📁 backend/  
+│  
+└── 📄 README.md
+```
 
-A pasta raiz contem dois arquivos que devem ser alterados:
-
-<b>README.MD</b>: Arquivo que serve como guia e explicação geral sobre seu projeto. O mesmo que você está lendo agora.
-
-Há também 4 pastas que seguem da seguinte forma:
-
-<b>documentos</b>: Toda a documentação estará nesta pasta.
-
-<b>executáveis</b>: Binários e executáveis do projeto devem estar nesta pasta.
-
-<b>imagens</b>: Imagens do sistema
-
-<b>src</b>: Pasta que contém o código fonte.
+---
 
 ---
 
@@ -143,32 +155,30 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 
 ---
 
-## 🛠 Instalação
+## 💻 Como rodar o projeto
 
-<b>Android:</b>
+### ✅ Ferramentas necessárias
+- Android Studio  
+- Java 11+  
+- Node.js (para o servidor Backend)  
+- SQLite  
+---
 
-Faça o download do arquivo .apk no seu celular.
-Execute o APK e siga as instruções do seu dispositivo para instalar o aplicativo.
-
+### ✅ Clonar o repositório
 ```sh
-Coloque código do prompt de comnando se for necessário
+git clone https://github.com/2025-2-NCC3/Projeto1.git
+
+cd src/entrega-2/backend
+cd loginServerNode
+npm install
+node index.js
+
+E rode o projeto no android que estará tudo devidamente funcionando
 ```
 
-## 💻 Configuração para Desenvolvimento
-Passos para rodar o projeto
-
-Clone o repositório:
-
--<a href="https://godotengine.org/download">GODOT</a>
-
-```sh
-make install
-npm test
-Coloque código do prompt de comnando se for necessário
-```
 
 ## 📋 Licença/License
-Utilize o link <https://chooser-beta.creativecommons.org/> para fazer uma licença CC BY 4.0.
+Comedoria da Tia © 2025 by Esther Oliveira Costa,Fernanda Loura da Silva, Higor Luiz Fonseca dos Santos, João Victor de Faria Santana, Thiffany Morais Vieira da Silva is licensed under CC BY 4.0. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/
 
 ## 🎓 Referências
 
