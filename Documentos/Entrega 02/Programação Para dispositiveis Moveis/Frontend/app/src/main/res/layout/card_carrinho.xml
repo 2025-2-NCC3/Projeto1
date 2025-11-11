@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/imgProdutoCarrinho"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/circle_background"
+            android:scaleType="centerCrop"
+            android:src="@drawable/pao_de_queijo" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/imgProdutoCarrinho"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNomeProdutoCarrinho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pão de queijo"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtPrecoProdutoCarrinho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="R$ 5,50"
+                android:textColor="#00875A"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <ImageButton
+                android:id="@+id/btnDiminuir"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="-3dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="3dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/sinalmenos" />
+
+            <TextView
+                android:id="@+id/txtQuantidade"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-28dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="-3dp"
+                android:gravity="center"
+                android:text="x1"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnAumentar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="-28dp"
+                android:layout_marginTop="-3dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="3dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/sinalmais" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnRemover"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="-3dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="1dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/lixeira"
+            android:tint="#ED0B08" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
