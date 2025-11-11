@@ -1,61 +1,47 @@
 package com.example.ifoodclone.activity;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
-import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.example.ifoodclone.R;
-import com.example.ifoodclone.util.TokenManager;
-import com.example.ifoodclone.util.SessionManager;
 
 public class HomeTiaActivity extends AppCompatActivity {
-    ImageButton btnAdicionarProduto, btnPedidos, btnCupons, btnDashboard;
-    Button btnSair;
+
+    private ImageButton btnAdicionarProduto, btnPedidos, btnCupons, btnDashboard;
 
     @Override
-    protected void onCreate(Bundle s) {
-        super.onCreate(s);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_tia);
+
 
         btnAdicionarProduto = findViewById(R.id.btnAdicionarProduto);
         btnPedidos = findViewById(R.id.btnPedidos);
         btnCupons = findViewById(R.id.btnCupons);
         btnDashboard = findViewById(R.id.btnDashboard);
-        btnSair = findViewById(R.id.btnSair);
 
-        btnAdicionarProduto.setOnClickListener(v ->
-                startActivity(new Intent(this, AddProductActivity.class)));
 
-        btnPedidos.setOnClickListener(v ->
-                startActivity(new Intent(this, PedidosAdminActivity.class)));
+        btnAdicionarProduto.setOnClickListener(v -> {
 
-        btnCupons.setOnClickListener(v ->
-                startActivity(new Intent(this, CuponsActivity.class)));
+            startActivity(new Intent(getApplicationContext(), AddProductActivity.class));
+        });
 
-        btnDashboard.setOnClickListener(v ->
-                startActivity(new Intent(this, ListarProdutosActivity.class)));
+        btnPedidos.setOnClickListener(v -> {
 
-        // === Botão SAIR ===
-        btnSair.setOnClickListener(v -> {
-            // limpa sessão/token (compat com os dois gerenciadores que você usa no app)
-            try {
-                TokenManager.clear(this);
-            } catch (Throwable ignored) {
-            }
-            try {
-                new SessionManager(this).logout();
-            } catch (Throwable ignored) {
-            }
+            startActivity(new Intent(getApplicationContext(), PedidosActivity.class));
+        });
 
-            // volta para a tela de autenticação limpando a pilha
-            Intent i = new Intent(this, AuthenticationActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-            finish();
+        btnCupons.setOnClickListener(v -> {
+
+            startActivity(new Intent(getApplicationContext(), CuponsActivity.class));
+        });
+
+        btnDashboard.setOnClickListener(v -> {
+
+            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
         });
     }
-
 }

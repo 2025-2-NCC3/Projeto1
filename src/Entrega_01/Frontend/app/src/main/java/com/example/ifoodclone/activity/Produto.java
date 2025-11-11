@@ -1,23 +1,27 @@
 package com.example.ifoodclone.activity;
 
 public class Produto {
-    private int id;
-    private String name;
-    private String description;
-    private double price;
-    private String imageUrl;
+    private String id;
+    private String nome;
+    private double preco;
 
-    public Produto(int id, String name, String description, double price, String imageUrl) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.imageUrl = imageUrl;
+    public Produto() {
+
     }
 
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public double getPrice() { return price; }
-    public String getImageUrl() { return imageUrl; }
+    public Produto(String id, String nome, double preco) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
+
+    public double getPreco() { return preco; }
+    public void setPreco(double preco) { this.preco = preco; }
 }

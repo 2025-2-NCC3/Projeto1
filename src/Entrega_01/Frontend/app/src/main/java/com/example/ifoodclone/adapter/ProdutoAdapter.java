@@ -1,91 +1,111 @@
 package com.example.ifoodclone.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
+
 import com.example.ifoodclone.R;
-import com.example.ifoodclone.model.Product;
+import com.example.ifoodclone.activity.ListarProdutosActivity;
+import com.example.ifoodclone.activity.Produto;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.List;
 
-public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.VH> {
+public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHolder> {
 
-    public interface OnProdutoClickListener {
-        void onEditar(Product produto);
-        void onExcluir(Product produto);
+    private List<Produto> listaProdutos;
+    private Context context;
+    private FirebaseFirestore db;
+
+    public ProdutoAdapter(List<Produto> listaProdutos, Context context) {
+        this.listaProdutos = listaProdutos;
+        this.context = context;
+        this.db = FirebaseFirestore.getInstance();
     }
 
-    private final Context ctx;
-    private final List<Product> list;
-    private OnProdutoClickListener listener;
-
-    public ProdutoAdapter(Context ctx, List<Product> list) {
-        this.ctx = ctx;
-        this.list = list;
-    }
-
-    public void setOnProdutoClickListener(OnProdutoClickListener listener) {
-        this.listener = listener;
-    }
 
     @NonNull
     @Override
-    public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ctx).inflate(R.layout.produtos_tia_card, parent, false);
-
-        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) v.getLayoutParams();
-        params.width = parent.getMeasuredWidth() / 2;
-        v.setLayoutParams(params);
-
-        return new VH(v);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View item = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_produto, parent, false);
+        return new MyViewHolder(item);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) {
-        Product p = list.get(position);
-        holder.txtNome.setText(p.getName());
-        holder.txtPreco.setText(String.format("R$ %.2f", p.getPrice()));
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Produto produto = listaProdutos.get(position);
 
-        // Imagem
-        if (p.getImageUrl() != null && !p.getImageUrl().isEmpty()) {
-            Glide.with(ctx)
-                    .load("http://10.0.2.2:3000" + p.getImageUrl())
-                    .placeholder(R.drawable.logo)
-                    .centerCrop()
-                    .into(holder.imgProduto);
-        } else {
-            holder.imgProduto.setImageResource(R.drawable.logo);
-        }
+        holder.nome.setText(produto.getNome());
+        holder.preco.setText("R$ " + produto.getPreco());
 
-        // Clique em editar
-        holder.imgCarrinho.setOnClickListener(v -> {
-            if (listener != null) listener.onEditar(p);
+
+        holder.btnExcluir.setOnClickListener(v -> {
+            db.collection("produtos").document(produto.getId())
+                    .delete()
+                    .addOnSuccessListener(aVoid ->
+                            Toast.makeText(context, "Produto excluído!", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
 
-        // Clique em excluir
-        holder.imgLixeira.setOnClickListener(v -> {
-            if (listener != null) listener.onExcluir(p);
+
+        holder.btnEditar.setOnClickListener(v -> {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+            dialog.setTitle("Editar Produto");
+
+            View viewDialog = LayoutInflater.from(context).inflate(R.layout.dialog_editar_produto, null);
+            dialog.setView(viewDialog);
+
+            EditText editNome = viewDialog.findViewById(R.id.editNomeDialog);
+            EditText editPreco = viewDialog.findViewById(R.id.editPrecoDialog);
+
+
+            editNome.setText(produto.getNome());
+            editPreco.setText(String.valueOf(produto.getPreco()));
+
+            dialog.setPositiveButton("Salvar", (dialogInterface, i) -> {
+                String novoNome = editNome.getText().toString();
+                double novoPreco = Double.parseDouble(editPreco.getText().toString());
+
+                db.collection("produtos").document(produto.getId())
+                        .update("nome", novoNome, "preco", novoPreco)
+                        .addOnSuccessListener(aVoid ->
+                                Toast.makeText(context, "Produto atualizado!", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e ->
+                                Toast.makeText(context, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            });
+
+            dialog.setNegativeButton("Cancelar", (dialogInterface, i) -> dialogInterface.dismiss());
+
+            dialog.create().show();
         });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return listaProdutos.size();
     }
 
-    public static class VH extends RecyclerView.ViewHolder {
-        ImageView imgProduto, imgCarrinho, imgLixeira;
-        TextView txtNome, txtPreco;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView nome, preco;
+        Button btnEditar, btnExcluir;
 
-        public VH(@NonNull View v) {
-            super(v);
-            imgProduto = v.findViewById(R.id.imgProduto);
-            imgCarrinho = v.findViewById(R.id.imgCarrinho);
-            imgLixeira = v.findViewById(R.id.imgLixeira);
-            txtNome = v.findViewById(R.id.txtNomeProduto);
-            txtPreco = v.findViewById(R.id.txtPrecoProduto);
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nome = itemView.findViewById(R.id.textNomeProduto);
+            preco = itemView.findViewById(R.id.textPrecoProduto);
+            btnEditar = itemView.findViewById(R.id.btnEditar);
+            btnExcluir = itemView.findViewById(R.id.btnExcluir);
         }
     }
 }

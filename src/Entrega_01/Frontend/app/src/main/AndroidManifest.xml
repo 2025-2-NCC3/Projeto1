@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.ifoodclone">
-
-    <!-- Permissão para acessar a internet -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -15,10 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IFoodClone"
-        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- Activity inicial (launcher) -->
+
         <activity
             android:name=".activity.IndexActivity"
             android:exported="true">
@@ -28,32 +23,23 @@
             </intent-filter>
         </activity>
 
-        <!-- Demais telas (sem intent-filter não precisam de exported) -->
-        <activity android:name=".activity.HomeTiaActivity" />
-        <activity android:name=".activity.AuthenticationActivity" android:exported="false" />
-        <activity android:name=".activity.SplashActivity" android:exported="false" />
-        <activity android:name=".activity.AddProductActivity" />
-        <activity android:name=".activity.PedidosActivity" />
-        <activity android:name=".activity.CuponsActivity" />
-        <activity android:name=".activity.DashboardActivity" />
-        <activity android:name=".activity.ListarProdutosActivity" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.CarrinhoActivity" />
-        <activity android:name=".activity.DetalheProdutoActivity" />
-        <activity android:name=".activity.PagamentoPixActivity" />
-        <activity android:name=".activity.PedidosAdminActivity" />
         <activity
-            android:name=".activity.FavoritosActivity"
-            android:exported="false"
-            android:launchMode="singleTop" />
+            android:name=".activity.HomeTiaActivity" />
 
-        <!-- NOVA: Tela de Perfil (telaperfil.xml via setContentView) -->
-        <activity android:name=".activity.PerfilActivity" />
+        <activity
+            android:name=".activity.AuthenticationActivity"
+            android:exported="false" />
 
-        <!-- >>> ADIÇÃO: Tela de sucesso do pedido (para o fluxo simulado) -->
-        <activity android:name=".activity.OrderSuccessActivity" android:exported="false" />
-        <!-- /ADIÇÃO -->
 
+        <activity
+            android:name=".activity.SplashActivity"
+            android:exported="false" />
+
+        <activity android:name=".activity.AddProductActivity"/>
+        <activity android:name=".activity.PedidosActivity"/>
+        <activity android:name=".activity.CuponsActivity"/>
+        <activity android:name=".activity.DashboardActivity"/>
+        <activity android:name=".activity.ListarProdutosActivity"/>
     </application>
 
 </manifest>

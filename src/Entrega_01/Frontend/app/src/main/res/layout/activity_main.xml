@@ -8,9 +8,7 @@
     android:background="#F2E2E2"
     tools:context=".activity.MainActivity">
 
-    <!-- Logo superior -->
-
-    <!-- Barra de pesquisa -->
+    <!-- LOGO -->
     <ImageView
         android:id="@+id/logoImage"
         android:layout_width="168dp"
@@ -19,11 +17,10 @@
         android:contentDescription="@string/app_name"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- CAMPO DE PESQUISA -->
+    <!-- BARRA DE PESQUISA -->
     <LinearLayout
         android:id="@+id/searchContainer"
         android:layout_width="0dp"
@@ -38,9 +35,10 @@
         android:layout_marginHorizontal="40dp">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:src="@drawable/lupa" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/lupa"
+            android:contentDescription="Pesquisar" />
 
         <EditText
             android:id="@+id/editSearch"
@@ -60,10 +58,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/searchContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvTodos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Todos"
+            android:textColor="#333"
+            android:textSize="16sp"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSalgados"
@@ -72,7 +81,7 @@
             android:text="Salgados"
             android:textColor="#333"
             android:textSize="16sp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp" />
 
         <TextView
             android:id="@+id/tvBebidas"
@@ -81,7 +90,7 @@
             android:text="Bebidas"
             android:textColor="#333"
             android:textSize="16sp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp" />
 
         <TextView
             android:id="@+id/tvMarmitas"
@@ -90,31 +99,34 @@
             android:text="Marmitas"
             android:textColor="#333"
             android:textSize="16sp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp" />
 
         <TextView
-            android:id="@+id/tvFavoritos"
+            android:id="@+id/tvDoces"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Favoritos"
+            android:text="Doces"
             android:textColor="#333"
-
             android:textSize="16sp" />
     </LinearLayout>
 
+    <!-- LISTA DE PRODUTOS -->
+
+    <!-- MENU INFERIOR -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProdutos"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="413dp"
+        android:layout_height="286dp"
         android:clipToPadding="false"
-        android:paddingHorizontal="12dp"
+        android:paddingHorizontal="5dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@id/bottomMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categoryContainer"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.305"
         tools:listitem="@layout/produtos_card" />
 
     <LinearLayout
@@ -123,6 +135,7 @@
         android:layout_height="65dp"
         android:orientation="horizontal"
         android:gravity="center"
+        android:background="#F2E2E2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -149,12 +162,10 @@
             android:id="@+id/btnCarrinho"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:contentDescription="@string/app_name"
             android:src="@drawable/carrinho"
+            android:layout_marginHorizontal="16dp"
             app:tint="#7B7B7B"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="16dp"/>
+            android:contentDescription="Carrinho" />
 
         <ImageView
             android:id="@+id/btnHistorico"

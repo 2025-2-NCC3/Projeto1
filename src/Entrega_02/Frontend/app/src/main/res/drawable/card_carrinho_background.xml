@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ffffff"/>  <!-- Cor do fundo da imagem -->
+    <corners android:radius="80dp"/>  <!-- Raio para bordas arredondadas -->
+    <stroke android:color="#dddddd" android:width="2dp"/> <!-- Borda cinza clara -->
+</shape>

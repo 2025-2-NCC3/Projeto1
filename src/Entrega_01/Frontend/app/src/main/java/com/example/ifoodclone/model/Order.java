@@ -12,13 +12,13 @@ public class Order {
     private String idOrder;
     private String name;
     private String address;
-    // private List<OrderItem> items;
+    private List<OrderItem> items;
     private Double total;
     private String status = "pending";
     private int payMethod;
     private String obs;
 
-    public Order(String você, String trim, String totalStr, String status) {
+    public Order() {
 
     }
     public Order(String idU, String idC){
@@ -106,6 +106,14 @@ public class Order {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 
     public Double getTotal() {

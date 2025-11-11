@@ -8,31 +8,17 @@
     android:background="#E9DADA"
     tools:context=".activity.AuthenticationActivity">
 
-
-
-    <!-- Onda por cima (PNG com transparência) -->
-    <ImageView
-        android:id="@+id/bgWaveBottom"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/onda"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
     <!-- Logo -->
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="180dp"
-        android:layout_height="164dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginTop="90dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/logo"
+        android:contentDescription="@string/app_name"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardLogin"
@@ -73,6 +59,10 @@
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
 
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="match_parent" />
+
                 <Button
                     android:id="@+id/buttonRegisterTab"
                     android:layout_width="0dp"
@@ -106,7 +96,7 @@
                 android:layout_marginTop="16dp"
                 android:backgroundTint="@android:color/darker_gray"
                 android:fontFamily="@font/nunitobold"
-                android:hint="E-mail"
+                android:hint="RA"
                 android:inputType="text"
                 android:padding="12dp"
                 android:textSize="16sp" />
@@ -124,18 +114,15 @@
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/editTextUsername"
+                android:id="@+id/editTextPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:fontFamily="@font/nunitobold"
-                android:hint="Usuário"
-                android:inputType="text"
+                android:hint="Celular"
                 android:padding="12dp"
-                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:inputType="phone"
+                android:backgroundTint="@android:color/darker_gray"
                 android:visibility="gone"/>
-
 
             <Button
                 android:id="@+id/buttonAccess"
