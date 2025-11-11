@@ -164,6 +164,17 @@ Desenvolver um aplicativo mobile (pelo menos para Android ou multiplataforma) qu
 - SQLite  
 ---
 
+##🧑‍💼 Conta Administrador (pré-cadastrada)
+--
+O sistema já possui uma conta de Administrador criada automaticamente no banco de dados.
+Use essas credenciais para acessar o painel administrativo:
+
+Email: admin@admin.com
+
+Senha: admin123
+
+Essa conta permite acesso completo às funcionalidades de administração, como gerenciamento de usuários, produtos e demais recursos do sistema.
+
 ### ✅ Clonar o repositório
 ```sh
 git clone https://github.com/2025-2-NCC3/Projeto1.git
